@@ -1,0 +1,33 @@
+spring:
+  profiles: dev
+  application:
+    name: july-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: localhost:8848
+
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      routes:
+        - id: gate-consumer #路由id,唯一
+          uri: lb://nacos-consumer #负载到consumer
+          predicates:
+            - Path=/consumer/** #以city开头的请求都负载到consumer服务
+          filters:
+#            - RewritePath=/city/(?<segment>.*), /$\{segment} #过滤掉url里的city,例如http://ip:port/city/getCity -> http://ip:port/getCity
+#            - StripPrefix=1 #StripPrefix 为 1 ，即将请求路径前面 1 部分截取掉。例如，请求路径为 http://localhost:8123/provider/echo/leo，转发至后端的请求路径则会变成 /echo/leo
+          #- After=2020-02-21T15:51:37.485+08:00[Asia/Shanghai]
+          #- Cookie=username,zzyy
+          #- Header=X-Request-Id, \d+  # 请求头要有X-Request-Id属性并且值为整数的正则表达
+        - id: gate-provider #路由id,唯一
+          uri: lb://nacos-provider #负载到consumer
+          predicates:
+            - Path=/provider/** #以city开头的请求都负载到consumer服务
+          filters:
+
+server:
+  port: 80
