@@ -45,12 +45,11 @@ feign:
   sentinel:
     enabled: true
 
-security:
-  oauth2:
-    resource:
-      jwk:
-        key-set-uri: 'http://localhost:8000/getPublicKey'
+
 #logging:
 #  config: classpath:log4j2.xml
 #  file:
 #    path: mylogs/
+rsa:
+  key:
+    publicKeyFilePath: "/certificate/july-pubkey_0317_pure.txt"

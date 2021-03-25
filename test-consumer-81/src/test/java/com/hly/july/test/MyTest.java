@@ -42,7 +42,7 @@ public class MyTest {
         String publicKeyFilePath = System.getProperty("user.dir") + "/certificate/july-pubkey_0317_pure.txt";
         Resource resource = new FileSystemResource(publicKeyFilePath);
         String publicKeyString = new String(FileCopyUtils.copyToByteArray(resource.getInputStream()));
-        String jwt_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVUaW1lIjoiMjAyMS0wMy0xNyAxMzo1MToyMCIsInVzZXJfbmFtZSI6IlRvbSIsImF1dGhvciI6Imp1bHktYXV0aCIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE2MTYwMDM0ODAsInVzZXJOYW1lIjoiVG9tIiwidXNlcklkIjoxLCJhdXRob3JpdGllcyI6WyJERUxFVEUiLCJVUERBVEUiLCJJTlNFUlQiLCJST0xFX0FETUlOIiwiQ1JFQVRFIiwiUk9MRV9VU0VSIl0sImp0aSI6ImI5MDczMjAyLTg2MzItNDBhOC1iOTE3LTUxNzY4ZDdkOTI4NCIsImNsaWVudF9pZCI6ImNsaWVudCJ9.by-rgz5vfT96JjC9acv473sXCIkAIpB1mEjZPuTL5XZ_2YLKVKFcGytDAWdC3qznN4pUXZKAPsD7sPgn5juAICGLBZEd3dLEYKKokcWiNEetBNxaibhp8qWwVbyEnbaDFCcFHN6Hk14woa_7CMV7sydJalH116BnmsR1VpohsG6ts9CU_r1v7m0IbbZGNbJSoEMPPSajxy63pVZtJylEYPXBBLy0z6mBsCkC8yImMjk1MDINEYdf1crPWTqThUJzYTO14PqAUYGSp3KeP1fnK6WyhJyOes8wxpUClWlBX394IsQgFmO5Igz4cx7k3tsqsFZW9oUs4sCQSV9C7ZEIfQ";
+//        String jwt_token = "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJjcmVhdGVUaW1lIjoiMjAyMS0wMy0xNyAxMzo1MToyMCIsInVzZXJfbmFtZSI6IlRvbSIsImF1dGhvciI6Imp1bHktYXV0aCIsInNjb3BlIjpbImFsbCJdLCJleHAiOjE2MTYwMDM0ODAsInVzZXJOYW1lIjoiVG9tIiwidXNlcklkIjoxLCJhdXRob3JpdGllcyI6WyJERUxFVEUiLCJVUERBVEUiLCJJTlNFUlQiLCJST0xFX0FETUlOIiwiQ1JFQVRFIiwiUk9MRV9VU0VSIl0sImp0aSI6ImI5MDczMjAyLTg2MzItNDBhOC1iOTE3LTUxNzY4ZDdkOTI4NCIsImNsaWVudF9pZCI6ImNsaWVudCJ9.by-rgz5vfT96JjC9acv473sXCIkAIpB1mEjZPuTL5XZ_2YLKVKFcGytDAWdC3qznN4pUXZKAPsD7sPgn5juAICGLBZEd3dLEYKKokcWiNEetBNxaibhp8qWwVbyEnbaDFCcFHN6Hk14woa_7CMV7sydJalH116BnmsR1VpohsG6ts9CU_r1v7m0IbbZGNbJSoEMPPSajxy63pVZtJylEYPXBBLy0z6mBsCkC8yImMjk1MDINEYdf1crPWTqThUJzYTO14PqAUYGSp3KeP1fnK6WyhJyOes8wxpUClWlBX394IsQgFmO5Igz4cx7k3tsqsFZW9oUs4sCQSV9C7ZEIfQ";
 //        byte[] bytes = Base64.getMimeDecoder().decode(publicKeyString.replace("\n", "").replace("\r", "").replace(" ", "").getBytes());
         byte[] bytes = Base64.getMimeDecoder().decode(publicKeyString.replace("-----BEGIN PUBLIC KEY-----","").replace("-----END PUBLIC KEY-----","").replace("\n", "").replace("\r", "").replace(" ", "").getBytes());
         System.out.println("*******************************************");
@@ -51,11 +51,11 @@ public class MyTest {
         X509EncodedKeySpec spec = new X509EncodedKeySpec(bytes);
         KeyFactory factory = KeyFactory.getInstance(ENCRYPT_ALGORITHM);
         PublicKey publicKey = factory.generatePublic(spec);
-        Claims claims = getClaimsFromToken(jwt_token, publicKey);
-        System.out.println("*******************************************");
-        System.out.println(claims.get("userName"));
-        System.out.println(claims.get("authorities"));
-        System.out.println(claims.get("jti"));
+//        Claims claims = getClaimsFromToken(jwt_token, publicKey);
+//        System.out.println("*******************************************");
+//        System.out.println(claims.get("userName"));
+//        System.out.println(claims.get("authorities"));
+//        System.out.println(claims.get("jti"));
 
     }
 

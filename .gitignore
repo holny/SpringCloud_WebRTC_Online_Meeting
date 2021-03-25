@@ -27,3 +27,6 @@ hs_err_pid*
 /discovery-nacos-config/target/
 /july-auth/target/
 /*/target/
+/july-gateway/certificate/
+/test-consumer-82/certificate/
+/test-consumer-83/certificate/

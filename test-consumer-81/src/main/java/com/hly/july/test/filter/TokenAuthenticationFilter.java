@@ -1,16 +1,14 @@
 package com.hly.july.test.filter;
 
-import com.alibaba.fastjson.JSONArray;
-import com.hly.july.common.entity.LoginUser;
+import cn.hutool.json.JSON;
+import cn.hutool.json.JSONArray;
+import cn.hutool.json.JSONObject;
+import cn.hutool.json.JSONUtil;
 import com.hly.july.common.properties.RSAKeyProperties;
 import com.hly.july.common.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -20,6 +18,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,24 +29,19 @@ import java.util.List;
 @Component
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
-    @Autowired
-    private JwtUtils jwtUtils;
-
     @Resource
     private RSAKeyProperties rsaKeyProp;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
-        String token = jwtUtils.getTokenFromRequest(request);
+        String token = JwtUtils.getTokenFromServletRequest(request);
         log.info("linyhou token:{}",token);
 
         if(!StringUtils.isEmpty(token)) {
-            Claims claims = jwtUtils.getClaimsFromToken(token, rsaKeyProp.getPublicKey());
-            log.info("linyhou username:{}  author:{}",claims.get("userName"),claims.get("authorities"));
-            if(!jwtUtils.isTokenExpired(token,rsaKeyProp.getPublicKey())) {
-//                LoginUser user =new LoginUser(claims.get("userId"),claims.get("userName"));
-//                List<GrantedAuthority> = AuthorityUtils.createAuthorityList((List<String>)claims.get("authorities"))
-                List<String> authorList = (List<String>)claims.get("authorities");
+            JSONObject jsonObject = JwtUtils.getJSONObjectFromToken(token);
+            log.info("linyhou username:{}  author:{}",jsonObject.getStr("userName",""),jsonObject.get("authorities"));
+            if(!JwtUtils.isTokenExpired(token,rsaKeyProp.getPublicKey())) {
+                List<String> authorList = JSONUtil.toList(jsonObject.getJSONArray("authorities"),String.class);
                 log.info("linyhou authorList:{}",authorList.toString());
 //                            UsernamePasswordAuthenticationToken authentication = new
 //                    UsernamePasswordAuthenticationToken(

@@ -26,7 +26,7 @@ public class ConsumerController {
     @Value("${server.port}")
     private String serverPort;
 
-    @PreAuthorize("hasAnyAuthority('UPDATE')")
+//    @PreAuthorize("hasAnyAuthority('UPDATE')")
     @GetMapping(value="/consumer/payment/{id}")
     public CommonResult<Payment> payment(@PathVariable("id") Long id){
         CommonResult<Payment> payment = providerService.payment(id);
@@ -35,7 +35,7 @@ public class ConsumerController {
         return payment;
     }
 
-    @PreAuthorize("hasAnyAuthority('DELETE')")
+//    @PreAuthorize("hasAnyAuthority('DELETE')")
     @GetMapping(value="/consumer/test/{id}")
     public CommonResult<Payment> test(@PathVariable("id") Long id){
         CommonResult<Payment> payment = providerService.payment(id);

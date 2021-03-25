@@ -46,8 +46,7 @@
         </dependency>
         <dependency>
             <groupId>com.hly.july</groupId>
-            <artifactId>july-common</artifactId>
-            <version>${project.version}</version>
+            <artifactId>common-core</artifactId>
         </dependency>
         <!--日常通用jar包配置-->
         <dependency>

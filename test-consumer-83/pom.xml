@@ -48,8 +48,7 @@
         <!-- 引入自己定义的api通用包，可以使用Payment支付Entity -->
         <dependency>
             <groupId>com.hly.july</groupId>
-            <artifactId>july-common</artifactId>
-            <version>${project.version}</version>
+            <artifactId>common-auth</artifactId>
         </dependency>
         <!-- SpringBoot整合Web组件 -->
         <dependency>

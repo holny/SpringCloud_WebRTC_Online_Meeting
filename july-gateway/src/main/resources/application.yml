@@ -5,7 +5,7 @@ spring:
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
+        server-addr: @nacos-nginx-url@
 
     gateway:
       discovery:
@@ -31,3 +31,7 @@ spring:
 
 server:
   port: 80
+rsa:
+  key:
+    publicKeyFilePath: "/certificate/july-pubkey_0317_pure.txt"
+

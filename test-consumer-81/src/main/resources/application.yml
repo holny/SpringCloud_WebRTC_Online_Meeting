@@ -58,7 +58,3 @@ feign:
 rsa:
   key:
     publicKeyFilePath: "/certificate/july-pubkey_0317_pure.txt"
-token:
-  header: "Authorization"
-  prefix: "Bearer "
-debug: false
