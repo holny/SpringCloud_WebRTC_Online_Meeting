@@ -9,7 +9,7 @@
         <relativePath>../pom.xml</relativePath>
     </parent>
     <modelVersion>4.0.0</modelVersion>
-
+    <packaging>jar</packaging>
     <artifactId>common-core</artifactId>
     <dependencies>
         <dependency>
@@ -39,6 +39,7 @@
                 <configuration>
                     <fork>true</fork>
                     <addResources>true</addResources>
+                    <layout>NONE</layout>  <!-- 无需Main.class 启动，如果Parent继承spring boot就需要Main.class，否则报错-->
                 </configuration>
             </plugin>
         </plugins>

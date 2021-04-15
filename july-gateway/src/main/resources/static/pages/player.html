@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <!-- Primary Meta Tags -->
+    <title>July</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="title" content="Neumorphism UI">
+    <meta name="author" content="Themesberg">
+
+    <link rel="canonical" href="https://localhost/"/>
+
+    <!--  Social tags -->
+    <meta name="keywords"
+          content="neumorphism, neumorphism ui, neomorphism, neomorphism ui, neomorphism css, neumorphism css, neumorph, neumorphic, design system, login, form, table, tables, card, cards, navbar, modal, icons, icons, map, chat, carousel, menu, datepicker, gallery, slider, date, social, dropdown, search, tab, nav, footer, date picker, forms, tabs, time, button, select, input, timeline, cart, about us, account, log in, blog, profile, portfolio, landing page, ecommerce, shop, landing, register, app, contact, one page, sign up, signup, store, bootstrap 4, bootstrap4, dashboard, bootstrap 4 dashboard, bootstrap 4 design, bootstrap 4 system, bootstrap 4, bootstrap 4 uit kit, bootstrap 4 kit, themesberg, html kit, html css template, web template, bootstrap, bootstrap 4, css3 template, frontend, responsive bootstrap template, bootstrap ui kit, responsive ui kit">
+    <meta name="description"
+          content="Start developing neumorphic web applications and pages using Neumorphism UI. It features over 100 individual components and 5 example pages.">
+
+    <!-- Schema.org markup for Google+ -->
+    <!--<meta itemprop="name" content="Neumorphism UI by Themesberg">-->
+    <!--<meta itemprop="description" content="Start developing neumorphic web applications and pages using Neumorphism UI. It features over 100 individual components and 5 example pages.">-->
+    <!--<meta itemprop="image" content="https://themesberg.s3.us-east-2.amazonaws.com/public/products/neumorphism-ui/neumorphism-thumbnail.jpg">-->
+
+    <!-- Favicon -->
+    <link rel="apple-touch-icon" sizes="120x120" href="../assets/img/favicon/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="../assets/img/favicon/favicon-16x16.png">
+    <link rel="manifest" href="../assets/img/favicon/site.webmanifest">
+    <link rel="mask-icon" href="../assets/img/favicon/safari-pinned-tab.svg" color="#ffffff">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="theme-color" content="#ffffff">
+
+    <!-- Fontawesome -->
+    <link type="text/css" href="../vendor/@fortawesome/fontawesome/css/all.min.css" rel="stylesheet">
+
+    <!-- Pixel CSS -->
+    <link type="text/css" href="../css/neumorphism.css" rel="stylesheet">
+
+    <link rel="stylesheet" href="../assets/css/docs.css" type="text/css">
+
+    <link rel="stylesheet" href="../vendor/player/plyr.css" type="text/css">
+
+    <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
+
+</head>
+
+<body>
+<header class="header-global">
+    <nav id="navbar-main" aria-label="Primary navigation"
+         class="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light navbar-transparent navbar-theme-primary">
+        <div class="container position-relative">
+            <a class="navbar-brand shadow-soft py-2 px-3 rounded border border-light mr-lg-4" href="../index.html">
+                <img class="navbar-brand-dark" src="../assets/img/brand/dark.svg" alt="Logo light">
+                <img class="navbar-brand-light" src="../assets/img/brand/dark.svg" alt="Logo dark">
+            </a>
+            <div class="navbar-collapse collapse" id="navbar_global">
+                <div class="navbar-collapse-header">
+                    <div class="row">
+                        <div class="col-6 collapse-brand">
+                            <a href="../index.html"
+                               class="navbar-brand shadow-soft py-2 px-3 rounded border border-light">
+                                <img src="../assets/img/brand/dark.svg" alt="Themesberg logo">
+                            </a>
+                        </div>
+                        <div class="col-6 collapse-close">
+                            <a href="#navbar_global" class="fas fa-times" data-toggle="collapse"
+                               data-target="#navbar_global" aria-controls="navbar_global" aria-expanded="false"
+                               title="close" aria-label="Toggle navigation"></a>
+                        </div>
+                    </div>
+                </div>
+                <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link" data-toggle="dropdown">
+                            <span class="nav-link-inner-text">Pages</span>
+                            <span class="fas fa-angle-down nav-link-arrow ml-2"></span>
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="./html/pages/about.html">About</a></li>
+                            <li><a class="dropdown-item" href="./html/pages/pricing.html">Pricing</a></li>
+                            <li><a class="dropdown-item" href="./html/pages/contact.html">Contact</a></li>
+                            <li><a class="dropdown-item" href="./html/pages/sign-in.html">Sign in</a></li>
+                            <li><a class="dropdown-item" href="./html/pages/sign-up.html">Sign up</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item dropdown mega-dropdown">
+                        <a href="#" class="nav-link" data-toggle="dropdown">
+                            <span class="nav-link-inner-text">Components</span>
+                            <span class="fas fa-angle-down nav-link-arrow ml-2"></span>
+                        </a>
+                        <div class="dropdown-menu">
+                            <div class="row">
+                                <div class="col-lg-6 inside-bg d-none d-lg-block">
+                                    <div class="justify-content-center bg-primary text-white">
+                                        <div class="px-6 pb-5 pt-3">
+                                            <img src="../assets/img/megamenu-image.jpg" alt="Pixel Components">
+                                        </div>
+                                        <div class="z-2 pb-4 text-center">
+                                            <a href="../html/components/all.html"
+                                               class="btn btn-primary mb-2 mb-sm-0 mr-3 text-secondary">
+                                                <span class="mr-1"><span class="fas fa-th-large"></span></span>
+                                                All components
+                                            </a>
+                                            <a href="https://themesberg.com/docs/neumorphism-ui/components/alerts"
+                                               target="_blank" class="btn btn-primary mb-2 mb-sm-0">
+                                                <span class="mr-1"><span class="fas fa-book"></span></span>
+                                                Docs v1.0
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col pl-0">
+                                    <ul class="list-style-none">
+                                        <li><a class="dropdown-item"
+                                               href="./html/components/accordions.html">Accordions</a></li>
+                                        <li><a class="dropdown-item" href="./html/components/alerts.html">Alerts</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="./html/components/badges.html">Badges</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="./html/components/bootstrap-carousels.html">Bootstrap
+                                            Carousels</a></li>
+                                        <li><a class="dropdown-item" href="./html/components/breadcrumbs.html">Breadcrumbs</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="./html/components/buttons.html">Buttons</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="./html/components/cards.html">Cards</a></li>
+                                    </ul>
+                                </div>
+                                <div class="col pl-0">
+                                    <ul class="list-style-none">
+                                        <li><a class="dropdown-item" href="./html/components/forms.html">Forms</a></li>
+                                        <li><a class="dropdown-item" href="./html/components/modals.html">Modals</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="./html/components/navs.html">Navs</a></li>
+                                        <li><a class="dropdown-item"
+                                               href="./html/components/pagination.html">Pagination</a></li>
+                                        <li><a class="dropdown-item" href="./html/components/popovers.html">Popovers</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="./html/components/progress-bars.html">Progress
+                                            Bars</a></li>
+
+                                    </ul>
+                                </div>
+                                <div class="col pl-0">
+                                    <ul class="list-style-none">
+                                        <li><a class="dropdown-item" href="./html/components/tables.html">Tables</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="./html/components/tabs.html">Tabs</a></li>
+                                        <li><a class="dropdown-item" href="./html/components/toasts.html">Toasts</a>
+                                        </li>
+                                        <li><a class="dropdown-item" href="./html/components/tooltips.html">Tooltips</a>
+                                        </li>
+                                        <li><a class="dropdown-item"
+                                               href="./html/components/typography.html">Typography</a></li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a href="#" class="nav-link" data-toggle="dropdown">
+                            <span class="nav-link-inner-text">Support</span>
+                            <span class="fas fa-angle-down nav-link-arrow ml-2"></span>
+                        </a>
+                        <div class="dropdown-menu dropdown-menu-lg">
+                            <div class="col-auto px-0" data-dropdown-content>
+                                <div class="list-group list-group-flush">
+                                    <a href="" target="_blank"
+                                       class="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
+                                        <span class="icon icon-sm icon-secondary"><span class="fas fa-file-alt"></span></span>
+                                        <div class="ml-4">
+                                            <span class="text-dark d-block">Documentation<span
+                                                    class="badge badge-sm badge-secondary ml-2">v1.0</span></span>
+                                            <span class="small">Examples and guides</span>
+                                        </div>
+                                    </a>
+                                    <a href="" target="_blank"
+                                       class="list-group-item list-group-item-action d-flex align-items-center p-0 py-3 px-lg-4">
+                                        <span class="icon icon-sm icon-secondary"><span
+                                                class="fas fa-microphone-alt"></span></span>
+                                        <div class="ml-4">
+                                            <span class="text-dark d-block">Support</span>
+                                            <span class="small">Looking for answers? Ask us!</span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="d-flex align-items-center">
+                <div class="dropdown pl-1">
+                    <div class="d-flex align-items-center" id="dropdownMenuButton" data-toggle="dropdown">
+                        <button class="btn btn-xs btn-circle btn-icon-only btn-soft dropdown-toggle mr-2" type="button"
+                                aria-haspopup="true" aria-expanded="false" aria-label="dropdown social link"
+                                data-toggle="modal" data-target="#modal-form">
+                            <!--                            <span  class="fa fa-user"></span>-->
+                            <img class="avatar img-fluid rounded-circle" src="../assets/img/team/profile-picture-4.jpg"
+                                 alt="Moore avatar">
+                        </button>
+                        <p class="font-small m-0">John Doe</p></div>
+                    <div class="dropdown-menu dropdown-menu-md" aria-labelledby="dropdownMenuButton">
+                        <h2 class="h6 dropdown-header">Hi, John Doe</h2>
+                        <a class="dropdown-item" href="#">My profile</a>
+                        <a class="dropdown-item" href="#">消息<span
+                                class="badge badge-pill badge-success float-right">5</span></a>
+                        <a class="dropdown-item" href="#">Settings</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#"><span class="fas fa-sign-out-alt mr-2"></span>Sign out</a>
+                    </div>
+                </div>
+                <button class="navbar-toggler ml-2" type="button" data-toggle="collapse" data-target="#navbar_global"
+                        aria-controls="navbar_global" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+        </div>
+    </nav>
+</header>
+<main>
+    <section class="section-header pb-0 bg-primary">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-12 col-lg-10 text-center">
+                    <div class="mb-4"><a href="./blog.html"
+                                         class="badge badge-secondary text-uppercase mr-2 px-3">Seo</a> <a href="#"
+                                                                                                           class="badge badge-success text-uppercase px-3">Marketing</a>
+                    </div>
+                    <h1 class="display-3 mb-4 px-lg-5">90% of content gets no traffic from Google. How to improve your
+                        organic search traffic</h1>
+                    <div class="post-meta"><span class="font-weight-bold mr-3">James Curran</span> <span
+                            class="post-date mr-3">January 31, 2020</span> <span
+                            class="font-weight-bold">7 min read</span></div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <section class="section bg-soft pb-5 overflow-hidden z-2">
+        <div class="container z-2">
+            <div class="row">
+                <div class="col-lg-9 col-md-9 col-sm-11">
+                    <div class="row">
+                        <div class="card bg-primary shadow-soft border-light px-3 pt-5 pb-2 w-95 mr-2">
+                            <div class="card-header py-0">
+                                <video id="player" class="w-100" playsinline controls
+                                       data-poster="../assets/videos/anime-watch.jpg">
+                                    <source src="../assets/videos/1.mp4" type="video/mp4"/>
+                                    <!-- Captions are optional -->
+                                    <track kind="captions" label="English captions" src="#" srclang="en" default/>
+                                </video>
+                            </div>
+                            <div class="card-body pt-2 mb-0">
+                                <div class="d-flex flex-wrap flex-lg-nowrap align-items-center justify-content-between">
+                                    <div class="post-details mb-3 mb-lg-0">
+                                        <button class="btn btn-sm btn-primary animate-hover mr-2">
+                                            <span class="fas fa-arrow-up mr-2 animate-up-2"></span>
+                                            4
+                                        </button>
+                                        <button class="btn btn-sm btn-primary text-danger animate-hover">
+                                            <span class="fas fa-arrow-down mr-2 animate-down-2"></span>
+                                            1
+                                        </button>
+                                    </div>
+                                    <div class="post-meta">
+                                        <span class="text-dark mr-3"><span
+                                                class="far fa-eye mr-2"></span>33.7k</span>
+                                        <button class="btn mr-3 btn-link text-black border-0"><span
+                                                class="fas fa-share mr-2"></span>Share
+                                        </button>
+                                        <!--                                    <button class="btn btn-primary"><span class="far fa-save mr-2"></span>Save</button>-->
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer pt-0 mb-0">
+                                <div class="d-flex flex-wrap flex-lg-nowrap align-items-center justify-content-between">
+                                    <div class="post-details mb-3 mb-lg-0">
+                                        <p class="card-text"><small>Some quick example text to build on the card title and make up
+                                            the bulk of the card's content.</small></p>
+                                    </div>
+
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Comments-->
+                    <div class="row justify-content-center my-6">
+                        <div class="col-12 col-lg-8">
+                            <div><label class="h5 mb-4" for="exampleFormControlTextarea1"><span
+                                    class="badge badge-md badge-dark text-uppercase mr-2">23</span> Comments</label>
+                                <textarea
+                                        class="form-control border border-light" id="exampleFormControlTextarea1"
+                                        placeholder="Add your comment" rows="6"
+                                        data-bind-characters-target="#charactersRemaining"
+                                        maxlength="1000"></textarea>
+                                <div class="d-flex justify-content-between mt-3"><small
+                                        class="font-weight-light text-dark"><span
+                                        id="charactersRemaining">150</span>
+                                    characters remaining</small>
+                                    <button class="btn btn-primary">Send</button>
+                                </div>
+                                <div class="mt-5">
+                                    <div class="card bg-primary shadow-soft border-light rounded p-4 mb-4">
+                                        <div class="d-flex justify-content-between mb-4"><span class="font-small"><a
+                                                href="#"><img class="avatar-sm img-fluid rounded-circle mr-2"
+                                                              src="../../assets/img/team/profile-picture-1.jpg"
+                                                              alt="avatar"> <span
+                                                class="font-weight-bold">John Doe</span> </a><span class="ml-2">2 min ago</span></span>
+                                            <div>
+                                                <button class="btn btn-primary text-danger"
+                                                        aria-label="report button"
+                                                        data-toggle="tooltip" data-placement="top" title=""
+                                                        data-original-title="Report comment"><span
+                                                        class="far fa-flag"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="m-0">I really like that the Pixel uses a lot of Bootstrap 4's
+                                            classes to
+                                            position elements across the website. I also like the fact that we can
+                                            get a version
+                                            of the code without Sass if needed.<br><br>When is the next product
+                                            coming? :)</p>
+                                        <div class="mt-4 mb-3 d-flex justify-content-between">
+                                            <div><span class="far fa-thumbs-up text-action text-success mr-3"
+                                                       data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Like comment"></span> <span
+                                                    class="far fa-thumbs-down text-action text-danger mr-3"
+                                                    data-toggle="tooltip" data-placement="top" title=""
+                                                    data-original-title="Dislike comment"></span> <span
+                                                    class="font-small font-weight-light">4 likes</span></div>
+                                            <a class="text-action font-weight-light font-small"
+                                               data-toggle="collapse"
+                                               role="button" href="#replyContainer1" aria-expanded="false"
+                                               aria-controls="replyContainer1"><span
+                                                    class="fas fa-reply mr-2"></span> Reply</a>
+                                        </div>
+                                        <div class="collapse" id="replyContainer1"><label class="mb-4"
+                                                                                          for="exampleFormControlTextarea10">Replay</label>
+                                            <textarea class="form-control border" id="exampleFormControlTextarea10"
+                                                      placeholder="Reply to John Doe" rows="6"
+                                                      data-bind-characters-target="#charactersRemainingReply"
+                                                      maxlength="1000"></textarea>
+                                            <div class="d-flex justify-content-between mt-3"><small
+                                                    class="font-weight-light"><span
+                                                    id="charactersRemainingReply">1000</span>
+                                                characters remaining</small>
+                                                <button class="btn btn-primary btn-sm animate-up-2">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-primary shadow-soft border-light rounded p-4 mr-5 mb-4">
+                                        <div class="d-flex justify-content-between mb-4"><span class="font-small"><a
+                                                href="#"><img class="avatar-sm img-fluid rounded-circle mr-2"
+                                                              src="../../assets/img/team/profile-picture-2.jpg"
+                                                              alt="Bonnie avatar"> <span
+                                                class="font-weight-bold">Bonnie Green</span> </a><span
+                                                class="ml-2">2 min ago</span></span>
+                                            <div>
+                                                <button class="btn btn-primary text-danger"
+                                                        aria-label="report button"
+                                                        data-toggle="tooltip" data-placement="top" title=""
+                                                        data-original-title="Report comment"><span
+                                                        class="far fa-flag"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="m-0">Hi John Doe,<br><br>We're happy to hear you like our product.
+                                            A new one
+                                            will come soon enough!</p>
+                                        <div class="mt-4 mb-3 d-flex justify-content-between">
+                                            <div><span class="far fa-thumbs-up text-action text-success mr-3"
+                                                       data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Like comment"></span> <span
+                                                    class="far fa-thumbs-down text-action text-danger mr-3"
+                                                    data-toggle="tooltip" data-placement="top" title=""
+                                                    data-original-title="Dislike comment"></span> <span
+                                                    class="font-small font-weight-light">2 likes</span></div>
+                                            <a class="text-action font-weight-light font-small"
+                                               data-toggle="collapse"
+                                               role="button" href="#replyContainer2" aria-expanded="false"
+                                               aria-controls="replyContainer2"><span
+                                                    class="fas fa-reply mr-2"></span> Reply</a>
+                                        </div>
+                                        <div class="collapse" id="replyContainer2"><label class="mb-4"
+                                                                                          for="exampleFormControlTextarea11">Replay</label>
+                                            <textarea class="form-control border" id="exampleFormControlTextarea11"
+                                                      placeholder="Reply to John Doe" rows="6"
+                                                      data-bind-characters-target="#charactersRemainingReply2"
+                                                      maxlength="1000"></textarea>
+                                            <div class="d-flex justify-content-between mt-3"><small
+                                                    class="font-weight-light"><span
+                                                    id="charactersRemainingReply2">1000</span>
+                                                characters remaining</small>
+                                                <button class="btn btn-primary btn-sm animate-up-2">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card bg-primary shadow-soft border-light rounded p-4 mb-4">
+                                        <div class="d-flex justify-content-between mb-4"><span class="font-small"><a
+                                                href="#"><img class="avatar-sm img-fluid rounded-circle mr-2"
+                                                              src="../../assets/img/team/profile-picture-3.jpg"
+                                                              alt="James avatar"> <span
+                                                class="font-weight-bold">James Curran</span> </a><span
+                                                class="ml-2">2 min ago</span></span>
+                                            <div>
+                                                <button class="btn btn-primary text-danger"
+                                                        aria-label="report button"
+                                                        data-toggle="tooltip" data-placement="top" title=""
+                                                        data-original-title="Report comment"><span
+                                                        class="far fa-flag"></span>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <p class="m-0">Hey there! We want to say that <span
+                                                class="text-tertiary">you're awesome</span> and we think you'll
+                                            build great
+                                            websites! Why not use Pixel to make things easier?</p>
+                                        <div class="mt-4 mb-3 d-flex justify-content-between">
+                                            <div><span class="far fa-thumbs-up text-action text-success mr-3"
+                                                       data-toggle="tooltip" data-placement="top" title=""
+                                                       data-original-title="Like comment"></span> <span
+                                                    class="far fa-thumbs-down text-action text-danger mr-3"
+                                                    data-toggle="tooltip" data-placement="top" title=""
+                                                    data-original-title="Dislike comment"></span> <span
+                                                    class="font-small font-weight-light">4 likes</span></div>
+                                            <a class="text-action font-weight-light font-small"
+                                               data-toggle="collapse"
+                                               role="button" href="#replyContainer3" aria-expanded="false"
+                                               aria-controls="replyContainer3"><span
+                                                    class="fas fa-reply mr-2"></span> Reply</a>
+                                        </div>
+                                        <div class="collapse" id="replyContainer3"><label class="mb-4"
+                                                                                          for="exampleFormControlTextarea12">Replay</label>
+                                            <textarea class="form-control border" id="exampleFormControlTextarea12"
+                                                      placeholder="Reply to John Doe" rows="6"
+                                                      data-bind-characters-target="#charactersRemainingReply3"
+                                                      maxlength="1000"></textarea>
+                                            <div class="d-flex justify-content-between mt-3"><small
+                                                    class="font-weight-light"><span
+                                                    id="charactersRemainingReply3">1000</span>
+                                                characters remaining</small>
+                                                <button class="btn btn-primary btn-sm animate-up-2">Send</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div id="extraContent" style="display: none;">
+                                        <div class="card bg-primary shadow-soft border-light p-4 mb-4">
+                                            <div class="d-flex justify-content-between mb-4"><span
+                                                    class="font-small"><a
+                                                    href="#"><img class="avatar-sm img-fluid rounded-circle mr-2"
+                                                                  src="../../assets/img/team/profile-picture-2.jpg"
+                                                                  alt="Neil avatar"> <span
+                                                    class="font-weight-bold">Neil Sims</span> </a><span
+                                                    class="ml-2">2 min ago</span></span>
+                                                <div>
+                                                    <button class="btn btn-primary text-danger"
+                                                            aria-label="report button"
+                                                            data-toggle="tooltip" data-placement="top" title=""
+                                                            data-original-title="Report comment"><span
+                                                            class="far fa-flag"></span></button>
+                                                </div>
+                                            </div>
+                                            <p class="m-0">I really like that the Pixel uses a lot of Bootstrap 4's
+                                                classes to
+                                                position elements across the website. I also like the fact that we
+                                                can get a
+                                                version of the code without Sass if needed.<br><br>When is the next
+                                                product
+                                                coming? :)</p>
+                                            <div class="mt-4 mb-3 d-flex justify-content-between">
+                                                <div><span class="far fa-thumbs-up text-action text-success mr-3"
+                                                           data-toggle="tooltip" data-placement="top" title=""
+                                                           data-original-title="Like comment"></span> <span
+                                                        class="far fa-thumbs-down text-action text-danger mr-3"
+                                                        data-toggle="tooltip" data-placement="top" title=""
+                                                        data-original-title="Dislike comment"></span> <span
+                                                        class="font-small font-weight-light">4 likes</span></div>
+                                                <a class="text-action font-weight-light font-small"
+                                                   data-toggle="collapse"
+                                                   role="button" href="#replyContainer4" aria-expanded="false"
+                                                   aria-controls="replyContainer4"><span
+                                                        class="fas fa-reply mr-2"></span> Reply</a>
+                                            </div>
+                                            <div class="collapse" id="replyContainer4"><label class="mb-4"
+                                                                                              for="exampleFormControlTextarea13">Replay</label>
+                                                <textarea class="form-control border"
+                                                          id="exampleFormControlTextarea13"
+                                                          placeholder="Reply to John Doe" rows="6"
+                                                          data-bind-characters-target="#charactersRemainingReply4"
+                                                          maxlength="1000"></textarea>
+                                                <div class="d-flex justify-content-between mt-3"><small
+                                                        class="font-weight-light"><span
+                                                        id="charactersRemainingReply4">1000</span> characters
+                                                    remaining</small>
+                                                    <button class="btn btn-primary btn-sm animate-up-2">Send
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="card bg-primary shadow-soft rounded border-light p-4 ml-5 mb-4">
+                                            <div class="d-flex justify-content-between mb-4"><span
+                                                    class="font-small"><a
+                                                    href="#"><img class="avatar-sm img-fluid rounded-circle mr-2"
+                                                                  src="../../assets/img/team/profile-picture-5.jpg"
+                                                                  alt="Jose avatar"> <span
+                                                    class="font-weight-bold">Jose Leos</span> </a><span
+                                                    class="ml-2">2 min ago</span></span>
+                                                <div>
+                                                    <button class="btn btn-primary text-danger"
+                                                            aria-label="report button"
+                                                            data-toggle="tooltip" data-placement="top" title=""
+                                                            data-original-title="Report comment"><span
+                                                            class="far fa-flag"></span></button>
+                                                </div>
+                                            </div>
+                                            <p class="m-0">Hi John Doe,<br><br>We're happy to hear you like our
+                                                product. A new
+                                                one will come soon enough!</p>
+                                            <div class="mt-4 mb-3 d-flex justify-content-between">
+                                                <div><span class="far fa-thumbs-up text-action text-success mr-3"
+                                                           data-toggle="tooltip" data-placement="top" title=""
+                                                           data-original-title="Like comment"></span> <span
+                                                        class="far fa-thumbs-down text-action text-danger mr-3"
+                                                        data-toggle="tooltip" data-placement="top" title=""
+                                                        data-original-title="Dislike comment"></span> <span
+                                                        class="font-small font-weight-light">2 likes</span></div>
+                                                <a class="text-action font-weight-light font-small"
+                                                   data-toggle="collapse"
+                                                   role="button" href="#replyContainer5" aria-expanded="false"
+                                                   aria-controls="replyContainer5"><span
+                                                        class="fas fa-reply mr-2"></span> Reply</a>
+                                            </div>
+                                            <div class="collapse" id="replyContainer5"><label class="mb-4"
+                                                                                              for="exampleFormControlTextarea14">Replay</label>
+                                                <textarea class="form-control border"
+                                                          id="exampleFormControlTextarea14"
+                                                          placeholder="Reply to John Doe" rows="6"
+                                                          data-bind-characters-target="#charactersRemainingReply5"
+                                                          maxlength="1000"></textarea>
+                                                <div class="d-flex justify-content-between mt-3"><small
+                                                        class="font-weight-light"><span
+                                                        id="charactersRemainingReply5">1000</span> characters
+                                                    remaining</small>
+                                                    <button class="btn btn-primary btn-sm animate-up-2">Send
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-5 text-center">
+                                        <button id="loadOnClick"
+                                                class="btn btn-primary btn-loading-overlay mr-2 mb-2"><span
+                                                class="spinner"><span class="spinner-border spinner-border-sm"
+                                                                      role="status"
+                                                                      aria-hidden="true"></span> </span><span
+                                                class="ml-1 btn-inner-text">Load more comments</span></button>
+                                        <p id="allLoadedText" style="display: none;">That's all, Sparky!</p></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--Comments end-->
+                </div>
+                <div class="col-lg-3 col-md-3 col-sm-11">
+                    <div class="card bg-primary shadow-soft border-light mb-5 text-center">
+                        <div class="profile-image shadow-inset border border-light bg-primary p-3 rounded-circle mt-n5 mx-auto">
+                            <img src="../../assets/img/team/profile-picture-1.jpg"
+                                 class="card-img-top shadow-soft p-3 border border-light rounded-circle"
+                                 alt="Joseph Avatar">
+                        </div>
+                        <div class="card-body">
+                            <h6 class="h6 mb-2">Joseph Garth</h6>
+                            <span class="h6 text-gray mb-3">Designer</span>
+                            <div class="mb-4"><a href="./blog.html"
+                                                 class="badge badge-secondary text-uppercase mr-2 px-3">Seo</a> <a
+                                    href="#" class="badge badge-success text-uppercase px-3">Marketing</a></div>
+                            <ul class="list-unstyled d-flex justify-content-center my-3">
+                                <li>
+                                    <a href="#" target="_blank" aria-label="facebook social link"
+                                       class="icon icon-xs icon-facebook mr-3">
+                                        <span class="fab fa-facebook-f"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank" aria-label="twitter social link"
+                                       class="icon icon-xs icon-twitter mr-3">
+                                        <span class="fab fa-twitter"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank" aria-label="slack social link"
+                                       class="icon icon-xs icon-slack mr-3">
+                                        <span class="fab fa-slack-hash"></span>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="#" target="_blank" aria-label="dribbble social link"
+                                       class="icon icon-xs icon-dribbble mr-3">
+                                        <span class="fab fa-dribbble"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                            <div class="row mt-5">
+                                <div class="col-4">
+                                    <div class="icon icon-shape icon-shape-xs icon-facebook icon-shape-primary shadow-soft border border-light rounded-circle mb-2">
+                                        <span class="far fa-eye"></span>
+                                    </div>
+                                    <h2 class="h5 mb-0">25K</h2>
+                                    <span class="small">Followers</span>
+                                </div>
+                                <div class="col-4">
+                                    <div class="icon icon-shape icon-shape-xs icon-dribbble icon-shape-primary shadow-soft border border-light rounded-circle mb-2">
+                                        <span class="fas fa-map-marker-alt"></span>
+                                    </div>
+                                    <h2 class="h5 mb-0">5K</h2>
+                                    <span class="small">Views</span>
+                                </div>
+                                <div class="col-4">
+                                    <div class="icon icon-shape icon-shape-xs icon-behance icon-shape-primary shadow-soft border border-light rounded-circle mb-2">
+                                        <span class="far fa-user-circle"></span>
+                                    </div>
+                                    <h2 class="h5 mb-0">62K</h2>
+                                    <span class="small">Production</span>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-6 justify-content-center">
+                                    <button class="btn btn-sm  btn-primary mx-2" type="button">
+                                        <span class="mr-1"><span class="fas fa-user-plus"></span></span>
+                                        Follow
+                                    </button>
+                                </div>
+                                <div class="col-6 justify-content-center">
+                                    <button class="btn btn-sm  btn-primary mx-2" type="button">
+                                        <span class="mr-1"><span class="far fa-paper-plane"></span></span>
+                                        Message
+                                    </button>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- End of Profile Card -->
+                    <div class="accordion shadow-soft rounded">
+                        <div class="card card-sm card-body bg-primary border-light mb-0">
+                            <a href="#panel-4" data-target="#panel-4" class="accordion-panel-header"
+                               data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
+            <span class="icon-title h6 mb-0 font-weight-bold"><span class="fab fa-leanpub"></span>Our
+                Company</span>
+                                <span class="icon"><span class="fas fa-plus"></span></span>
+                            </a>
+                            <div class="collapse" id="panel-4">
+                                <div class="pt-3">
+                                    <p class="mb-0">
+                                        At Themesberg, our mission has always been focused on bringing openness and
+                                        transparency to the design process. We've always believed that by providing a
+                                        space where designers can share ongoing work not only empowers them to make
+                                        better products, it also
+                                        helps them grow. We're proud to be a part of creating a more open culture and to
+                                        continue building a product that supports this vision.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-sm card-body bg-primary border-light mb-0">
+                            <a href="#panel-5" data-target="#panel-5" class="accordion-panel-header"
+                               data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
+            <span class="icon-title h6 mb-0 font-weight-bold"><span class="fas fa-box-open"></span>Pixel
+                Components</span>
+                                <span class="icon"><span class="fas fa-plus"></span></span>
+                            </a>
+                            <div class="collapse" id="panel-5">
+                                <div class="pt-3">
+                                    <p class="mb-0">
+                                        At Themesberg, our mission has always been focused on bringing openness and
+                                        transparency to the design process. We've always believed that by providing a
+                                        space where designers can share ongoing work not only empowers them to make
+                                        better products, it also
+                                        helps them grow. We're proud to be a part of creating a more open culture and to
+                                        continue building a product that supports this vision. </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card card-sm card-body bg-primary border-light mb-0">
+                            <a href="#panel-6" data-target="#panel-6" class="accordion-panel-header"
+                               data-toggle="collapse" role="button" aria-expanded="false" aria-controls="panel-1">
+                                <span class="icon-title h6 mb-0 font-weight-bold"><span class="fas fa-donate"></span>Licenses</span>
+                                <span class="icon"><span class="fas fa-plus"></span></span>
+                            </a>
+                            <div class="collapse" id="panel-6">
+                                <div class="pt-3">
+                                    <p class="mb-0">
+                                        At Themesberg, our mission has always been focused on bringing openness and
+                                        transparency to the design process. We've always believed that by providing a
+                                        space where designers can share ongoing work not only empowers them to make
+                                        better products, it also
+                                        helps them grow. We're proud to be a part of creating a more open culture and to
+                                        continue building a product that supports this vision. </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+
+</main>
+
+<footer class="d-flex pb-5 pt-6 pt-md-7 border-top border-light bg-primary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-4">
+                <p><strong>Neumorphism UI PRO</strong> is a premium Bootstrap UI Kit built based on the newest design
+                    trend called Neumorphism.</p>
+                <ul class="d-flex list-unstyled mb-5 mb-lg-0">
+                    <li class="mr-2">
+                        <a href="https://twitter.com/themesberg" target="_blank"
+                           class="btn btn-icon-only btn-pill btn-primary" aria-label="twitter social link"
+                           data-toggle="tooltip" data-placement="top" title="Follow @themesberg on Twitter">
+                            <span aria-hidden="true" class="fab fa-twitter"></span>
+                        </a>
+                    </li>
+                    <li class="mr-2">
+                        <a href="https://www.facebook.com/themesberg/" target="_blank"
+                           class="btn btn-icon-only btn-pill btn-primary" aria-label="facebook social link"
+                           data-toggle="tooltip" data-placement="top" title="Like @themesberg on Facebook">
+                            <span aria-hidden="true" class="fab fa-facebook"></span>
+                        </a>
+                    </li>
+                    <li class="mr-2">
+                        <a href="https://github.com/themesberg" target="_blank"
+                           class="btn btn-icon-only btn-pill btn-primary" aria-label="github social link"
+                           data-toggle="tooltip" data-placement="top" title="Open source projects">
+                            <span aria-hidden="true" class="fab fa-github"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://dribbble.com/themesberg" target="_blank"
+                           class="btn btn-icon-only btn-pill btn-primary" aria-label="dribbble social link"
+                           data-toggle="tooltip" data-placement="top" title="Follow us on Dribbble">
+                            <span aria-hidden="true" class="fab fa-dribbble"></span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-6 col-lg-2 mb-5 mb-lg-0">
+                <h5>Themesberg</h5>
+                <ul class="footer-links list-unstyled mt-2">
+                    <li class="mb-1"><a class="p-2" target="_blank" href="https://themesberg.com/blog">Blog</a></li>
+                    <li class="mb-1"><a class="p-2" target="_blank" href="https://themesberg.com/products">Products</a>
+                    </li>
+                    <li class="mb-1"><a class="p-2" target="_blank" href="https://themesberg.com/about">About Us</a>
+                    </li>
+                    <li><a class="p-2" target="_blank" href="https://themesberg.com/contact">Contact Us</a></li>
+                </ul>
+            </div>
+            <div class="col-6 col-lg-2 mb-5 mb-lg-0">
+                <h5>Other</h5>
+                <ul class="footer-links list-unstyled mt-2">
+                    <li class="mb-1"><a class="p-2"
+                                        href="https://themesberg.com/docs/pixel-bootstrap/getting-started/overview/"
+                                        target="_blank">Docs
+                        <span class="badge badge-gray text-uppercase ml-2">v1.0</span></a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="p-2" href="https://themesberg.com/docs/pixel-bootstrap/getting-started/changelog"
+                           target="_blank">Changelog</a>
+                    </li>
+                    <li class="mb-1">
+                        <a class="p-2" target="_blank" href="https://themesberg.com/licensing">License</a>
+                    </li>
+                    <li>
+                        <a class="p-2" target="_blank"
+                           href="https://github.com/themesberg/pixel-bootstrap-ui-kit/issues">Support</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-12 col-lg-4 mb-5 mb-lg-0">
+                <h5>Subscribe</h5>
+                <p class="text-gray font-small mt-2">Join our mailing list. We write rarely, but only the best
+                    content.</p>
+                <form action="#">
+                    <div class="form-row mb-2">
+                        <div class="col-12">
+                            <label class="h6 font-weight-normal d-none" for="exampleInputEmail3">Email address</label>
+                            <input type="email" class="form-control mb-2" placeholder="example@company.com" name="email"
+                                   aria-label="Subscribe form" id="exampleInputEmail3" required>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary btn-block" data-loading-text="Sending">
+                                <span>Subscribe</span>
+                            </button>
+                        </div>
+                    </div>
+                </form>
+                <p class="text-gray font-small m-0">We’ll never share your details. See our <a class="text-black"
+                                                                                               href="#">Privacy
+                    Policy</a></p>
+            </div>
+        </div>
+        <hr class="my-5">
+        <div class="row">
+            <div class="col">
+                <a href="https://themesberg.com" target="_blank" class="d-flex justify-content-center">
+                    <img src="../assets/img/themesberg.svg" height="25" class="mb-3" alt="Themesberg Logo">
+                </a>
+                <div class="d-flex text-center justify-content-center align-items-center" role="contentinfo">
+                    <p class="font-weight-normal font-small mb-0">Copyright © Themesberg
+                        <span class="current-year">2020</span>. All rights reserved.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+<!-- Modal Content -->
+<div class="modal fade" id="modal-form" tabindex="-1" role="dialog" aria-labelledby="modal-form" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-body p-0">
+                <div class="card bg-primary shadow-soft border-light p-4">
+                    <button type="button" class="close ml-auto" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">×</span>
+                    </button>
+                    <div class="card-header text-center pb-0">
+                        <h2 class="h4">Sign in to our platform</h2>
+                        <span>Login here using your username and password</span>
+                    </div>
+                    <div class="card-body">
+                        <form action="#" class="mt-4">
+                            <!-- Form -->
+                            <div class="form-group">
+                                <label for="exampleInputIcon3">Your email</label>
+                                <div class="input-group mb-4">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text"><span class="fas fa-envelope"></span></span>
+                                    </div>
+                                    <input class="form-control" id="exampleInputIcon3" placeholder="example@company.com"
+                                           type="text" aria-label="email adress">
+                                </div>
+                            </div>
+                            <!-- End of Form -->
+                            <div class="form-group">
+                                <!-- Form -->
+                                <div class="form-group">
+                                    <label for="exampleInputPassword6">Password</label>
+                                    <div class="input-group mb-4">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text"><span
+                                                    class="fas fa-unlock-alt"></span></span>
+                                        </div>
+                                        <input class="form-control" id="exampleInputPassword6" placeholder="Password"
+                                               type="password" aria-label="Password" required>
+                                    </div>
+                                </div>
+                                <!-- End of Form -->
+                                <div class="d-block d-sm-flex justify-content-between align-items-center mb-4">
+                                    <div class="form-check mb-2 mb-sm-0">
+                                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck5">
+                                        <label class="form-check-label" for="defaultCheck5">
+                                            Remember me
+                                        </label>
+                                    </div>
+                                    <div><a href="#" class="small text-right">忘记密码?</a></div>
+                                </div>
+                            </div>
+                            <button type="submit" class="btn btn-block btn-primary">登录</button>
+                        </form>
+                        <div class="mt-3 mb-4 text-center">
+                            <span class="font-weight-normal">or login with</span>
+                        </div>
+                        <div class="btn-wrapper my-4 text-center">
+                            <button class="btn btn-icon-only btn-pill btn-outline-light text-facebook mr-2"
+                                    type="button" aria-label="facebook button" title="facebook button">
+                                <span aria-hidden="true" class="fab fa-facebook-f"></span>
+                            </button>
+                            <button class="btn btn-icon-only btn-pill btn-outline-light text-twitter mr-2" type="button"
+                                    aria-label="twitter button" title="twitter button">
+                                <span aria-hidden="true" class="fab fa-twitter"></span>
+                            </button>
+                            <button class="btn btn-icon-only btn-pill btn-outline-light text-facebook" type="button"
+                                    aria-label="github button" title="github button">
+                                <span aria-hidden="true" class="fab fa-github"></span>
+                            </button>
+                        </div>
+                        <div class="d-block d-sm-flex justify-content-center align-items-center mt-4">
+                            <span class="font-weight-normal">
+                                还有没账号?
+                                <a href="./pages/register.html" class="font-weight-bold">注册</a>
+                            </span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End of Modal Content -->
+
+
+<!-- Core -->
+<script src="../vendor/jquery/dist/jquery.min.js"></script>
+<script src="../vendor/popper.js/dist/umd/popper.min.js"></script>
+<script src="../vendor/bootstrap/dist/js/bootstrap.min.js"></script>
+<script src="../vendor/headroom.js/dist/headroom.min.js"></script>
+
+<!-- Vendor JS -->
+<script src="../vendor/jarallax/dist/jarallax.min.js"></script>
+<script src="../vendor/jquery.counterup/jquery.counterup.min.js"></script>
+<script src="../vendor/jquery-countdown/dist/jquery.countdown.min.js"></script>
+<script src="../vendor/smooth-scroll/dist/smooth-scroll.polyfills.min.js"></script>
+<!--<script src="./vendor/onscreen/dist/on-screen.umd.min.js"></script>-->
+<!--<script src="./vendor/nouislider/distribute/nouislider.min.js"></script>-->
+<!--<script src="./vendor/bootstrap-datepicker/dist/js/bootstrap-datepicker.min.js"></script>-->
+<!--<script src="./vendor/waypoints/lib/jquery.waypoints.min.js"></script>-->
+<!--<script src="./vendor/prismjs/prism.js"></script>-->
+<script src="../vendor/player/player.js"></script>
+<script src="../vendor/buttons/buttons.js"></script>
+
+<!-- Neumorphism JS -->
+<script src="../assets/js/neumorphism.js"></script>
+</body>
+
+</html>

@@ -30,3 +30,10 @@ hs_err_pid*
 /july-gateway/certificate/
 /test-consumer-82/certificate/
 /test-consumer-83/certificate/
+/july-gateway/src/main/resources/static/assets/videos/
+/july-gateway/src/main/resources/static/assets/img/
+/july-gateway/src/main/resources/static/chat/dist/media/
+/july-gateway/src/main/resources/static/html/components/
+/july-gateway/src/main/resources/static/html/pages/
+/july-gateway/src/main/resources/static/vendor/@fortawesome/fontawesome/
+/july-gateway/src/main/resources/static/vendor/bootstrap-datepicker/dist/js/locales/
