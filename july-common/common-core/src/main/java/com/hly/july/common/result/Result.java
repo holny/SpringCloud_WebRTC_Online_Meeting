@@ -26,12 +26,23 @@ public class Result<T> implements Serializable {
         return result;
     }
 
+    public static <T> Result<T> failure(IResultCode resultCode) {
+        return result(resultCode.getCode(), resultCode.getMsg(), null);
+    }
+
+    public static <T> Result<T> failure(IResultCode resultCode, String msg) {
+        return result(resultCode.getCode(), msg, null);
+    }
 
     public static <T> Result<T> failure(IResultCode resultCode, T data) {
         return result(resultCode.getCode(), resultCode.getMsg(), data);
     }
 
-    public static <T> Result<T> failure(IResultCode resultCode) {
+    public static <T> Result<T> failure(IResultCode resultCode, String msg, T data) {
+        return result(resultCode.getCode(), msg, data);
+    }
+
+    public static <T> Result<T> success(IResultCode resultCode) {
         return result(resultCode.getCode(), resultCode.getMsg(), null);
     }
 
@@ -39,12 +50,24 @@ public class Result<T> implements Serializable {
         return result(resultCode.getCode(), resultCode.getMsg(), data);
     }
 
-    public static <T> Result<T> success(IResultCode resultCode) {
-        return result(resultCode.getCode(), resultCode.getMsg(), null);
+    public static <T> Result<T> success(IResultCode resultCode, String msg) {
+        return result(resultCode.getCode(), msg, null);
+    }
+
+    public static <T> Result<T> success(IResultCode resultCode, String msg, T data) {
+        return result(resultCode.getCode(), msg, data);
     }
 
     public static <T> Result<T> success(T data) {
         return result(ResultCode.SUCCESS.getCode(), ResultCode.SUCCESS.getMsg(), data);
+    }
+
+    public static <T> Result<T> success(String msg) {
+        return result(ResultCode.SUCCESS.getCode(), msg, null);
+    }
+
+    public static <T> Result<T> success(String msg,T data) {
+        return result(ResultCode.SUCCESS.getCode(), msg, data);
     }
 
     public static <T> Result<T> success() {

@@ -25,6 +25,7 @@
     <module>test-consumer-83</module>
     <module>july-auth</module>
     <module>july-common</module>
+    <module>july-biz-user</module>
   </modules>
 
   <!-- 统一管理jar包版本 -->
@@ -42,7 +43,8 @@
 
     <mysql.version>8.0.21</mysql.version>
     <druid.version>1.1.22</druid.version>
-    <mybatis-plus.version>3.4.2</mybatis-plus.version>
+    <mybatis-plus.version>3.4.1</mybatis-plus.version>
+    <freemarker.version>2.3.31</freemarker.version>
 
     <lmax.disruptor.version>3.4.2</lmax.disruptor.version>
     <lombok.version>1.18.18</lombok.version>
@@ -51,9 +53,9 @@
     <!-- -->
     <mysql-url>localhost:3305</mysql-url>
     <mysql-root-password>linymysql4321</mysql-root-password>
-    <mysql-oauth-table>july_oauth2</mysql-oauth-table>
-    <mysql-oauth-name>july_oauth2</mysql-oauth-name>
-    <mysql-oauth-password>auth4321july</mysql-oauth-password>
+    <mysql-oauth-db>july_oauth2</mysql-oauth-db>
+    <mysql-oauth-db-account>july_oauth2</mysql-oauth-db-account>
+    <mysql-oauth-db-password>auth4321july</mysql-oauth-db-password>
     <redis-url>localhost:6378</redis-url>
     <redis-password>redis2345july</redis-password>
     <nacos-nginx-url>localhost:8848</nacos-nginx-url>
@@ -63,6 +65,11 @@
     <nacos-group>SEATA_GROUP</nacos-group>
     <seata-tx-group>july-tx-service-group</seata-tx-group>
     <sentinel-dashboard-url>localhost:8080</sentinel-dashboard-url>
+
+    <mysql-biz-db>july_v1</mysql-biz-db>
+    <mysql-biz-db-account>july_main</mysql-biz-db-account>
+    <mysql-biz-db-password>july4321</mysql-biz-db-password>
+    <mysql-biz-user-table>user</mysql-biz-user-table>
   </properties>
 
   <!-- 子模块继承之后，提供作用：锁定版本+子modlue不用写groupId和version  -->
@@ -115,6 +122,18 @@
         <groupId>com.baomidou</groupId>
         <artifactId>mybatis-plus-boot-starter</artifactId>
         <version>${mybatis-plus.version}</version>
+      </dependency>
+
+      <!-- Mybatis plus generator需要模板引擎，这里选用freemarker-->
+      <dependency>
+        <groupId>com.baomidou</groupId>
+        <artifactId>mybatis-plus-generator</artifactId>
+        <version>${mybatis-plus.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.freemarker</groupId>
+        <artifactId>freemarker</artifactId>
+        <version>${freemarker.version}</version>
       </dependency>
       <!-- 引入log4j2依赖 -->
       <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
@@ -172,6 +191,11 @@
       <dependency>
         <groupId>com.hly.july</groupId>
         <artifactId>common-auth</artifactId>
+        <version>1.0.1</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hly.july</groupId>
+        <artifactId>common-mybatis</artifactId>
         <version>1.0.1</version>
       </dependency>
       <dependency>

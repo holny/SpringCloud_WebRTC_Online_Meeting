@@ -37,7 +37,7 @@
     <!-- Pixel CSS -->
     <link href="../css/neumorphism.css" rel="stylesheet" type="text/css">
 
-    <link href="../assets/css/docs.css" rel="stylesheet" type="text/css">
+<!--    <link href="../assets/css/docs.css" rel="stylesheet" type="text/css">-->
 
     <link href="../vendor/player/plyr.css" rel="stylesheet" type="text/css">
 
@@ -236,7 +236,8 @@
                         <div class="card card-sm card-body bg-primary border-light mb-0">
                             <a aria-controls="panel-order-pay" aria-expanded="true"
                                class="accordion-panel-header"
-                               data-target="#panel-order-pay-centre" data-toggle="collapse" href="#panel-order-pay-centre"
+                               data-target="#panel-order-pay-centre" data-toggle="collapse"
+                               href="#panel-order-pay-centre"
                                role="button">
                                 <span class="icon-title h6 mb-0 font-weight-bold">
                                     <span class="fab fa-leanpub"></span>
@@ -272,7 +273,8 @@
                         <div class="card card-sm card-body bg-primary border-light mb-0">
                             <a aria-controls="panel-favour-subscribe" aria-expanded="false"
                                class="accordion-panel-header"
-                               data-target="#panel-favour-subscribe-centre" data-toggle="collapse" href="#panel-favour-subscribe-centre"
+                               data-target="#panel-favour-subscribe-centre" data-toggle="collapse"
+                               href="#panel-favour-subscribe-centre"
                                role="button">
                                 <span class="icon-title h6 mb-0 font-weight-bold">
                                     <span class="fab fa-leanpub"></span>
@@ -310,13 +312,15 @@
                         <div class="card card-sm card-body bg-primary border-light mb-0">
                             <a aria-controls="panel-workplace" aria-expanded="false"
                                class="accordion-panel-header"
-                               data-target="#panel-workplace-centre" data-toggle="collapse" href="#panel-workplace-centre"
+                               data-target="#panel-workplace-centre" data-toggle="collapse"
+                               href="#panel-workplace-centre"
                                role="button">
                                 <span class="icon-title h6 mb-0 font-weight-bold"><span class="fas fa-donate"></span>创作中心</span>
                                 <span class="icon"><span class="fas fa-plus"></span></span></a>
                             <div class="collapse" id="panel-workplace-centre">
                                 <div class="pt-3">
-                                    <ul class="nav btn-group-vertical footer-links list-unstyled text-center mt-2 w-100"  role="tablist">
+                                    <ul class="nav btn-group-vertical footer-links list-unstyled text-center mt-2 w-100"
+                                        role="tablist">
                                         <li class="mb-1 w-100"><a aria-controls="nav-myVideo-tabContent"
                                                                   aria-selected="false"
                                                                   class="nav-item nav-link mr-4 mr-md-3"
@@ -326,17 +330,30 @@
                                                                   role="tab">我的视频</a></li>
 
                                     </ul>
-                                    <ul class="nav btn-group-vertical footer-links list-unstyled text-center mt-2 w-100"  role="tablist">
-                                        <li class="mb-1 w-100"><a aria-controls="nav-myFans-tabContent"
+                                    <ul class="nav btn-group-vertical footer-links list-unstyled text-center mt-2 w-100"
+                                        role="tablist">
+                                        <li class="mb-1 w-100"><a aria-controls="nav-moments-tabContent"
                                                                   aria-selected="false"
                                                                   class="nav-item nav-link mr-4 mr-md-3"
                                                                   data-toggle="tab"
-                                                                  href="#nav-myFans-tabContent"
-                                                                  id="nav-myFans-tab"
+                                                                  href="#nav-moments-tabContent"
+                                                                  id="nav-moments-tab"
+                                                                  role="tab">动态</a></li>
+
+                                    </ul>
+                                    <ul class="nav btn-group-vertical footer-links list-unstyled text-center mt-2 w-100"
+                                        role="tablist">
+                                        <li class="mb-1 w-100"><a aria-controls="nav-myFollower-tabContent"
+                                                                  aria-selected="false"
+                                                                  class="nav-item nav-link mr-4 mr-md-3"
+                                                                  data-toggle="tab"
+                                                                  href="#nav-myFollower-tabContent"
+                                                                  id="nav-myFollower-tab"
                                                                   role="tab">粉丝与订阅</a></li>
 
                                     </ul>
-                                    <ul class="nav btn-group-vertical footer-links list-unstyled text-center mt-2 w-100"  role="tablist">
+                                    <ul class="nav btn-group-vertical footer-links list-unstyled text-center mt-2 w-100"
+                                        role="tablist">
                                         <li class="mb-1 w-100"><a aria-controls="nav-statistics-tabContent"
                                                                   aria-selected="false"
                                                                   class="nav-item nav-link mr-4 mr-md-3"
@@ -352,7 +369,8 @@
                         <div class="card card-sm card-body bg-primary border-light mb-0">
                             <a aria-controls="panel-mySettings" aria-expanded="false"
                                class="accordion-panel-header"
-                               data-target="#panel-mySettings-centre" data-toggle="collapse" href="#panel-mySettings-centre"
+                               data-target="#panel-mySettings-centre" data-toggle="collapse"
+                               href="#panel-mySettings-centre"
                                role="button">
                                 <span class="icon-title h6 mb-0 font-weight-bold"><span class="fas fa-box-open"></span>我的信息</span>
                                 <span class="icon"><span class="fas fa-plus"></span></span></a>
@@ -361,8 +379,8 @@
                                     <ul class="nav btn-group-vertical footer-links list-unstyled text-center mt-2"
                                         role="tablist">
                                         <li class="mb-1 w-100"><a aria-controls="nav-myInfo-tabContent"
-                                                                  aria-selected="true"
-                                                                  class="nav-item nav-link mr-4 mr-md-3 active"
+                                                                  aria-selected="false"
+                                                                  class="nav-item nav-link mr-4 mr-md-3"
                                                                   data-toggle="tab"
                                                                   href="#nav-myInfo-tabContent"
                                                                   id="nav-myInfo-tab"
@@ -750,7 +768,8 @@
                                 </div>
                                 <label class="form-check-label" for="pay-datepicker-range">选择时间范围
                                 </label>
-                                <div class="input-daterange datepicker row align-items-center" id="pay-datepicker-range">
+                                <div class="input-daterange datepicker row align-items-center"
+                                     id="pay-datepicker-range">
                                     <div class="col">
                                         <div class="form-group">
                                             <div class="input-group input-group-border">
@@ -777,7 +796,7 @@
                                     </div>
                                 </div>
                                 <div class="col-12">
-                                    <table class="table table-hover table-striped shadow-inset rounded">
+                                    <table class="table table-hover table-striped table-responsive-lg text-nowrap shadow-inset rounded">
                                         <tr>
                                             <th class="border-0" id="payId" scope="col">支付Id</th>
                                             <th class="border-0" id="payFrom" scope="col">流出对象</th>
@@ -787,486 +806,613 @@
                                             <th class="border-0" id="payTime" scope="col">操作时间</th>
                                             <th class="border-0" id="payAmount" scope="col">流出金额</th>
                                             <th class="border-0" id="balance" scope="col">余额</th>
+                                            <th class="border-0" id="action" scope="col">操作</th>
                                         </tr>
                                         <tr>
                                             <td>100001</td>
                                             <td>余额</td>
                                             <td>Tom</td>
                                             <td>咨询预订</td>
+                                            <td>待支付</td>
+                                            <td>2021-04-03</td>
+                                            <td>211￥</td>
+                                            <td>121￥</td>
+                                            <td><a class="text-dark font-weight-bold mr-3" href="#"><span
+                                                    class="mr-1"><span
+                                                    class="far fa-trash-alt mr-2"></span></span>删除</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>100002</td>
+                                            <td>余额</td>
+                                            <td>Tom</td>
+                                            <td>咨询预订</td>
+                                            <td>待支付</td>
+                                            <td>2021-04-04</td>
+                                            <td>211￥</td>
+                                            <td>121￥</td>
                                             <td><a class="text-dark font-weight-bold mr-3" href="#"><span
                                                     class="mr-1"><span
                                                     class="far fa-trash-alt mr-2"></span></span>删除</a></td>
                                         </tr>
                                         <tr>
                                             <td>100003</td>
-                                            <td>Juily group</td>
-                                            <td>13</td>
-                                            <td><a class="text-dark font-weight-bold mr-3" href="#"><span
-                                                    class="mr-1"><span
-                                                    class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                        </tr>
-                                        <tr>
-                                            <td>1000024</td>
-                                            <td>Jack group</td>
-                                            <td>2015-02-12</td>
+                                            <td>余额</td>
+                                            <td>Tom</td>
+                                            <td>咨询预订</td>
+                                            <td>待支付</td>
+                                            <td>2021-04-03</td>
+                                            <td>21441￥</td>
+                                            <td>122￥</td>
                                             <td><a class="text-dark font-weight-bold mr-3" href="#"><span
                                                     class="mr-1"><span
                                                     class="far fa-trash-alt mr-2"></span></span>删除</a></td>
                                         </tr>
                                     </table>
                                 </div>
+                                <div class="row form-group border-top border-light py-1 w-100">
 
-                                <div class="row  border-top border-light py-1">
-                                    <div class="col-lg-3 col-sm-3">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="customSwitch1"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" for="customSwitch1">开启/关闭</label></div>
+                                    <div class="col-4">
+                                        <label class="text-nowrap" for="inlineFormCustomSelectPref">选择兑换类型</label>
+                                        <select class="custom-select" id="">
+                                            <option selected="">Choose...</option>
+                                            <option value="1">积分</option>
+                                            <option value="2">金额</option>
+                                        </select>
 
                                     </div>
-                                    <div class="col-lg-8 col-sm-8">
-                                        <div class="row justify-content-between">
-                                            <div class="form-row col-6">
-                                                <div class="form-group col-md-6 focused"><label
-                                                        for="priceRangeMin1">小时</label> <input class="form-control"
-                                                                                               id="priceRangeMin1"
-                                                                                               max="23" min="0"
-                                                                                               placeholder="0"
-                                                                                               type="number"></div>
-                                                <div class="form-group text-right col-md-6 focused"><label
-                                                        for="priceRangeMax1">分钟</label> <input class="form-control"
-                                                                                               id="priceRangeMax1"
-                                                                                               max="59" min="0"
-                                                                                               placeholder="0"
-                                                                                               type="number"></div>
-                                            </div>
-                                            <div class="form-row col-6">
-                                                <div class="form-group col-md-6 focused"><label
-                                                        for="priceRangeMin2">小时</label> <input class="form-control"
-                                                                                               id="priceRangeMin2"
-                                                                                               max="23" min="0"
-                                                                                               placeholder="0"
-                                                                                               type="number"></div>
-                                                <div class="form-group text-right col-md-6 focused"><label
-                                                        for="priceRangeMax2">分钟</label> <input class="form-control"
-                                                                                               id="priceRangeMax2"
-                                                                                               max="59" min="0"
-                                                                                               placeholder="0"
-                                                                                               type="number"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1 col-sm-1">
-                                        <button aria-label="behance button"
-                                                class="btn btn-icon-only btn-behance center-vertical-absolute"
-                                                title="behance button" type="button"><span
-                                                aria-hidden="true" class="fab fa-behance"></span></button>
-                                    </div>
+                                    <div class="col-7">
 
-                                </div>
-                                <div class="row border-top border-light py-4">
-                                    <div class="col-lg-3 col-sm-3 mt-4 mt-md-0">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="customSwitch2"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="customSwitch2" title="非工作日包括周六、周日和法定节假日">工作日接单</label></div>
+                                        <label class="text-nowrap" for="cartInputAdress3">兑换</label>
+                                        <input aria-describedby="cartInputAdress3" class="form-control"
+                                               id="cartInputAdress3"
+                                               placeholder="e.g. Texas" type="text">
                                     </div>
-                                    <div class="col-lg-8 col-sm-8">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck1"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck1">星期一</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck2"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck2">星期二</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck3"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck3">星期三</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck4"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck4">星期四</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck5"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck5">星期五</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck6"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck6">星期六</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck7"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck7">星期日</label></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-1 col-sm-1">
+                                    <div class="col-1 ">
                                         <button aria-label="behance button"
                                                 class="btn btn-icon-only btn-behance center-vertical-absolute"
                                                 title="behance button" type="button"><span
                                                 aria-hidden="true" class="fab fa-behance"></span></button>
                                     </div>
                                 </div>
-                                <div class="row border-top border-light py-4">
-                                    <div class="col-lg-4 col-sm-4">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="customSwitch3"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="customSwitch3"
-                                                title="要求近100单满足履约率≥90%,延期率≤10%,好评率≥80%">自动接单</label></div>
-                                    </div>
-                                    <div class="col-lg-8 col-sm-8">
-                                        <p class="text-danger mb-0">您的近100单的履约率为85%,延期率30%，好评率60%，皆不符合开启自动接单要求.</p>
-                                    </div>
-                                </div>
-                                <div class="row  border-top border-light py-1">
-                                    <div class="col-lg-3 col-sm-3">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="customSwitch5"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="customSwitch5" title="开启竞拍后,半小时单价按已选择范围的下限计费">开启竞拍</label></div>
-                                    </div>
-                                    <div class="col-lg-8 col-sm-8">
 
-                                        <label for="input-slider-range">每半小时单价</label>
-                                        <!-- Range slider container -->
+                            </div>
 
-                                        <div data-range-value-max="999.99" data-range-value-min="00.00"
-                                             id="input-slider-range"></div>
-                                        <!-- Range slider values -->
-                                        <div class="row d-none">
-                                            <div class="col-6">
-                                                <span class="range-slider-value value-high" data-placement="bottom"
-                                                      data-range-value-low="00.0"
-                                                      id="input-slider-range-value-low"></span>
+                        </div>
+                    </div>
+                    <div aria-labelledby="nav-favour-tabContent" class="tab-pane fade"
+                         id="nav-favour-tabContent"
+                         role="tabpanel">
+                        <div class="row">
+                            <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                <div class="card bg-primary border-light shadow-soft">
+                                    <div class="card-header p-3">
+                                        <a href="../pages/player.html">
+                                            <img alt="Themesberg office"
+                                                 class="card-img-top rounded-top"
+                                                 src="../assets/img/blog/blog-article-1.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body  pt-2">
+                                        <div class="media d-flex align-items-center justify-content-between">
+                                            <div class="post-group">
+                                                <a data-original-title="23k followers" data-placement="top"
+                                                   data-toggle="tooltip" href="#"
+                                                   title="">
+                                                    <img alt="Jo portrait"
+                                                         class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                         src="../../assets/img/team/profile-picture-2.jpg">
+                                                    <small>Jo J. Moore</small>
+                                                </a>
                                             </div>
-                                            <div class="col-6 text-right">
-                                                <span class="range-slider-value value-low" data-placement="bottom"
-                                                      data-range-value-high="100.00"
-                                                      id="input-slider-range-value-high"></span>
+                                            <div class="d-flex align-items-center">
+                                                <span class="small"><span
+                                                        class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
                                             </div>
                                         </div>
-                                        <!-- End of range slider values -->
-                                    </div>
-                                    <div class="col-lg-1 col-sm-1">
-                                        <button aria-label="behance button"
-                                                class="btn btn-icon-only btn-behance center-vertical-absolute"
-                                                title="behance button" type="button"><span
-                                                aria-hidden="true" class="fab fa-behance"></span></button>
                                     </div>
                                 </div>
-                                <div class="row  border-top border-light py-1">
-                                    <div class="col-lg-11 col-sm-11">
-                                        <div class="row  justify-content-center">
-                                            <div class="form-group w-95 justify-content-center">
-                                                <label for="exampleFormControlTextarea1">提示</label>
-                                                <textarea class="form-control border border-light fmxh-100"
-                                                          data-bind-characters-target="#charactersRemaining"
-                                                          id="exampleFormControlTextarea1" maxlength="150"
-                                                          placeholder="Add your comment"
-                                                          rows="6"></textarea>
-                                                <div class="d-flex justify-content-between mt-3"><small
-                                                        class="font-weight-light text-dark"><span
-                                                        id="charactersRemaining">983</span>
-                                                    characters remaining</small>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                <div class="card bg-primary border-light shadow-soft">
+                                    <div class="card-header p-3">
+                                        <a href="../pages/player.html">
+                                            <img alt="Designer desk"
+                                                 class="card-img-top rounded-top"
+                                                 src="../assets/img/blog/blog-article-2.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                        <div class="media d-flex align-items-center justify-content-between">
+                                            <div class="post-group">
+                                                <a data-original-title="23k followers" data-placement="top"
+                                                   data-toggle="tooltip" href="#"
+                                                   title="">
+                                                    <img alt="Jo portrait"
+                                                         class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                         src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                    J. Moore</small>
+                                                </a>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="small"><span
+                                                        class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                <div class="card bg-primary border-light shadow-soft">
+                                    <div class="card-header p-3">
+                                        <a href="#">
+                                            <img alt="Themesberg office"
+                                                 class="card-img-top rounded-top"
+                                                 src="../assets/img/blog/blog-article-1.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body  pt-2">
+                                        <div class="media d-flex align-items-center justify-content-between">
+                                            <div class="post-group">
+                                                <a data-original-title="23k followers" data-placement="top"
+                                                   data-toggle="tooltip" href="#"
+                                                   title="">
+                                                    <img alt="Jo portrait"
+                                                         class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                         src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                    J. Moore</small>
+                                                </a>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="small"><span
+                                                        class="far fa-calendar-alt mr-2"></span><small>15 March 2020</small></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                <div class="card bg-primary border-light shadow-soft">
+                                    <div class="card-header p-3">
+                                        <a href="#">
+                                            <img alt="Designer desk"
+                                                 class="card-img-top rounded-top"
+                                                 src="../assets/img/blog/blog-article-2.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                        <div class="media d-flex align-items-center justify-content-between">
+                                            <div class="post-group">
+                                                <a data-original-title="23k followers" data-placement="top"
+                                                   data-toggle="tooltip" href="#"
+                                                   title="">
+                                                    <img alt="Jo portrait"
+                                                         class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                         src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                    J. Moore</small>
+                                                </a>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="small"><span
+                                                        class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                <div class="card bg-primary border-light shadow-soft">
+                                    <div class="card-header p-3">
+                                        <a href="#">
+                                            <img alt="Themesberg office"
+                                                 class="card-img-top rounded-top"
+                                                 src="../assets/img/blog/blog-article-1.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body  pt-2">
+                                        <div class="media d-flex align-items-center justify-content-between">
+                                            <div class="post-group">
+                                                <a data-original-title="23k followers" data-placement="top"
+                                                   data-toggle="tooltip" href="#"
+                                                   title="">
+                                                    <img alt="Jo portrait"
+                                                         class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                         src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                    J. Moore</small>
+                                                </a>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="small"><span
+                                                        class="far fa-calendar-alt mr-2"></span><small>15 March 2020</small></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                <div class="card bg-primary border-light shadow-soft">
+                                    <div class="card-header p-3">
+                                        <a href="#">
+                                            <img alt="Designer desk"
+                                                 class="card-img-top rounded-top"
+                                                 src="../assets/img/blog/blog-article-2.jpg">
+                                        </a>
+                                    </div>
+                                    <div class="card-body pt-2">
+                                        <div class="media d-flex align-items-center justify-content-between">
+                                            <div class="post-group">
+                                                <a data-original-title="23k followers" data-placement="top"
+                                                   data-toggle="tooltip" href="#"
+                                                   title="">
+                                                    <img alt="Jo portrait"
+                                                         class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                         src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                    J. Moore</small>
+                                                </a>
+                                            </div>
+                                            <div class="d-flex align-items-center">
+                                                <span class="small"><span
+                                                        class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div aria-labelledby="nav-subscribe-tabContent" class="tab-pane fade"
+                         id="nav-subscribe-tabContent"
+                         role="tabpanel">
+                        <div class="row">
+                            <div class="col-12 col-md-12 col-lg-12" id="">
+                                <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
+                                    <div class="row align-items-center">
+
+                                        <div class="col-3">
+                                            <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
+                                                <a href="#">
+                                                    <img alt="Christopher Avatar"
+                                                         class="card-img-top rounded-circle"
+                                                         src="../assets/img/team/profile-picture-2.jpg">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
+                                                Watch
+                                                Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
+                                            <ul class="pl-3">
+                                                <li class="small">Transport: Free transport</li>
+                                                <li class="small">Moneyback: 1 month</li>
+                                                <li class="small">Warranty: 24 months</li>
+                                            </ul>
+                                            <div class="d-flex align-items-center  btn-group-vertical">
+                                                <div class="ml-auto  mt-2">
+                                                    <a class="btn-link text-dark" href="#">
+                                                        <span class="far fa-money-bill-alt mr-2"></span>支付
+                                                    </a>
+                                                </div>
+                                                <div class="ml-auto mt-2">
+                                                    <a class="btn-link text-dark" href="#">
+                                                        <span class="far fa-trash-alt mr-2"></span>取消
+                                                    </a>
                                                 </div>
                                             </div>
-
                                         </div>
                                     </div>
-
-                                    <div class="col-lg-1 col-sm-1">
-                                        <button aria-label="behance button"
-                                                class="btn btn-icon-only btn-behance center-vertical-absolute"
-                                                title="behance button" type="button"><span
-                                                aria-hidden="true" class="fab fa-behance"></span></button>
-                                    </div>
                                 </div>
-                                <div class="row  border-top border-light py-1">
-                                    <div class="col-lg-3 col-sm-3">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="customSwitch4"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="customSwitch4"
-                                                for="customSwitch5" title="客户预约需要输入密码(客户需在有效预约用户范围内)">私密接单</label></div>
-                                    </div>
-                                    <div class="col-lg-8 col-sm-8 mt-4 mt-md-0">
-                                        <div class="form-group center-vertical-absolute">
-                                            <div class="input-group w-100">
-                                                <div class="input-group-prepend"><span class="input-group-text"><span
-                                                        class="fas fa-unlock-alt"></span></span></div>
-                                                <input aria-label="Password"
-                                                       class="form-control"
-                                                       id="exampleInputPassword1"
-                                                       placeholder="Password"
-                                                       type="password">
+                                <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
+                                    <div class="row align-items-center">
 
+                                        <div class="col-3">
+                                            <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
+                                                <a href="#">
+                                                    <img alt="Christopher Avatar"
+                                                         class="card-img-top rounded-circle"
+                                                         src="../assets/img/team/profile-picture-3.jpg">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
+                                                Watch
+                                                Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
+                                            <ul class="pl-3">
+                                                <li class="small">Transport: Free transport</li>
+                                                <li class="small">Moneyback: 1 month</li>
+                                                <li class="small">Warranty: 24 months</li>
+                                            </ul>
+                                            <div class="d-flex align-items-center  btn-group-vertical">
+                                                <div class="ml-auto  mt-3">
+                                                    <a class="btn-link text-dark" href="#">
+                                                        <span class="fas fa-headphones-alt mr-2"></span>入会
+                                                    </a>
+                                                </div>
+                                                <div class="ml-auto mt-3">
+                                                    <a class="btn-link text-dark" href="#">
+                                                        <span class="far fa-trash-alt mr-2"></span>取消
+                                                    </a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-1 col-sm-1">
-                                        <button aria-label="behance button"
-                                                class="btn btn-icon-only btn-behance center-vertical-absolute"
-                                                title="behance button" type="button"><span
-                                                aria-hidden="true" class="fab fa-behance"></span></button>
-                                    </div>
                                 </div>
-                                <div class="row border-top border-light py-4">
-                                    <div class="col-lg-3 col-sm-3">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="groupSwith"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="groupSwith"
-                                                title="开启后只为选定的组内成员服务">开启专属组</label></div>
-                                    </div>
-                                    <div class="col-lg-8 col-sm-8">
-                                        <div class="form-group">
-                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">选择已加入的组</label>
-                                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                                                <option selected>Choose...</option>
-                                                <option value="1">United States</option>
-                                                <option value="2">Germany</option>
-                                                <option value="3">Canada</option>
-                                            </select>
+                                <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
+                                    <div class="row align-items-center">
+
+                                        <div class="col-3">
+                                            <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
+                                                <a href="#">
+                                                    <img alt="Christopher Avatar"
+                                                         class="card-img-top rounded-circle"
+                                                         src="../assets/img/team/profile-picture-2.jpg">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
+                                                Watch
+                                                Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
+                                            <ul class="pl-3">
+                                                <li class="small">Transport: Free transport</li>
+                                                <li class="small">Moneyback: 1 month</li>
+                                                <li class="small">Warranty: 24 months</li>
+                                            </ul>
+                                            <div class="d-flex align-items-center  btn-group-vertical">
+                                                <div class="ml-auto  mt-3">
+                                                    <a class="btn-link text-dark" href="#">
+                                                        <span class="far fa-calendar-alt mr-2"></span>延期
+                                                    </a>
+                                                </div>
+                                                <div class="ml-auto mt-3">
+                                                    <a class="btn-link text-dark" href="#">
+                                                        <span class="far fa-trash-alt mr-2"></span>取消
+                                                    </a>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-1 col-sm-1">
-                                        <button aria-label="behance button"
-                                                class="btn btn-icon-only btn-behance center-vertical-absolute"
-                                                title="behance button" type="button"><span
-                                                aria-hidden="true" class="fab fa-behance"></span></button>
-                                    </div>
-                                    <div class="col-12">
-                                        <table class="table table-hover table-striped shadow-inset rounded">
-                                            <tr>
-                                                <th class="border-0" id="groupId" scope="col">组Id</th>
-                                                <th class="border-0" id="groupName" scope="col">组名</th>
-                                                <th class="border-0" id="memberNumber" scope="col">成员个数</th>
-                                                <th class="border-0" id="groupActions" scope="col">操作</th>
-                                            </tr>
-                                            <tr>
-                                                <td>100001</td>
-                                                <td>Tom group</td>
-                                                <td>12</td>
-                                                <td><a class="text-dark font-weight-bold mr-3" href="#"><span
-                                                        class="mr-1"><span
-                                                        class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>100003</td>
-                                                <td>Juily group</td>
-                                                <td>13</td>
-                                                <td><a class="text-dark font-weight-bold mr-3" href="#"><span
-                                                        class="mr-1"><span
-                                                        class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>1000024</td>
-                                                <td>Jack group</td>
-                                                <td>2015-02-12</td>
-                                                <td><a class="text-dark font-weight-bold mr-3" href="#"><span
-                                                        class="mr-1"><span
-                                                        class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                            </tr>
-                                        </table>
+                                </div>
+                                <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
+                                    <div class="row align-items-center">
+
+                                        <div class="col-3">
+                                            <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
+                                                <a href="#">
+                                                    <img alt="Christopher Avatar"
+                                                         class="card-img-top rounded-circle"
+                                                         src="../assets/img/team/profile-picture-4.jpg">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="col">
+                                            <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
+                                                Watch
+                                                Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
+                                            <ul class="pl-3">
+                                                <li class="small">Transport: Free transport</li>
+                                                <li class="small">Moneyback: 1 month</li>
+                                                <li class="small">Warranty: 24 months</li>
+                                            </ul>
+                                            <div class="d-flex align-items-center  btn-group-vertical">
+                                                <div class="ml-auto  mt-3">
+                                                    <a class="btn-link text-dark" href="#">
+                                                        <span class="fas fa-briefcase  mr-2"></span>催单
+                                                    </a>
+                                                </div>
+                                                <div class="ml-auto mt-3">
+                                                    <a class="btn-link text-dark" href="#">
+                                                        <span class="far fa-trash-alt mr-2"></span>取消
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
 
                         </div>
                     </div>
-                    <div aria-labelledby="nav-seller-mainOrder-tabContent" class="tab-pane fade"
-                         id="nav-seller-mainOrder-tabContent"
+                    <div aria-labelledby="nav-myVideo-tabContent" class="tab-pane fade"
+                         id="nav-myVideo-tabContent"
                          role="tabpanel">
                         <nav>
-                            <div class="nav nav-pills nav-fill flex-column flex-sm-row" id="nav-seller-order-tab"
+                            <div class="nav nav-pills nav-fill flex-column flex-sm-row"
                                  role="tablist">
-                                <a aria-controls="seller-oder1-list-tabContent" aria-selected="true"
+                                <a aria-controls="video-post-list-tabContent" aria-selected="true"
                                    class="nav-item nav-link mr-4 mr-md-3 active"
-                                   data-toggle="tab" href="#seller-oder1-list-tabContent"
-                                   id="nav-seller-oder1-list-tab" role="tab">未完成订单</a>
-                                <a aria-controls="seller-oder2-list-tabContent" aria-selected="false"
+                                   data-toggle="tab" href="#video-post-list-tabContent"
+                                   id="nav-video-post-list-tab" role="tab">已发布</a>
+                                <a aria-controls="buyer-oder2-list-tabContent" aria-selected="false"
                                    class="nav-item nav-link mr-4 mr-md-3"
-                                   data-toggle="tab" href="#seller-oder2-list-tabContent"
-                                   id="nav-seller-oder2-list-tab" role="tab">已完成</a>
-                                <a aria-controls="seller-oder3-list-tabContent" aria-selected="false"
+                                   data-toggle="tab" href="#video-private-list-tabContent"
+                                   id="nav-video-private-list-tab" role="tab">私密</a>
+                                <a aria-controls="video-trash-list-tabContent" aria-selected="false"
                                    class="nav-item nav-link mr-4 mr-md-3"
-                                   data-toggle="tab" href="#seller-oder3-list-tabContent"
-                                   id="nav-seller-oder3-list-tab" role="tab">已取消</a></div>
+                                   data-toggle="tab" href="#video-trash-list-tabContent"
+                                   id="nav-video-trash-list-tab" role="tab">垃圾箱</a>
+                            </div>
                         </nav>
-                        <div class="tab-content mt-4 mt-lg-5" id="nav-seller-order">
-                            <div aria-labelledby="seller-oder1-list-tabContent" class="tab-pane fade active show"
-                                 id="seller-oder1-list-tabContent"
+                        <div class="tab-content mt-4 mt-lg-5">
+                            <div aria-labelledby="video-post-list-tabContent" class="tab-pane fade active show"
+                                 id="video-post-list-tabContent"
                                  role="tabpanel">
                                 <div class="row">
-                                    <div class="col-12 col-md-12 col-lg-12" id="seller-oder1-list-area">
-                                        <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
-                                            <div class="row align-items-center">
-
-                                                <div class="col-3">
-                                                    <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
-                                                        <a href="#">
-                                                            <img alt="Christopher Avatar"
-                                                                 class="card-img-top rounded-circle"
-                                                                 src="../assets/img/team/profile-picture-1.jpg">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
-                                                        Watch
-                                                        Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
-                                                    <ul class="pl-3">
-                                                        <li class="small">Transport: Free transport</li>
-                                                        <li class="small">Moneyback: 1 month</li>
-                                                        <li class="small">Warranty: 24 months</li>
-                                                    </ul>
-                                                    <div class="d-flex align-items-center  btn-group-vertical">
-                                                        <div class="ml-auto  mt-2">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="far fa-money-bill-alt mr-2"></span>支付
-                                                            </a>
-                                                        </div>
-                                                        <div class="ml-auto mt-2">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="far fa-trash-alt mr-2"></span>取消
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="../pages/player.html">
+                                                    <img alt="Themesberg office"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-1.jpg">
+                                                </a>
                                             </div>
-                                        </div>
-                                        <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
-                                            <div class="row align-items-center">
-
-                                                <div class="col-3">
-                                                    <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
-                                                        <a href="#">
-                                                            <img alt="Christopher Avatar"
-                                                                 class="card-img-top rounded-circle"
-                                                                 src="../assets/img/team/profile-picture-3.jpg">
+                                            <div class="card-body  pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg">
+                                                            <small>Jo J. Moore</small>
                                                         </a>
                                                     </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
-                                                        Watch
-                                                        Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
-                                                    <ul class="pl-3">
-                                                        <li class="small">Transport: Free transport</li>
-                                                        <li class="small">Moneyback: 1 month</li>
-                                                        <li class="small">Warranty: 24 months</li>
-                                                    </ul>
-                                                    <div class="d-flex align-items-center  btn-group-vertical">
-                                                        <div class="ml-auto  mt-3">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="fas fa-headphones-alt mr-2"></span>入会
-                                                            </a>
-                                                        </div>
-                                                        <div class="ml-auto mt-3">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="far fa-trash-alt mr-2"></span>取消
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
-                                            <div class="row align-items-center">
-
-                                                <div class="col-3">
-                                                    <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
-                                                        <a href="#">
-                                                            <img alt="Christopher Avatar"
-                                                                 class="card-img-top rounded-circle"
-                                                                 src="../assets/img/team/profile-picture-2.jpg">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
-                                                        Watch
-                                                        Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
-                                                    <ul class="pl-3">
-                                                        <li class="small">Transport: Free transport</li>
-                                                        <li class="small">Moneyback: 1 month</li>
-                                                        <li class="small">Warranty: 24 months</li>
-                                                    </ul>
-                                                    <div class="d-flex align-items-center  btn-group-vertical">
-                                                        <div class="ml-auto  mt-3">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="far fa-calendar-alt mr-2"></span>延期
-                                                            </a>
-                                                        </div>
-                                                        <div class="ml-auto mt-3">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="far fa-trash-alt mr-2"></span>取消
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
-                                            <div class="row align-items-center">
-
-                                                <div class="col-3">
-                                                    <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
-                                                        <a href="#">
-                                                            <img alt="Christopher Avatar"
-                                                                 class="card-img-top rounded-circle"
-                                                                 src="../assets/img/team/profile-picture-4.jpg">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
-                                                        Watch
-                                                        Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
-                                                    <ul class="pl-3">
-                                                        <li class="small">Transport: Free transport</li>
-                                                        <li class="small">Moneyback: 1 month</li>
-                                                        <li class="small">Warranty: 24 months</li>
-                                                    </ul>
-                                                    <div class="d-flex align-items-center  btn-group-vertical">
-                                                        <div class="ml-auto  mt-3">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="fas fa-briefcase  mr-2"></span>催单
-                                                            </a>
-                                                        </div>
-                                                        <div class="ml-auto mt-3">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="far fa-trash-alt mr-2"></span>取消
-                                                            </a>
-                                                        </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="../pages/player.html">
+                                                    <img alt="Designer desk"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                                    </div>
+                                                </div>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Themesberg office"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-1.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body  pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>15 March 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Designer desk"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Themesberg office"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-1.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body  pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>15 March 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Designer desk"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="d-flex justify-content-center w-100">
@@ -1284,75 +1430,185 @@
                                     </div>
                                 </div>
                             </div>
-                            <div aria-labelledby="seller-oder2-list-tabContent" class="tab-pane fade"
-                                 id="seller-oder2-list-tabContent"
+                            <div aria-labelledby="video-private-list-tabContent" class="tab-pane fade"
+                                 id="video-private-list-tabContent"
                                  role="tabpanel">
                                 <div class="row">
-                                    <div class="col-12 col-md-12 col-lg-12" id="seller-oder2-list-area">
-                                        <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
-                                            <div class="row align-items-center">
-
-                                                <div class="col-3">
-                                                    <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
-                                                        <a href="#">
-                                                            <img alt="Christopher Avatar"
-                                                                 class="card-img-top rounded-circle"
-                                                                 src="../assets/img/team/profile-picture-6.jpg">
-                                                        </a>
-                                                    </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
-                                                        Watch
-                                                        Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
-                                                    <ul class="pl-3">
-                                                        <li class="small">Transport: Free transport</li>
-                                                        <li class="small">Moneyback: 1 month</li>
-                                                        <li class="small">Warranty: 24 months</li>
-                                                    </ul>
-                                                    <div class="d-flex align-items-center  btn-group-vertical">
-                                                        <div class="ml-auto mt-2">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="far fa-handshake mr-2"></span>评价
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="../pages/player.html">
+                                                    <img alt="Themesberg office"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
                                             </div>
-                                        </div>
-                                        <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
-                                            <div class="row align-items-center">
-
-                                                <div class="col-3">
-                                                    <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
-                                                        <a href="#">
-                                                            <img alt="Christopher Avatar"
-                                                                 class="card-img-top rounded-circle"
-                                                                 src="../assets/img/team/profile-picture-3.jpg">
+                                            <div class="card-body  pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg">
+                                                            <small>Jo J. Moore</small>
                                                         </a>
                                                     </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
-                                                        Watch
-                                                        Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
-                                                    <ul class="pl-3">
-                                                        <li class="small">Transport: Free transport</li>
-                                                        <li class="small">Moneyback: 1 month</li>
-                                                        <li class="small">Warranty: 24 months</li>
-                                                    </ul>
-                                                    <div class="d-flex align-items-center  btn-group-vertical">
-                                                        <div class="ml-auto  mt-3">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="far fa-handshake mr-2"></span>评价
-                                                            </a>
-                                                        </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="../pages/player.html">
+                                                    <img alt="Designer desk"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                                    </div>
+                                                </div>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Themesberg office"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-1.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body  pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>15 March 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Designer desk"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Themesberg office"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-1.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body  pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>15 March 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Designer desk"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="d-flex justify-content-center w-100">
@@ -1370,44 +1626,185 @@
                                     </div>
                                 </div>
                             </div>
-                            <div aria-labelledby="seller-oder3-list-tabContent" class="tab-pane fade"
-                                 id="seller-oder3-list-tabContent"
+                            <div aria-labelledby="video-trash-list-tabContent" class="tab-pane fade"
+                                 id="video-trash-list-tabContent"
                                  role="tabpanel">
                                 <div class="row">
-                                    <div class="col-12 col-md-12 col-lg-12" id="seller-oder3-list-area">
-                                        <div class="card bg-primary shadow-soft border-light px-4 py-2 mb-5">
-                                            <div class="row align-items-center">
-
-                                                <div class="col-3">
-                                                    <div class="card-profile-image bg-primary shadow-inset border border-light rounded-circle p-2 ml-3">
-                                                        <a href="#">
-                                                            <img alt="Christopher Avatar"
-                                                                 class="card-img-top rounded-circle"
-                                                                 src="../assets/img/team/profile-picture-1.jpg">
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="../pages/player.html">
+                                                    <img alt="Themesberg office"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-3.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body  pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg">
+                                                            <small>Jo J. Moore</small>
                                                         </a>
                                                     </div>
-                                                </div>
-                                                <div class="col">
-                                                    <div class="d-flex mb-2 font-weight-bold"><a class="h5" href="#">Apple
-                                                        Watch
-                                                        Series 3</a> <span class="h5 ml-auto">$199.00</span></div>
-                                                    <ul class="pl-3">
-                                                        <li class="small">Transport: Free transport</li>
-                                                        <li class="small">Moneyback: 1 month</li>
-                                                        <li class="small">Warranty: 24 months</li>
-                                                    </ul>
-                                                    <div class="d-flex align-items-center  btn-group-vertical">
-                                                        <div class="ml-auto mt-2">
-                                                            <a class="btn-link text-dark" href="#">
-                                                                <span class="far fa-trash-alt mr-2"></span>删除
-                                                            </a>
-                                                        </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="../pages/player.html">
+                                                    <img alt="Designer desk"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                                    </div>
+                                                </div>
 
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Themesberg office"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-1.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body  pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>15 March 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Designer desk"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Themesberg office"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-1.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body  pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>15 March 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-6 col-md-4 col-lg-4 mb-4">
+                                        <div class="card bg-primary border-light shadow-soft">
+                                            <div class="card-header p-3">
+                                                <a href="#">
+                                                    <img alt="Designer desk"
+                                                         class="card-img-top rounded-top"
+                                                         src="../assets/img/blog/blog-article-2.jpg">
+                                                </a>
+                                            </div>
+                                            <div class="card-body pt-2">
+                                                <div class="media d-flex align-items-center justify-content-between">
+                                                    <div class="post-group">
+                                                        <a data-original-title="23k followers" data-placement="top"
+                                                           data-toggle="tooltip" href="#"
+                                                           title="">
+                                                            <img alt="Jo portrait"
+                                                                 class="avatar-sm mr-2 img-fluid rounded-circle"
+                                                                 src="../../assets/img/team/profile-picture-2.jpg"><small>Jo
+                                                            J. Moore</small>
+                                                        </a>
+                                                    </div>
+                                                    <div class="d-flex align-items-center">
+                                                        <span class="small"><span
+                                                                class="far fa-calendar-alt mr-2"></span><small>20 July 2020</small></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="row mt-4">
                                     <div class="d-flex justify-content-center w-100">
@@ -1427,15 +1824,18 @@
                             </div>
                         </div>
                     </div>
-                    <div aria-labelledby="nav-seller-mainSettings-tabContent" class="tab-pane fade"
-                         id="nav-seller-mainSettings-tabContent"
+                    <div aria-labelledby="nav-moments-tabContent" class="tab-pane fade"
+                         id="nav-moments-tabContent"
                          role="tabpanel">
                         <div class="card bg-primary border-light shadow-soft">
                             <div class="card-header p-3">
-                                <h3 class="h5 text-center">卖家设置</h3>
+                                <h3 class="h5 text-center">动态</h3>
                             </div>
                             <div class="card-body  pt-2">
-                                <div class="input-daterange datepicker row align-items-center">
+                                <label class="form-check-label" for="pay-datepicker-range">选择时间范围
+                                </label>
+                                <div class="input-daterange datepicker row align-items-center"
+                                     id="moments-datepicker-range">
                                     <div class="col">
                                         <div class="form-group">
                                             <div class="input-group input-group-border">
@@ -1443,7 +1843,8 @@
                                                     <span class="input-group-text"><i
                                                             class="far fa-calendar-alt"></i></span>
                                                 </div>
-                                                <input class="form-control" id="start-date" placeholder="Start date"
+                                                <input class="form-control" id="moments-start-date"
+                                                       placeholder="Start date"
                                                        type="text" value="">
                                             </div>
                                         </div>
@@ -1455,42 +1856,91 @@
                                                     <span class="input-group-text"><i
                                                             class="far fa-calendar-alt"></i></span>
                                                 </div>
-                                                <input class="form-control" id="end-date" placeholder="End date"
+                                                <input class="form-control" id="moments-end-date" placeholder="End date"
                                                        type="text" value="06/22/2018">
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="row py-4">
+                                <div class="col-12">
+                                    <table class="table table-hover table-striped table-responsive-lg text-nowrap shadow-inset rounded">
+                                        <tr>
+                                            <th class="border-0" id="" scope="col">消息Id</th>
+                                            <th class="border-0" id="" scope="col">用户Id</th>
+                                            <th class="border-0" id="" scope="col">视频Id</th>
+                                            <th class="border-0" id="" scope="col">类别</th>
+                                            <th class="border-0" id="" scope="col">时间</th>
+                                            <th class="border-0" id="" scope="col">操作</th>
+                                        </tr>
+                                        <tr>
+                                            <td>100001</td>
+                                            <td>100002</td>
+                                            <td>100003</td>
+                                            <td>视频评论</td>
+                                            <td>2021-04-03</td>
+                                            <td><a class="text-dark font-weight-bold mr-3" href="#"><span
+                                                    class="mr-1"><span
+                                                    class="far fa-trash-alt mr-2"></span></span>删除</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>100004</td>
+                                            <td>100005</td>
+                                            <td>100006</td>
+                                            <td>视频点赞</td>
+                                            <td>2021-04-03</td>
+                                            <td><a class="text-dark font-weight-bold mr-3" href="#"><span
+                                                    class="mr-1"><span
+                                                    class="far fa-trash-alt mr-2"></span></span>删除</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div aria-labelledby="nav-myFollower-tabContent" class="tab-pane fade"
+                         id="nav-myFollower-tabContent"
+                         role="tabpanel">
+                        <div class="card bg-primary border-light shadow-soft">
+                            <div class="card-header p-3">
+                                <h3 class="h5 text-center">我的粉丝</h3>
+                            </div>
+                            <div class="card-body  pt-2">
+                                <label class="form-check-label" for="pay-account-info">当前账户
+                                </label>
+                                <div class="row border-bottom border-light" id="pay-account-info">
                                     <div class="col-12 col-sm-4 col-lg-4 text-center">
-                                        <div class="icon-box mb-4">
+                                        <div class="icon-box mb-2">
                                             <div class="icon icon-shape shadow-soft border border-light rounded-circle mb-4">
                                                 <span class="far fa-smile-beam"></span></div>
-                                            <h3 class="h5">累计服务计时</h3><span
-                                                class="counter display-3 text-gray d-block">500</span></div>
+                                            <h3 class="h6">总关注人数</h3><span
+                                                class="counter display-4 text-gray d-block">500</span></div>
                                     </div>
                                     <div class="col-12 col-sm-4 col-lg-4 text-center">
-                                        <div class="icon-box mb-4">
+                                        <div class="icon-box mb-2">
                                             <div class="icon icon-shape shadow-soft border border-light rounded-circle mb-4">
                                                 <span class="far fa-eye"></span></div>
-                                            <h3 class="h5">累计收入</h3><span
-                                                class="counter display-3 text-gray d-block">2400</span></div>
+                                            <h3 class="h6">消费等级</h3><span
+                                                class="counter display-4 text-gray d-block">2400</span></div>
                                     </div>
                                     <div class="col-12 col-sm-4 col-lg-4 text-center">
-                                        <div class="icon-box mb-4">
+                                        <div class="icon-box mb-2">
                                             <div class="icon icon-shape shadow-soft border border-light rounded-circle mb-4">
                                                 <span class="fas fa-globe-europe"></span></div>
-                                            <h3 class="h5">累计服务对象</h3><span
-                                                class="counter display-3 text-gray d-block">80</span></div>
+                                            <h3 class="h6">累计消费</h3><span
+                                                class="counter display-4 text-gray d-block">80</span></div>
                                     </div>
                                 </div>
-                                <div class="row  border-top border-light py-1">
+                                <div class="row  border-top border-light py-1 w-100">
                                     <div class="col-lg-3 col-sm-3">
                                         <div class="custom-control custom-switch center-vertical-absolute"><input
                                                 class="custom-control-input"
                                                 id="customSwitch1"
                                                 type="checkbox"> <label
-                                                class="custom-control-label" for="customSwitch1">开启/关闭</label></div>
+                                                class="custom-control-label text-nowrap"
+                                                for="customSwitch1">允许被关注</label></div>
 
                                     </div>
                                     <div class="col-lg-8 col-sm-8">
@@ -1533,115 +1983,237 @@
                                     </div>
 
                                 </div>
-                                <div class="row border-top border-light py-4">
-                                    <div class="col-lg-3 col-sm-3 mt-4 mt-md-0">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="customSwitch2"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="customSwitch2" title="非工作日包括周六、周日和法定节假日">工作日接单</label></div>
+                                <div class="row border-top border-light py-1 w-100">
+                                    <table class="table table-hover table-striped table-responsive-lg text-nowrap shadow-inset rounded">
+                                        <tr>
+                                            <th class="border-0" id="1" scope="col">用户Id</th>
+                                            <th class="border-0" id="2" scope="col">用户名</th>
+                                            <th class="border-0" id="3" scope="col">关注时间</th>
+                                            <th class="border-0" id="4" scope="col">操作</th>
+                                        </tr>
+                                        <tr>
+                                            <td>100001</td>
+                                            <td>Tom</td>
+                                            <td>2020-12-13</td>
+                                            <td><a class="text-dark font-weight-bold mr-3" href="#"><span
+                                                    class="mr-1"><span
+                                                    class="far fa-trash-alt mr-2"></span></span>删除</a></td>
+                                        </tr>
+                                        <tr>
+                                            <td>100002</td>
+                                            <td>Jack</td>
+                                            <td>2020-12-13</td>
+                                            <td><a class="text-dark font-weight-bold mr-3" href="#"><span
+                                                    class="mr-1"><span
+                                                    class="far fa-trash-alt mr-2"></span></span>删除</a></td>
+                                        </tr>
+                                    </table>
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                    <div aria-labelledby="nav-myInfo-tabContent" class="tab-pane fade"
+                         id="nav-myInfo-tabContent"
+                         role="tabpanel">
+                        <div class="card bg-primary border-light shadow-soft">
+                            <div class="card-header p-3">
+                                <h3 class="h5 text-center">我的信息</h3>
+                            </div>
+                            <div class="card-body  pt-2">
+                                <div class="row  border-top border-light py-2 w-100">
+                                    <div class="col-4">
+                                        <span class="h6 font-weight-bold">UserId:1231231112</span>
                                     </div>
-                                    <div class="col-lg-8 col-sm-8">
-                                        <div class="row">
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck1"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck1">星期一</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck2"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck2">星期二</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck3"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck3">星期三</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck4"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck4">星期四</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck5"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck5">星期五</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck6"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck6">星期六</label></div>
-                                            </div>
-                                            <div class="col-md-3">
-                                                <div class="form-check"><input class="form-check-input" id="cartCheck7"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="cartCheck7">星期日</label></div>
-                                            </div>
+                                    <div class="col-4">
+                                        <span class="h6 font-weight-bold">上次登录时间:2021-12-12</span>
+                                    </div>
+                                    <div class="col-4">
+                                        <span class="h6 font-weight-bold">上次登录IP:177.202.121</span>
+                                    </div>
+                                </div>
+                                <div class="row  border-top border-light py-1 w-100">
+                                    <div class="col-3 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="nickName">昵称</label>
+                                            <input aria-describedby="cartInputEmail3" class="form-control"
+                                                   id="nickName" placeholder="Tomc"
+                                                   required="" type="email">
                                         </div>
                                     </div>
-                                    <div class="col-lg-1 col-sm-1">
+                                    <div class="col-3 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="phoneNumber">手机号码</label>
+                                            <input aria-describedby="cartInputEmail3" class="form-control"
+                                                   id="phoneNumber" placeholder="Tomc"
+                                                   required="" type="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-3 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="emailAdress">邮箱</label>
+                                            <input aria-describedby="cartInputEmail3" class="form-control"
+                                                   id="emailAdress" placeholder="Tomc"
+                                                   required="" type="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-2 w-100">
                                         <button aria-label="behance button"
                                                 class="btn btn-icon-only btn-behance center-vertical-absolute"
                                                 title="behance button" type="button"><span
                                                 aria-hidden="true" class="fab fa-behance"></span></button>
                                     </div>
                                 </div>
-                                <div class="row border-top border-light py-4">
-                                    <div class="col-lg-4 col-sm-4">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="customSwitch3"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="customSwitch3"
-                                                title="要求近100单满足履约率≥90%,延期率≤10%,好评率≥80%">自动接单</label></div>
+                                <div class="row  border-top border-light py-1 w-100">
+                                    <div class="col-3 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="userName">姓名</label>
+                                            <input aria-describedby="cartInputEmail3" class="form-control"
+                                                   id="userName" placeholder="Tomc"
+                                                   required="" type="email">
+                                        </div>
                                     </div>
-                                    <div class="col-lg-8 col-sm-8">
-                                        <p class="text-danger mb-0">您的近100单的履约率为85%,延期率30%，好评率60%，皆不符合开启自动接单要求.</p>
+                                    <div class="col-3 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="gender">性别</label>
+                                            <select class="custom-select my-1 mr-sm-2" id="gender">
+                                                <option selected value="1">男</option>
+                                                <option value="2">女</option>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="row  border-top border-light py-1">
-                                    <div class="col-lg-3 col-sm-3">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="customSwitch5"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="customSwitch5" title="开启竞拍后,半小时单价按已选择范围的下限计费">开启竞拍</label></div>
-                                    </div>
-                                    <div class="col-lg-8 col-sm-8">
-
-                                        <label for="input-slider-range">每半小时单价</label>
-                                        <!-- Range slider container -->
-
-                                        <div data-range-value-max="999.99" data-range-value-min="00.00"
-                                             id="input-slider-range"></div>
-                                        <!-- Range slider values -->
-                                        <div class="row d-none">
-                                            <div class="col-6">
-                                                <span class="range-slider-value value-high" data-placement="bottom"
-                                                      data-range-value-low="00.0"
-                                                      id="input-slider-range-value-low"></span>
-                                            </div>
-                                            <div class="col-6 text-right">
-                                                <span class="range-slider-value value-low" data-placement="bottom"
-                                                      data-range-value-high="100.00"
-                                                      id="input-slider-range-value-high"></span>
+                                    <div class="col-3 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="birthDay">出生年月</label>
+                                            <div class="form-group" id="birthDay">
+                                                <div class="input-group input-group-border">
+                                                    <div class="input-group-prepend">
+                                                        <span class="input-group-text"><i
+                                                                class="far fa-calendar-alt"></i></span>
+                                                    </div>
+                                                    <input class="form-control datepicker" placeholder="Select date"
+                                                           type="text" value="06/20/2018">
+                                                </div>
                                             </div>
                                         </div>
-                                        <!-- End of range slider values -->
                                     </div>
-                                    <div class="col-lg-1 col-sm-1">
+                                    <div class="col-3 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="gender">性别</label>
+                                            <input aria-describedby="cartInputEmail3" class="form-control"
+                                                   id="gender" placeholder="Tomc"
+                                                   required="" type="email">
+                                        </div>
+                                    </div>
+                                    <div class="col-3 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="address_country"></label>
+                                            <select class="custom-select my-1 mr-sm-2" disabled id="address_country">
+                                                <option selected value="1">中国</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="address_province"></label>
+                                            <select class="custom-select my-1 mr-sm-2" id="address_province">
+                                                <option selected value="1">安徽省</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="address_city"></label>
+                                            <select class="custom-select my-1 mr-sm-2" id="address_city">
+                                                <option selected value="1">合肥市</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-1 w-100">
                                         <button aria-label="behance button"
                                                 class="btn btn-icon-only btn-behance center-vertical-absolute"
                                                 title="behance button" type="button"><span
                                                 aria-hidden="true" class="fab fa-behance"></span></button>
                                     </div>
                                 </div>
-                                <div class="row  border-top border-light py-1">
-                                    <div class="col-lg-11 col-sm-11">
+                                <div class="row  border-top border-light py-1 w-100">
+                                    <div class="col-4 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="good1">擅长领域1</label>
+                                            <select class="custom-select my-1 mr-sm-2" id="good1">
+                                                <option selected value="1">安徽省</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="address_city"></label>
+                                            <select class="custom-select my-1 mr-sm-2" id="">
+                                                <option selected value="1">合肥市</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="address_city"></label>
+                                            <select class="custom-select my-1 mr-sm-2" id="">
+                                                <option selected value="1">合肥市</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-4 w-100" id="good2">
+                                        <div class="form-group mb-4">
+                                            <label for="good1">擅长领域2</label>
+                                            <select class="custom-select my-1 mr-sm-2" id="good2">
+                                                <option selected value="1">安徽省</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="address_city"></label>
+                                            <select class="custom-select my-1 mr-sm-2" id="">
+                                                <option selected value="1">合肥市</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="address_city"></label>
+                                            <select class="custom-select my-1 mr-sm-2" id="">
+                                                <option selected value="1">合肥市</option>
+                                            </select>
+                                        </div>
+                                    </div>
+
+
+                                    <div class="col-4 w-100" id="good3">
+                                        <div class="form-group mb-4">
+                                            <label for="good1">擅长领域3</label>
+                                            <select class="custom-select my-1 mr-sm-2" id="good3">
+                                                <option selected value="1">安徽省</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="address_city"></label>
+                                            <select class="custom-select my-1 mr-sm-2" id="">
+                                                <option selected value="1">合肥市</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-4 w-100">
+                                        <div class="form-group mb-4">
+                                            <label for="address_city"></label>
+                                            <select class="custom-select my-1 mr-sm-2" id="">
+                                                <option selected value="1">合肥市</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-11 w-100">
                                         <div class="row  justify-content-center">
                                             <div class="form-group w-95 justify-content-center">
                                                 <label for="exampleFormControlTextarea1">提示</label>
@@ -1659,64 +2231,29 @@
 
                                         </div>
                                     </div>
-
-                                    <div class="col-lg-1 col-sm-1">
+                                    <div class="col-1 w-100">
                                         <button aria-label="behance button"
                                                 class="btn btn-icon-only btn-behance center-vertical-absolute"
                                                 title="behance button" type="button"><span
                                                 aria-hidden="true" class="fab fa-behance"></span></button>
                                     </div>
                                 </div>
-                                <div class="row  border-top border-light py-1">
-                                    <div class="col-lg-3 col-sm-3">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="customSwitch4"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="customSwitch4"
-                                                for="customSwitch5" title="客户预约需要输入密码(客户需在有效预约用户范围内)">私密接单</label></div>
-                                    </div>
-                                    <div class="col-lg-8 col-sm-8 mt-4 mt-md-0">
-                                        <div class="form-group center-vertical-absolute">
-                                            <div class="input-group w-100">
-                                                <div class="input-group-prepend"><span class="input-group-text"><span
-                                                        class="fas fa-unlock-alt"></span></span></div>
-                                                <input aria-label="Password"
-                                                       class="form-control"
-                                                       id="exampleInputPassword1"
-                                                       placeholder="Password"
-                                                       type="password">
-
-                                            </div>
+                                <div class="row  border-top border-light py-1 w-100">
+                                    <div class="col-5">
+                                        <div class="form-group focused"><label for="validationServer01">修改密码</label>
+                                            <input class="form-control is-valid" id="validationServer01"
+                                                   required="" type="text" value="Mark">
+                                            <div class="valid-feedback">Looks good!</div>
                                         </div>
                                     </div>
-                                    <div class="col-lg-1 col-sm-1">
-                                        <button aria-label="behance button"
-                                                class="btn btn-icon-only btn-behance center-vertical-absolute"
-                                                title="behance button" type="button"><span
-                                                aria-hidden="true" class="fab fa-behance"></span></button>
-                                    </div>
-                                </div>
-                                <div class="row border-top border-light py-4">
-                                    <div class="col-lg-3 col-sm-3">
-                                        <div class="custom-control custom-switch center-vertical-absolute"><input
-                                                class="custom-control-input"
-                                                id="groupSwith"
-                                                type="checkbox"> <label
-                                                class="custom-control-label" data-placement="top" data-toggle="tooltip"
-                                                for="groupSwith"
-                                                title="开启后只为选定的组内成员服务">开启专属组</label></div>
-                                    </div>
-                                    <div class="col-lg-8 col-sm-8">
-                                        <div class="form-group">
-                                            <label class="my-1 mr-2" for="inlineFormCustomSelectPref">选择已加入的组</label>
-                                            <select class="custom-select my-1 mr-sm-2" id="inlineFormCustomSelectPref">
-                                                <option selected>Choose...</option>
-                                                <option value="1">United States</option>
-                                                <option value="2">Germany</option>
-                                                <option value="3">Canada</option>
-                                            </select>
+                                    <div class="col-5">
+                                        <div class="form-group mb-4"><label
+                                                for="validationServerUsername">再次输入</label> <input
+                                                class="form-control is-invalid"
+                                                id="validationServerUsername"
+                                                required=""
+                                                type="text">
+                                            <div class="invalid-feedback">Please choose a username.</div>
                                         </div>
                                     </div>
                                     <div class="col-lg-1 col-sm-1">
@@ -1725,135 +2262,21 @@
                                                 title="behance button" type="button"><span
                                                 aria-hidden="true" class="fab fa-behance"></span></button>
                                     </div>
-                                    <div class="col-12">
-                                        <table class="table table-hover table-striped shadow-inset rounded">
-                                            <tr>
-                                                <th class="border-0" id="groupId" scope="col">组Id</th>
-                                                <th class="border-0" id="groupName" scope="col">组名</th>
-                                                <th class="border-0" id="memberNumber" scope="col">成员个数</th>
-                                                <th class="border-0" id="groupActions" scope="col">操作</th>
-                                            </tr>
-                                            <tr>
-                                                <td>100001</td>
-                                                <td>Tom group</td>
-                                                <td>12</td>
-                                                <td><a class="text-dark font-weight-bold mr-3" href="#"><span
-                                                        class="mr-1"><span
-                                                        class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>100003</td>
-                                                <td>Juily group</td>
-                                                <td>13</td>
-                                                <td><a class="text-dark font-weight-bold mr-3" href="#"><span
-                                                        class="mr-1"><span
-                                                        class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                            </tr>
-                                            <tr>
-                                                <td>1000024</td>
-                                                <td>Jack group</td>
-                                                <td>2015-02-12</td>
-                                                <td><a class="text-dark font-weight-bold mr-3" href="#"><span
-                                                        class="mr-1"><span
-                                                        class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                            </tr>
-                                        </table>
-                                    </div>
                                 </div>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div aria-labelledby="nav-seller-blacklist-tabContent" class="tab-pane fade"
-                         id="nav-seller-blacklist-tabContent"
-                         role="tabpanel">
-                        <div class="card bg-primary border-light shadow-soft">
-                            <div class="card-header p-3">
-                                <h3 class="h5 text-center">黑名单设置</h3>
-                            </div>
-                            <div class="card-body border-top border-light pt-2">
-                                <table class="table table-hover table-striped shadow-inset rounded">
-                                    <tr>
-                                        <th class="border-0" id="userId" scope="col">用户Id</th>
-                                        <th class="border-0" id="userName" scope="col">用户名</th>
-                                        <th class="border-0" id="blackDate" scope="col">拉黑日期</th>
-                                        <th class="border-0" id="actions" scope="col">操作</th>
-                                    </tr>
-                                    <tr>
-                                        <td>100001</td>
-                                        <td>Tom</td>
-                                        <td>2012-02-03</td>
-                                        <td><a class="text-dark font-weight-bold mr-3" href="#"><span class="mr-1"><span
-                                                class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>100003</td>
-                                        <td>Juily</td>
-                                        <td>2014-03-03</td>
-                                        <td><a class="text-dark font-weight-bold mr-3" href="#"><span class="mr-1"><span
-                                                class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                    </tr>
-                                    <tr>
-                                        <td>100007</td>
-                                        <td>Jack</td>
-                                        <td>2015-02-12</td>
-                                        <td><a class="text-dark font-weight-bold mr-3" href="#"><span class="mr-1"><span
-                                                class="far fa-trash-alt mr-2"></span></span>删除</a></td>
-                                    </tr>
-                                </table>
-                            </div>
-
-                        </div>
-                    </div>
-                    <div aria-labelledby="nav-schedule-tabContent" class="tab-pane fade"
-                         id="nav-schedule-tabContent"
-                         role="tabpanel">
-                        <div class="card bg-primary border-light shadow-soft">
-                            <div class="card-header p-3">
-                                <h3 class="h5 text-center">日程中心</h3>
-                            </div>
-                            <div class="card-body border-top border-light pt-2">
-                                <div class="row py-4">
-                                    <div class="col-lg-6 col-sm-6">
-                                        <div class="input-daterange datepicker row align-items-center">
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <div class="input-group input-group-border">
-                                                        <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i
-                                                            class="far fa-calendar-alt"></i></span>
-                                                        </div>
-                                                        <input class="form-control" id="schedule-start-date" placeholder="Start date"
-                                                               type="text" value="">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="col">
-                                                <div class="form-group">
-                                                    <div class="input-group input-group-border">
-                                                        <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i
-                                                            class="far fa-calendar-alt"></i></span>
-                                                        </div>
-                                                        <input class="form-control" id="schedule-end-date" placeholder="End date"
-                                                               type="text" value="06/22/2018">
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                <div class="row  border-top border-light py-1 w-100">
+                                    <div class="col-5">
+                                        <div class="custom-file"><input aria-label="File upload" class="custom-file-input"
+                                                                        id="customFile" type="file"> <label
+                                                class="custom-file-label" for="customFile">Choose file</label></div>
                                     </div>
-                                    <div class="col-lg-5 col-sm-4">
-                                        <div class="row center-vertical-absolute">
-                                            <div class="col-md-6">
-                                                <div class="form-check"><input class="form-check-input" id="schedule-buyer"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="schedule-buyer">作为买家</label></div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <div class="form-check"><input class="form-check-input" id="schedule-seller"
-                                                                               type="checkbox" value=""> <label
-                                                        class="form-check-label" for="schedule-seller">作为卖家</label></div>
-                                            </div>
+                                    <div class="col-5">
+                                        <div class="form-group mb-4"><label
+                                                for="validationServerUsername">再次输入</label> <input
+                                                class="form-control is-invalid"
+                                                id="validationServerUsername"
+                                                required=""
+                                                type="text">
+                                            <div class="invalid-feedback">Please choose a username.</div>
                                         </div>
                                     </div>
                                     <div class="col-lg-1 col-sm-1">
@@ -1862,65 +2285,8 @@
                                                 title="behance button" type="button"><span
                                                 aria-hidden="true" class="fab fa-behance"></span></button>
                                     </div>
-                                    <div class="col-12 mt-4">
-                                        <table class="table table-hover table-striped shadow-inset rounded">
-                                            <tr>
-                                                <th class="border-0" cope="col">订单Id</th>
-                                                <th class="border-0" cope="col">时间</th>
-                                                <th class="border-0" scope="col">对象</th>
-                                                <th class="border-0" scope="col">费用</th>
-                                                <th class="border-0" scope="col">操作</th>
-                                            </tr>
-                                            <tr>
-                                                <td>100023</td>
-                                                <td>08:00-09:00</td>
-                                                <td>Seller:Tom</td>
-                                                <td>12￥</td>
-                                                <td class="btn-group-vertical">
-                                                    <a class="text-dark font-weight-bold mr-3" href="#"><span class="mr-1"><span class="far fa-trash-alt mr-2"></span></span>取消</a>
-                                                    <a class="text-dark font-weight-bold mr-3" href="#"><span class="mr-1"><span class="fas fa-external-link-alt mr-2"></span></span>进入</a>
-                                                </td>
-                                            </tr>
-                                            <tr>
-                                                <td>100025</td>
-                                                <td>14:00-16:00</td>
-                                                <td>Buyer:Tom</td>
-                                                <td>12￥</td>
-                                                <td class="btn-group-vertical">
-                                                    <a class="text-dark font-weight-bold mr-3" href="#"><span class="mr-1"><span class="far fa-trash-alt mr-2"></span></span>取消</a>
-                                                    <a class="text-dark font-weight-bold mr-3" href="#"><span class="mr-1"><span class="fas fa-external-link-alt mr-2"></span></span>进入</a>
-                                                </td>
-                                            </tr>
-                                        </table>
-                                    </div>
-                                    <div class="col-12">
-                                        <div class="my-4 d-none d-lg-block">
-                                            <div class="progress-wrapper">
-                                                <div class="progress-info">
-                                                    <div class="progress-label"><span class="text-gray">排期率</span>
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <div aria-valuemax="100" aria-valuemin="0"
-                                                         aria-valuenow="90" class="progress-bar bg-danger"
-                                                         role="progressbar"></div>
-                                                </div>
-                                            </div>
-                                            <div class="progress-wrapper">
-                                                <div class="progress-info">
-                                                    <div class="progress-label"><span class="text-gray">繁忙度</span>
-                                                    </div>
-                                                </div>
-                                                <div class="progress">
-                                                    <div aria-valuemax="100" aria-valuemin="0"
-                                                         aria-valuenow="80" class="progress-bar bg-secondary"
-                                                         role="progressbar"
-                                                         ></div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
+
                             </div>
 
                         </div>

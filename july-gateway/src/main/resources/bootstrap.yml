@@ -1,14 +1,14 @@
 spring:
-#  application:
-#    name: blog-gateway
-#  cloud:
-#    nacos:
-#      discovery:
-#        server-addr: @nacos-nginx-url@ #Nacos服务注册中心地址
-#        group: @nacos-group@
-#      config:
-#        server-addr: @nacos-nginx-url@ # Nacos服务地址
-#        file-extension: yaml # 配置格式
+  application:
+    name: blog-gateway
+  cloud:
+    nacos:
+      discovery:
+        server-addr: @nacos-nginx-url@ #Nacos服务注册中心地址
+        group: @nacos-group@
+      config:
+        server-addr: @nacos-nginx-url@ # Nacos服务地址
+        file-extension: yaml # 配置格式
 
 
   profiles:

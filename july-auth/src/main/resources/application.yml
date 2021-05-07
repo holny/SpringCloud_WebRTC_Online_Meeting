@@ -3,7 +3,7 @@ server:
 
 spring:
   profiles: dev
-  datasource:
+  datasource-oauth:
     # 导入Druid jar后直接这里设置数据源type为druid就行(注意底层实现还是JDBC)
     type: com.alibaba.druid.pool.DruidDataSource
     #fiters一定要放在datasource下，如果放到druid下，SQL监控不生效
@@ -11,9 +11,75 @@ spring:
     druid:
       driver-class-name: com.mysql.cj.jdbc.Driver
       # 基本属性
-      url: jdbc:mysql://@mysql-url@/@mysql-oauth-table@?characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
-      username: @mysql-oauth-name@
-      password: @mysql-oauth-password@
+      url: jdbc:mysql://@mysql-url@/@mysql-oauth-db@?characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: @mysql-oauth-db-account@
+      password: @mysql-oauth-db-password@
+      #   配置监控统计拦截的filters，去掉后监控界面sql无法统计,log4j:日志记录，'wall'用于防火墙,防御sql注入
+      # 如果报错ClassNotFoundException: org.apache.log4j.Priority, 则导入Log4j依赖即可，
+      # 监控统计拦截的filters
+      filters:
+        stat:
+          enabled: true
+        wall:
+          enabled: true
+        log4j2:
+          enabled: true
+      # 连接池的配置信息:配置初始化大小/最小/最大
+      initial-size: 5
+      min-idle: 5
+      max-active: 20
+      # 获取连接等待超时时间
+      max-wait: 60000
+      # 间隔多久进行一次检测，检测需要关闭的空闲连接,单位是毫秒,既作为检测的间隔时间又作为testWhileIdel执行的依据
+      time-between-eviction-runs-millis: 60000
+      #一个连接在池中最小生存的时间,单位是毫秒,销毁线程时检测当前连接的最后活动时间和当前时间差大于该值时，关闭当前连接
+      min-evictable-idle-time-millis: 300000
+      # 验证库是否正常sql
+      # mysql中为 select 'x'
+      # oracle中为 select 1 from dual
+      validation-query: SELECT 'x'
+      # 空闲时验证，防止连接断开,申请连接的时候检测，如果空闲时间大于timeBetweenEvictionRunsMillis，执行validationQuery检测连接是否有效。
+      test-while-idle: true
+      # 申请连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-borrow: false
+      # 归还连接时会执行validationQuery检测连接是否有效,开启会降低性能,默认为true
+      test-on-return: false
+      #打开PSCache，并指定每个连接上PSCache的大小。oracle设为true，mysql设为false。分库分表较多推荐设置为false
+      pool-prepared-statements: true
+      # 当值大于0时poolPreparedStatements会自动修改为true
+      max-pool-prepared-statement-per-connection-size: 20
+      # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
+      connect-properties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+      # Druid WebStatFilter配置
+      web-stat-filter:
+        enabled: true
+        url-pattern: /*
+        exclusions: '*.gif,*.png,*.jpg,*.html,*.js,*.css,*.ico,/druid/*'
+      # Druid StatViewServlet配置
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        #是否可以重置
+        reset-enable: true
+        login-username: admin
+        login-password: admin
+      filter:
+        slf4j:
+          enabled: true
+          statement-create-after-log-enabled: false
+          statement-close-after-log-enabled: false
+          result-set-open-after-log-enabled: false
+  datasource-biz:
+    # 导入Druid jar后直接这里设置数据源type为druid就行(注意底层实现还是JDBC)
+    type: com.alibaba.druid.pool.DruidDataSource
+    #fiters一定要放在datasource下，如果放到druid下，SQL监控不生效
+    #druid相关配置
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      # 基本属性
+      url: jdbc:mysql://@mysql-url@/@mysql-biz-db@?characterEncoding=utf-8&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+      username: @mysql-biz-db-account@
+      password: @mysql-biz-db-password@
       #   配置监控统计拦截的filters，去掉后监控界面sql无法统计,log4j:日志记录，'wall'用于防火墙,防御sql注入
       # 如果报错ClassNotFoundException: org.apache.log4j.Priority, 则导入Log4j依赖即可，
       # 监控统计拦截的filters
@@ -110,3 +176,6 @@ feign:
 #  config: classpath:log4j2.xml
 #  file:
 #    path: mylogs/
+rsa:
+  key:
+    publicKeyFilePath: "/certificate/july-pubkey_0317_pure.txt"

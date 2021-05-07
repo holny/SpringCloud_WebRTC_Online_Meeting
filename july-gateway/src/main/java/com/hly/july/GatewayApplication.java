@@ -10,7 +10,7 @@ import org.springframework.web.reactive.config.EnableWebFlux;
  * @date 2021/3/11 20:24
  */
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 public class GatewayApplication {
     public static void main(String[] args) {
         SpringApplication.run(GatewayApplication.class, args);

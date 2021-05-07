@@ -659,9 +659,9 @@ pre code {
     }
 }
 
-@media (min-width: 768px) {
+@media (min-width: 778px) {
     .container {
-        max-width: 720px;
+        max-width: 740px;
     }
 }
 
@@ -5654,9 +5654,9 @@ input[type="button"].btn-block {
     border-radius: 50%;
 }
 
-.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {
-    background-image: "Font Awesome 5 Free";
-}
+/*.custom-checkbox .custom-control-input:checked ~ .custom-control-label::after {*/
+/*    background-image: "Font Awesome 5 Free";*/
+/*}*/
 
 .custom-checkbox .custom-control-input:indeterminate ~ .custom-control-label::before {
     border-color: #e6e7ee;
@@ -16931,7 +16931,7 @@ a.text-slack:hover, a.text-slack:focus {
   h3 {
         page-break-after: avoid;
     }
-  @    page {
+  @page {
         size: a3;
     }
 

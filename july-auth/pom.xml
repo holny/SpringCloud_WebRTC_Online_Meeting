@@ -10,6 +10,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>july-auth</artifactId>
+    <properties>
+        <mysql-oauth-db>july_oauth2</mysql-oauth-db>
+        <mysql-oauth-db-account>july_oauth2</mysql-oauth-db-account>
+        <mysql-oauth-db-password>auth4321july</mysql-oauth-db-password>
+    </properties>
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -58,21 +63,7 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-openfeign</artifactId>
         </dependency>
-        <!-- mysql -->
-        <dependency>
-            <groupId>mysql</groupId>
-            <artifactId>mysql-connector-java</artifactId>
-        </dependency>
-        <!-- druid -->
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>druid-spring-boot-starter</artifactId>
-        </dependency>
-        <!-- mybatis-plus -->
-        <dependency>
-            <groupId>com.baomidou</groupId>
-            <artifactId>mybatis-plus-boot-starter</artifactId>
-        </dependency>
+
 <!--        &lt;!&ndash; 引入log4j2依赖 &ndash;&gt;-->
 <!--        &lt;!&ndash; https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 &ndash;&gt;-->
 <!--        <dependency>-->
@@ -89,6 +80,10 @@
         <dependency>
             <groupId>com.hly.july</groupId>
             <artifactId>common-auth</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hly.july</groupId>
+            <artifactId>common-mybatis</artifactId>
         </dependency>
         <!--日常通用jar包配置-->
         <dependency>

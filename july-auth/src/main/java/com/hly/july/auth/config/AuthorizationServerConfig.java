@@ -4,6 +4,7 @@ package com.hly.july.auth.config;
 import com.hly.july.auth.service.JdbcClientDetailsServiceImpl;
 import com.hly.july.auth.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
@@ -43,6 +44,7 @@ import java.util.*;
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Autowired
+    @Qualifier("oauthDataSource")
     private DataSource dataSource;
 
 
