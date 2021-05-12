@@ -27,23 +27,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception {
         return super.authenticationManagerBean();
     }
-    //安全拦截机制(最重要)
+
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 //            http
 //                .authorizeRequests()
 //                .antMatchers("/**").permitAll()
 //                .and().csrf().disable();
+        http.csrf().disable();
+        http
+                .requestMatchers().antMatchers("/oauth/**","/login/**","/logout/**")
+                .and()
+                .authorizeRequests()
+                .antMatchers("/oauth/**").authenticated()
+                .and()
+                .formLogin().permitAll(); //新增login form支持用户登录及授权
 //        http.authorizeRequests()
 //                .antMatchers("/login", "/oauth/authorize").permitAll()
 //                .anyRequest().authenticated().and().csrf().disable();
-        http.csrf().disable()
-                .authorizeRequests()
-                .antMatchers("/r/r1").hasAnyAuthority("p1")
-                .antMatchers("/login*").permitAll()
-                .anyRequest().authenticated()
-                .and()
-                .formLogin();
+//        http.csrf().disable()
+//                .authorizeRequests()
+//                .antMatchers("/auth/userAuth").permitAll()
+//                .anyRequest().authenticated();
+//                .authorizeRequests()
+//                .antMatchers("/*").hasAnyAuthority("create")
+//                .anyRequest().authenticated()
+//                .and()
+//                .formLogin();
 //        http
 //                .authorizeRequests().requestMatchers(EndpointRequest.toAnyEndpoint()).permitAll()
 //                .and()

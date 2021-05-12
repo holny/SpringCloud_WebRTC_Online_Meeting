@@ -61,7 +61,7 @@
         </dependency>
         <dependency>
             <groupId>com.hly.july</groupId>
-            <artifactId>common-mybatis</artifactId>
+            <artifactId>common-db</artifactId>
         </dependency>
         <!-- SpringBoot整合Web组件 -->
         <dependency>
@@ -72,7 +72,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
         </dependency>
-
 
         <!-- 引入log4j2依赖 -->
         <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
@@ -115,6 +114,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <fork>true</fork>
                     <addResources>true</addResources>

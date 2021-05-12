@@ -47,7 +47,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
     @Qualifier("oauthDataSource")
     private DataSource dataSource;
 
-
+    @Autowired
     private AuthenticationManager authenticationManager;
 
     @Autowired
@@ -58,7 +58,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
 
     /**
-     *
+     * 方法限制客户端访问认证接口的权限。
      * @param security
      * @throws Exception
      */
@@ -67,9 +67,9 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         security
                 //tokenkey这个endpoint当使用JwtToken且使用非对称加密时，资源服务用于获取公钥而开放的，这里指这个 endpoint完全公开。
                 .tokenKeyAccess("permitAll()") // /oauth/token_key 安全配置
-                //checkToken这个endpoint完全公开
+                //checkToken这个endpoint完全公开,or isAuthenticated()
                 .checkTokenAccess("permitAll()") // /oauth/check_token 安全配置
-                //允许表单认证
+                //允许表单认证,允许客户端访问 OAuth2 授权接口，否则请求 token 会返回 401。
                 .allowFormAuthenticationForClients();
     }
 

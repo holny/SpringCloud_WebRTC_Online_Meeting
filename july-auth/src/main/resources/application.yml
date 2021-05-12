@@ -158,6 +158,38 @@ spring:
       seata:
         # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
         tx-service-group: @seata-tx-group@
+  redis:
+    host: @redis-url@
+    port: @redis-port@
+    password: @redis-password@
+    # 连接超时时间（毫秒）
+    timeout: 30000
+    # Redis默认情况下有16个分片，这里配置具体使用的分片，默认是0
+    database: 0
+    lettuce:
+      pool:
+        # 连接池最大连接数(使用负值表示没有限制) 默认为8
+        max-active: 8
+        # 连接池最大阻塞等待时间(使用负值表示没有限制) 默认为-1
+        max-wait: -1ms
+        # 连接池中的最大空闲连接 默认为8
+        max-idle: 8
+        # 连接池中的最小空闲连接 默认为 0
+        min-idle: 0
+mybatis-plus:
+  #mapper-locations: classpath:mybatis/**/*Mapper.xml
+  # 在classpath前添加星号可以使项目热加载成功
+  mapper-locations:
+    - classpath:/mapper/*.mapper
+  configuration:
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用 or :org.apache.ibatis.logging.log4j2.Log4j2Impl
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+    cache-enabled: false
+    map-underscore-to-camel-case: true
+  global-config:
+    db-config:
+      logic-delete-value: 0
+      logic-not-delete-value: 1
 seata:
   config:
     type: nacos

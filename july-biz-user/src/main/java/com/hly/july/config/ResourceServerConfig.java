@@ -81,6 +81,9 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
         http.csrf().disable()
                 .authorizeRequests()
+                .antMatchers("/user/login").permitAll()
+                .antMatchers("/user/register").permitAll()
+                .antMatchers("/user/validate").permitAll()
 //                .antMatchers("/consumer/payment/**").hasRole("ADMIN")
 //                .antMatchers("/consumer/test/**").hasAuthority("PRO")
                 .antMatchers("/**").authenticated()//所有/r/**的请求必须认证通过 .anyRequest().permitAll()//除了/r/**，其它的请求可以访问

@@ -15,6 +15,10 @@
 
 */
 
+function isInPage(node) {
+    return (node === document.body) ? false : document.body.contains(node);
+}
+
 "use strict";
 $(document).ready(function () {
 
@@ -118,9 +122,9 @@ $(document).ready(function () {
     });
 
     // Additional .focus class on form-groups
-    $('.form-control').on('focus blur', function (e) {
-        $(this).parents('.form-group').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
-    }).trigger('blur');
+    // $('.form-control').on('focus blur', function (e) {
+    //     $(this).parents('.form-group').toggleClass('focused', (e.type === 'focus' || this.value.length > 0));
+    // }).trigger('blur');
 
     // NoUI Slider
     if ($(".input-slider-container")[0]) {
@@ -268,30 +272,36 @@ $(document).ready(function () {
     });
 
     //CounterUp
-    $('.counter').counterUp({
-        delay: 10,
-        time: 1000,
-        offset: 70,
-        beginAt: 100,
-        formatter: function (n) {
-            return n.replace(/,/g, '.');
-        }
-    });
+    if ($('.counter').length>0) {
+        $('.counter').counterUp({
+            delay: 10,
+            time: 1000,
+            offset: 70,
+            beginAt: 100,
+            formatter: function (n) {
+                return n.replace(/,/g, '.');
+            }
+        });
+    }
 
     //Countdown
-    $('#clock').countdown('2020/10/10').on('update.countdown', function (event) {
-        var $this = $(this).html(event.strftime(''
-            + '<span>%-w</span> week%!w '
-            + '<span>%-d</span> day%!d '
-            + '<span>%H</span> hr '
-            + '<span>%M</span> min '
-            + '<span>%S</span> sec'));
-    });
+    if ($('#clock').length>0) {
+        $('#clock').countdown('2020/10/10').on('update.countdown', function (event) {
+            var $this = $(this).html(event.strftime(''
+                + '<span>%-w</span> week%!w '
+                + '<span>%-d</span> day%!d '
+                + '<span>%H</span> hr '
+                + '<span>%M</span> min '
+                + '<span>%S</span> sec'));
+        });
+    }
 
     //Parallax
-    $('.jarallax').jarallax({
-        speed: 0.2
-    });
+    if ($('.jarallax').length>0) {
+        $('.jarallax').jarallax({
+            speed: 0.2
+        });
+    }
 
     //Smooth scroll
     var scroll = new SmoothScroll('a[href*="#"]', {

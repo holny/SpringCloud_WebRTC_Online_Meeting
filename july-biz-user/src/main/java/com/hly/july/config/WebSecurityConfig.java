@@ -19,9 +19,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable()
                 .authorizeRequests()
+//                .antMatchers("/user/login", "/user/register").permitAll()
 //                .antMatchers("/consumer/payment/**").hasRole("ADMIN")
 //                .antMatchers("/consumer/test/**").hasAuthority("PRO")
-                .antMatchers("/**").authenticated()//所有/r/**的请求必须认证通过 .anyRequest().permitAll()//除了/r/**，其它的请求可以访问
+                .antMatchers("/**").permitAll()//所有/r/**的请求必须认证通过 .anyRequest().permitAll()//除了/r/**，其它的请求可以访问
         ;
     }
 }

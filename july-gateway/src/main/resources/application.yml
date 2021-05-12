@@ -34,6 +34,11 @@ spring:
           predicates:
             - Path=/user/** #以city开头的请求都负载到consumer服务
           filters:
+        - id: oauth #路由id,唯一
+          uri: lb://july-auth
+          predicates:
+            - Path=/auth/**,/oauth/**
+          filters:
 
 server:
   port: 80

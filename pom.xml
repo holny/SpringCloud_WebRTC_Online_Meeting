@@ -15,14 +15,8 @@
   <packaging>pom</packaging>
   <modules>
     <module>july-discovery</module>
-    <module>test-consumer-81</module>
-    <module>test-provider-9001</module>
-    <module>test-provider-9002</module>
-    <module>test-provider-9003</module>
-    <module>sentinel-service</module>
+<!--    <module>sentinel-service</module>-->
     <module>july-gateway</module>
-    <module>test-consumer-82</module>
-    <module>test-consumer-83</module>
     <module>july-auth</module>
     <module>july-common</module>
     <module>july-biz-user</module>
@@ -49,14 +43,18 @@
     <lmax.disruptor.version>3.4.2</lmax.disruptor.version>
     <lombok.version>1.18.18</lombok.version>
     <junit.version>4.12</junit.version>
-
+    <july.common.version>1.0.1</july.common.version>
+    <july.common.core.version>1.0.2</july.common.core.version>
+    <july.common.auth.version>1.0.2</july.common.auth.version>
+    <july.common.db.version>1.0.2</july.common.db.version>
     <!-- -->
     <mysql-url>localhost:3305</mysql-url>
     <mysql-root-password>linymysql4321</mysql-root-password>
     <mysql-oauth-db>july_oauth2</mysql-oauth-db>
     <mysql-oauth-db-account>july_oauth2</mysql-oauth-db-account>
     <mysql-oauth-db-password>auth4321july</mysql-oauth-db-password>
-    <redis-url>localhost:6378</redis-url>
+    <redis-url>localhost</redis-url>
+    <redis-port>6378</redis-port>
     <redis-password>redis2345july</redis-password>
     <nacos-nginx-url>localhost:8848</nacos-nginx-url>
     <nacos-name>nacos</nacos-name>
@@ -186,17 +184,23 @@
       <dependency>
         <groupId>com.hly.july</groupId>
         <artifactId>common-core</artifactId>
-        <version>1.0.1</version>
+        <version>${july.common.core.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hly.july</groupId>
         <artifactId>common-auth</artifactId>
-        <version>1.0.1</version>
+        <version>${july.common.auth.version}</version>
       </dependency>
       <dependency>
         <groupId>com.hly.july</groupId>
-        <artifactId>common-mybatis</artifactId>
-        <version>1.0.1</version>
+        <artifactId>common-db</artifactId>
+        <version>${july.common.db.version}</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/com.esotericsoftware/reflectasm -->
+      <dependency>
+        <groupId>com.esotericsoftware</groupId>
+        <artifactId>reflectasm</artifactId>
+        <version>1.11.3</version>
       </dependency>
       <dependency>
         <groupId>junit</groupId>

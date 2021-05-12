@@ -15,14 +15,39 @@
     <modules>
         <module>common-auth</module>
         <module>common-core</module>
-        <module>common-mybatis</module>
+        <module>common-db</module>
     </modules>
-
+    <properties>
+        <july.common.version>1.0.2</july.common.version>
+        <july.common.core.version>1.0.2</july.common.core.version>
+        <july.common.auth.version>1.0.2</july.common.auth.version>
+        <july.common.db.version>1.0.2</july.common.db.version>
+    </properties>
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.hly.july</groupId>
+                <artifactId>common-core</artifactId>
+                <version>${july.common.core.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hly.july</groupId>
+                <artifactId>common-auth</artifactId>
+                <version>${july.common.auth.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.hly.july</groupId>
+                <artifactId>common-db</artifactId>
+                <version>${july.common.db.version}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
     <build>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <fork>true</fork>
                     <addResources>true</addResources>

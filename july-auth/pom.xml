@@ -83,7 +83,7 @@
         </dependency>
         <dependency>
             <groupId>com.hly.july</groupId>
-            <artifactId>common-mybatis</artifactId>
+            <artifactId>common-db</artifactId>
         </dependency>
         <!--日常通用jar包配置-->
         <dependency>
@@ -112,6 +112,7 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+                <version>${spring-boot.version}</version>
                 <configuration>
                     <fork>true</fork>
                     <addResources>true</addResources>

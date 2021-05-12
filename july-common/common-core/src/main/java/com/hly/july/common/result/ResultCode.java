@@ -13,17 +13,26 @@ import java.io.Serializable;
 @NoArgsConstructor
 public enum ResultCode implements IResultCode,Serializable {
 
-    SUCCESS(10001, "Success"),
+    SUCCESS(10001, "成功"),
 
-    AUTH_ACCOUNT_INVALID(20001,"Account is invalid"),
-    AUTH_PASSWORD_ERROR(20002,"Password is error"),
-    AUTH_USER_ACCOUNT_LOCKED(20003, "User account is locked"),
-    AUTH_NEED_LOGIN(20004, "Need login"),
-    AUTH_UNAUTHORIZED(20005, "Unauthorized"),
+    API_VALIDATION_ERROR(20001,"参数检验错误"),
+    API_DUPLICATE_DATA(20002,"已存在此数据"),
+    API_DB_FAIL(20003,"数据读写失败"),
 
-    TOKEN_INVALID(20010,"Token is invalid"),
-    TOKEN_EXPIRED(20011,"Token is expired"),
-    TOKEN_ACCESS_FORBIDDEN(20012,"Token is forbidden");
+    AUTH_ACCOUNT_INVALID(20101,"无效账户"),
+    AUTH_PASSWORD_ERROR(20102,"密码错误"),
+    AUTH_USER_ACCOUNT_LOCKED(20103, "账户已被锁定"),
+    AUTH_NEED_LOGIN(20104, "需要登录"),
+    AUTH_UNAUTHORIZED(20105, "未具有相应权限"),
+    AUTH_FAIL(20106,"登录失败"),
+
+
+    TOKEN_INVALID(20110,"Token无效"),
+    TOKEN_EXPIRED(20111,"Token过期"),
+    TOKEN_ACCESS_FORBIDDEN(20112,"此Token禁止"),
+    TOKEN_FAIL(20113,"获取Token失败");
+
+
 //
 //
 //    USER_ERROR("A0001", "用户端错误"),
