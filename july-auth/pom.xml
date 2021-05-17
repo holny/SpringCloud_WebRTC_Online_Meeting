@@ -19,12 +19,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
-<!--            <exclusions>-->
-<!--                <exclusion>-->
-<!--                    <groupId>org.springframework.boot</groupId>-->
-<!--                    <artifactId>spring-boot-starter-logging</artifactId>-->
-<!--                </exclusion>-->
-<!--            </exclusions>-->
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--SpringCloud ailibaba nacos -->
         <dependency>
@@ -84,6 +84,10 @@
         <dependency>
             <groupId>com.hly.july</groupId>
             <artifactId>common-db</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.hly.july</groupId>
+            <artifactId>common-web</artifactId>
         </dependency>
         <!--日常通用jar包配置-->
         <dependency>

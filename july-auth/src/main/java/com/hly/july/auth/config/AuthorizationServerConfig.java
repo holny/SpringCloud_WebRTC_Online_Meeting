@@ -1,6 +1,7 @@
 package com.hly.july.auth.config;
 
 
+import com.hly.july.auth.exception.MyOauthWebResponseExceptionTranslator;
 import com.hly.july.auth.service.JdbcClientDetailsServiceImpl;
 import com.hly.july.auth.service.UserDetailsServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,7 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Aut
 import org.springframework.security.oauth2.config.annotation.web.configurers.AuthorizationServerSecurityConfigurer;
 import org.springframework.security.oauth2.provider.ClientDetailsService;
 import org.springframework.security.oauth2.provider.client.JdbcClientDetailsService;
+import org.springframework.security.oauth2.provider.error.WebResponseExceptionTranslator;
 import org.springframework.security.oauth2.provider.token.*;
 import org.springframework.security.oauth2.provider.token.store.JwtAccessTokenConverter;
 import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
@@ -98,6 +100,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         clients.withClientDetails(clientDetailsService());
     }
 
+
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
         /**
@@ -121,6 +124,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .authenticationManager(authenticationManager)
                 .tokenServices(tokenServices)
                 .allowedTokenEndpointRequestMethods(HttpMethod.GET, HttpMethod.POST)
+                .exceptionTranslator(new MyOauthWebResponseExceptionTranslator())
 //                // 自定义认证异常处理类
 //                .exceptionTranslator(webResponseExceptionTranslator())
                 // refresh token有两种使用方式：重复使用(true)、非重复使用(false)，默认为true

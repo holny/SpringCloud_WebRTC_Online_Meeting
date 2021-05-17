@@ -16,6 +16,6 @@ CREATE TABLE IF NOT EXISTS `undo_log`
     `log_created`   DATETIME(6)  NOT NULL COMMENT 'create datetime',
     `log_modified`  DATETIME(6)  NOT NULL COMMENT 'modify datetime',
     UNIQUE KEY `ux_undo_log` (`xid`, `branch_id`)
-    ) ENGINE = InnoDB
+) ENGINE = InnoDB
     AUTO_INCREMENT = 1
     DEFAULT CHARSET = utf8 COMMENT ='AT transaction mode undo table';

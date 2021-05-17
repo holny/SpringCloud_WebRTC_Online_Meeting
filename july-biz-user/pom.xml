@@ -63,10 +63,20 @@
             <groupId>com.hly.july</groupId>
             <artifactId>common-db</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.hly.july</groupId>
+            <artifactId>common-web</artifactId>
+        </dependency>
         <!-- SpringBoot整合Web组件 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>

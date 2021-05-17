@@ -1,6 +1,5 @@
 package com.hly.july.common.properties;
 
-import com.hly.july.common.constant.AuthConstants;
 import com.hly.july.common.util.RSAUtils;
 import lombok.Data;
 import lombok.extern.slf4j.Slf4j;

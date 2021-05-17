@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.security.web.access.AccessDeniedHandler;
+import org.springframework.stereotype.Component;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
@@ -13,6 +14,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
+ * 检测权限异常
+ * 后到ResourceServerSecurityConfigurer资源服务中配置此异常处理类
  * @author Linyuan Hou
  * @date 2021/3/16 13:39
  */

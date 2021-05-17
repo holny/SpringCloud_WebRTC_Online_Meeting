@@ -16,12 +16,14 @@
         <module>common-auth</module>
         <module>common-core</module>
         <module>common-db</module>
+        <module>common-web</module>
     </modules>
     <properties>
         <july.common.version>1.0.2</july.common.version>
         <july.common.core.version>1.0.2</july.common.core.version>
         <july.common.auth.version>1.0.2</july.common.auth.version>
         <july.common.db.version>1.0.2</july.common.db.version>
+        <july.common.web.version>1.0.1</july.common.web.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -40,6 +42,26 @@
                 <artifactId>common-db</artifactId>
                 <version>${july.common.db.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.hly.july</groupId>
+                <artifactId>common-web</artifactId>
+                <version>${july.common.web.version}</version>
+            </dependency>
+            <!-- 引入log4j2依赖 -->
+            <!-- https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2 -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-log4j2</artifactId>
+                <version>${spring-boot.version}</version>
+            </dependency>
+            <!-- 若Log4j2使用了AsyncLogger, 就需要disruptor-->
+            <!-- https://mvnrepository.com/artifact/com.lmax/disruptor -->
+            <dependency>
+                <groupId>com.lmax</groupId>
+                <artifactId>disruptor</artifactId>
+                <version>3.4.2</version>
+            </dependency>
+            <!--日常通用jar包配置-->
         </dependencies>
     </dependencyManagement>
     <build>

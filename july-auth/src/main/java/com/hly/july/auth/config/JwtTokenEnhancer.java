@@ -4,6 +4,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
 import com.hly.july.common.entity.LoginUser;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
@@ -23,6 +24,7 @@ import static java.util.stream.Collectors.toList;
  * @author Linyuan Hou
  * @date 2021/3/16 14:58
  */
+@Slf4j
 public class JwtTokenEnhancer implements TokenEnhancer {
     private DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 
@@ -41,9 +43,10 @@ public class JwtTokenEnhancer implements TokenEnhancer {
             permissions.add(authority.getAuthority());
         }
 //        additionalInfo.put("permissions", authorities.stream().map(GrantedAuthority::getAuthority).collect(toList()));
-        additionalInfo.put("userId", user.getId());
-        additionalInfo.put("userName", user.getUsername());
-        additionalInfo.put("author", "july-auth");
+        log.info("JwtTokenEnhancer  loginUser:"+user.toString());
+        additionalInfo.put("userId", user.getUserId().toString());
+        additionalInfo.put("userName", user.getUsername()); //设置Username，在资源服务器OncePerRequestFilter中会获取username来对比校验jwt token
+        additionalInfo.put("status", user.getStatus());
         additionalInfo.put("createTime", df.format(LocalDateTime.now()));
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);
         return accessToken;

@@ -3,3 +3,7 @@ spring:
     active: dev # 表示开发环境
     #active: test # 表示测试环境
     #active: info
+logging:
+  config: classpath:log4j2.xml
+  file:
+    path: mylogs/july-discovery/

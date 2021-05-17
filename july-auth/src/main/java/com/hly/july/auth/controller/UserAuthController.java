@@ -2,7 +2,6 @@ package com.hly.july.auth.controller;
 
 import com.hly.july.common.biz.entity.User;
 import com.hly.july.common.biz.service.IUserService;
-import com.hly.july.common.biz.vo.AuthUserVO;
 import com.hly.july.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +15,5 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/auth")
 public class UserAuthController {
-
-    @Autowired
-    private IUserService userService;
-
-    @PostMapping(value = "/userAuth")
-    public Result<AuthUserVO> userAuth(@RequestBody AuthUserVO authUserVO){
-        log.info("get a authUserVO:"+authUserVO);
-        return Result.success("get success",authUserVO);
-    }
 
 }

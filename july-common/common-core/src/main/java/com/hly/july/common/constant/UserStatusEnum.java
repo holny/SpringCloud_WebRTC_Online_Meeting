@@ -11,9 +11,9 @@ import java.util.List;
 public enum UserStatusEnum {
     USER_STATUS_DELETE(0,"USER_STATUS_DELETE"),
     USER_STATUS_NORMAL(1,"USER_STATUS_NORMAL"),
-    USER_STATUS_FORBIDDEN(2,"USER_STATUS_FORBIDDEN");
-
-
+    USER_STATUS_FORBIDDEN(2,"USER_STATUS_FORBIDDEN"),
+    USER_STATUS_LOCKED(3,"USER_STATUS_LOCKED"),
+    USER_STATUS_EXPIRED(4,"USER_STATUS_EXPIRED");
 
     private Integer code;
     private String desc;
@@ -46,6 +46,8 @@ public enum UserStatusEnum {
         list1.add(USER_STATUS_DELETE.getCode());
         list1.add(USER_STATUS_NORMAL.getCode());
         list1.add(USER_STATUS_FORBIDDEN.getCode());
+        list1.add(USER_STATUS_LOCKED.getCode());
+        list1.add(USER_STATUS_EXPIRED.getCode());
         allUserStatusCodeList = Collections.unmodifiableList(list1);
     }
 

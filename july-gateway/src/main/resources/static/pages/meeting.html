@@ -43,7 +43,7 @@
 
     <!-- NOTICE: You can use the _analytics.html partial to include production code specific code & trackers -->
     <!-- App styles -->
-    <link href="../chat/dist/css/app.min.css" rel="stylesheet">
+>
 </head>
 
 <body>
@@ -51,7 +51,7 @@
     <nav id="navbar-main" aria-label="Primary navigation"
          class="navbar navbar-main navbar-expand-lg navbar-theme-primary headroom navbar-light navbar-transparent navbar-theme-primary">
         <div class="container position-relative">
-            <a class="navbar-brand shadow-soft py-2 px-3 rounded border border-light mr-lg-4" href="../index.html">
+            <a class="navbar-brand shadow-soft py-2 px-3 rounded border border-light mr-lg-4" href="../pages/video-list.html">
                 <img class="navbar-brand-dark" src="../assets/img/brand/dark.svg" alt="Logo light">
                 <img class="navbar-brand-light" src="../assets/img/brand/dark.svg" alt="Logo dark">
             </a>
@@ -59,9 +59,9 @@
                 <div class="navbar-collapse-header">
                     <div class="row">
                         <div class="col-6 collapse-brand">
-                            <a href="../index.html"
+                            <a href="../pages/video-list.html"
                                class="navbar-brand shadow-soft py-2 px-3 rounded border border-light">
-                                <img src="../assets/img/brand/dark.svg" alt="Themesberg logo">
+                                <img src="../assets/img/brand/dark.svg" alt="July logo">
                             </a>
                         </div>
                         <div class="col-6 collapse-close">
@@ -72,17 +72,15 @@
                     </div>
                 </div>
                 <ul class="navbar-nav navbar-nav-hover align-items-lg-center">
-                    <li class="nav-item dropdown">
+                    <li class="nav-item dropdown" id="navbar-video-menu">
                         <a href="#" class="nav-link" data-toggle="dropdown">
-                            <span class="nav-link-inner-text">Pages</span>
+                            <span class="nav-link-inner-text">视频广场</span>
                             <span class="fas fa-angle-down nav-link-arrow ml-2"></span>
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="./html/pages/about.html">About</a></li>
-                            <li><a class="dropdown-item" href="./html/pages/pricing.html">Pricing</a></li>
-                            <li><a class="dropdown-item" href="./html/pages/contact.html">Contact</a></li>
-                            <li><a class="dropdown-item" href="./html/pages/sign-in.html">Sign in</a></li>
-                            <li><a class="dropdown-item" href="./html/pages/sign-up.html">Sign up</a></li>
+                            <li><a class="dropdown-item" href="./html/pages/about.html">视频</a></li>
+                            <li><a class="dropdown-item" href="./html/pages/pricing.html">我的订阅</a></li>
+                            <li><a class="dropdown-item" href="./html/pages/contact.html">我的收藏</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown mega-dropdown">
@@ -758,6 +756,8 @@
 
 <!-- Examples -->
 <script src="../chat/dist/js/examples.js"></script>
+
+<script src="../js/common.js"></script>
 </body>
 
 </html>

@@ -15,22 +15,31 @@ public enum ResultCode implements IResultCode,Serializable {
 
     SUCCESS(10001, "成功"),
 
-    API_VALIDATION_ERROR(20001,"参数检验错误"),
-    API_DUPLICATE_DATA(20002,"已存在此数据"),
-    API_DB_FAIL(20003,"数据读写失败"),
+    API_FAIL_MAINTAIN(20001,"网站正在维护"),
+    API_FAIL_400(20002,"请求出现错误"),
+    API_FAIL_500(20003,"服务器出现错误"),
+    API_NOT_ALLOWED(20004,"不被允许访问此API"),
 
-    AUTH_ACCOUNT_INVALID(20101,"无效账户"),
-    AUTH_PASSWORD_ERROR(20102,"密码错误"),
-    AUTH_USER_ACCOUNT_LOCKED(20103, "账户已被锁定"),
-    AUTH_NEED_LOGIN(20104, "需要登录"),
-    AUTH_UNAUTHORIZED(20105, "未具有相应权限"),
-    AUTH_FAIL(20106,"登录失败"),
+    API_VALIDATION_ERROR(20101,"参数检验错误"),
+    API_DUPLICATE_DATA(20102,"已存在此数据"),
+    API_INVALID(20103,"无效的请求"),
+    API_DB_FAIL(20104,"数据读写失败"),
+
+    AUTH_ACCOUNT_INVALID(20201,"无效账户"),
+    AUTH_PASSWORD_ERROR(20202,"密码错误"),
+    AUTH_ACCOUNT_LOCKED(20203, "账户已被锁定"),
+    AUTH_NEED_LOGIN(20204, "需要登录"),
+    AUTH_UNAUTHORIZED(20205, "未具有相应权限"),
+    AUTH_FAIL(20206,"登录失败"),
+    AUTH_ACCOUNT_FORBIDDEN(20207,"账户被封禁"),
+    AUTH_ACCOUNT_EXPIRED(20208,"账户已过期"),
 
 
-    TOKEN_INVALID(20110,"Token无效"),
-    TOKEN_EXPIRED(20111,"Token过期"),
-    TOKEN_ACCESS_FORBIDDEN(20112,"此Token禁止"),
-    TOKEN_FAIL(20113,"获取Token失败");
+    TOKEN_INVALID(20310,"Token无效"),
+    TOKEN_INVALID_REFRESH(20311,"Refresh token无效"),
+    TOKEN_EXPIRED(20312,"Token过期"),
+    TOKEN_ACCESS_FORBIDDEN(20313,"此Token禁止"),
+    TOKEN_FAIL(20314,"获取Token失败");
 
 
 //

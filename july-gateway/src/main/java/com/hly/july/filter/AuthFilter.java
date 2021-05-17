@@ -1,42 +1,26 @@
 package com.hly.july.filter;
 
-import cn.hutool.core.date.DateUtil;
 import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-import com.alibaba.nacos.api.common.ResponseCode;
 import com.hly.july.common.biz.utils.RedisUtils;
 import com.hly.july.common.constant.AuthConstants;
 import com.hly.july.common.properties.RSAKeyProperties;
-import com.hly.july.common.result.Result;
 import com.hly.july.common.result.ResultCode;
 import com.hly.july.common.util.DateUtils;
 import com.hly.july.common.util.JwtUtils;
 import com.hly.july.util.WebUtils;
-import com.nimbusds.jose.JWSObject;
-
-import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
-
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.Ordered;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.http.server.reactive.ServerHttpResponse;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ServerWebExchange;
 import reactor.core.publisher.Mono;
-
 import javax.annotation.Resource;
-import java.text.ParseException;
 import java.util.Date;
-import java.util.List;
 
 /**
  * @author Linyuan Hou
@@ -84,6 +68,7 @@ public class AuthFilter implements GlobalFilter, Ordered {
                     }
                 }
             }else{
+                log.info("Token is expired, token:{}",token);
                 return WebUtils.writeFailedToResponse(response, ResultCode.TOKEN_EXPIRED);
             }
         }

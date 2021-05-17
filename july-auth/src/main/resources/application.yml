@@ -204,10 +204,10 @@ seata:
 feign:
   sentinel:
     enabled: true
-#logging:
-#  config: classpath:log4j2.xml
-#  file:
-#    path: mylogs/
+logging:
+  config: classpath:log4j2.xml
+  file:
+    path: mylogs/july-auth/
 rsa:
   key:
     publicKeyFilePath: "/certificate/july-pubkey_0317_pure.txt"

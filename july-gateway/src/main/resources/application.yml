@@ -39,7 +39,24 @@ spring:
           predicates:
             - Path=/auth/**,/oauth/**
           filters:
-
+  redis:
+    host: @redis-url@
+    port: @redis-port@
+    password: @redis-password@
+    # 连接超时时间（毫秒）
+    timeout: 30000
+    # Redis默认情况下有16个分片，这里配置具体使用的分片，默认是0
+    database: 0
+    lettuce:
+      pool:
+        # 连接池最大连接数(使用负值表示没有限制) 默认为8
+        max-active: 8
+        # 连接池最大阻塞等待时间(使用负值表示没有限制) 默认为-1
+        max-wait: -1ms
+        # 连接池中的最大空闲连接 默认为8
+        max-idle: 8
+        # 连接池中的最小空闲连接 默认为 0
+        min-idle: 0
 server:
   port: 80
 rsa:
@@ -50,3 +67,7 @@ spring.mvc.static-path-pattern: /**
   # 修改默认的静态寻址资源目录 多个使用逗号分隔
 spring.resources.static-locations: classpath:/META-INF/resources/,classpath:/resources/,classpath:/static/
 
+logging:
+  config: classpath:log4j2.xml
+  file:
+    path: mylogs/july-gateway/

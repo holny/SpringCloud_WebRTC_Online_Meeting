@@ -23,7 +23,7 @@ import java.util.Set;
 @Data
 public class UserInfoVO {
 
-    private Long userId;
+    private String userId;
 
     private String userName;
 
@@ -52,11 +52,11 @@ public class UserInfoVO {
 
     private Map<String,Set<String>> authority;
 
-    private Object token;
+    private Map<String,Object> token;
 
     public UserInfoVO(User user){
         if(user != null) {
-            this.userId = user.getUserId();
+            this.userId = user.getUserId().toString();
             this.userName = user.getUserName();
             this.password = user.getPassword();
             if(JulyConstants.USER_GENDER_FEMALE.equals(user.getGender())){
@@ -79,9 +79,9 @@ public class UserInfoVO {
         }
     }
 
-    public UserInfoVO(User user,Object token){
+    public UserInfoVO(User user,Map<String,Object> token){
         if(user != null) {
-            this.userId = user.getUserId();
+            this.userId = user.getUserId().toString();
             this.userName = user.getUserName();
             this.password = user.getPassword();
             if(JulyConstants.USER_GENDER_FEMALE.equals(user.getGender())){

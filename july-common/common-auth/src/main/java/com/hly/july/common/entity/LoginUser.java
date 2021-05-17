@@ -4,6 +4,7 @@ import lombok.Data;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -12,31 +13,21 @@ import java.util.List;
  */
 @Data
 public class LoginUser implements UserDetails {
-    private Long id;
-    private String name;
+    private Long userId;
+    private String email;
+    private String phoneNumber;
     private String password;
-    private Boolean enabled;
-    private List<SimpleGrantedAuthority> authorities;
-
-    public LoginUser(Long id, String name,List<SimpleGrantedAuthority> authorities){
-        this.name = name;
-        this.id =id;
-        this.password = password;
-        this.enabled = enabled;
-        this.authorities = authorities;
-    }
-
-    public LoginUser(Long id, String name, String password, Boolean enabled){
-        this.name = name;
-        this.id =id;
-        this.password = password;
-        this.enabled = enabled;
-
-    }
+    private Integer status;
+    private Boolean isAccountNonExpired = true;
+    private Boolean isAccountNonLocked = true;
+    private Boolean isCredentialsNonExpired = true;
+    private Boolean isEnabled = true;
+    private List<SimpleGrantedAuthority> authorities = new ArrayList<>();
+    private String jti;
 
     @Override
     public List<SimpleGrantedAuthority> getAuthorities() {
-        return authorities;
+        return this.authorities;
     }
 
     @Override
@@ -46,26 +37,30 @@ public class LoginUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.name;
+        return this.email;
+    }
+
+    public void setUsername(String userName) {
+        this.email = userName;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return this.isAccountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return this.isAccountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return this.isCredentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return this.enabled;
+        return this.isEnabled;
     }
 }

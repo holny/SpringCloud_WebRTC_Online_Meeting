@@ -1,14 +1,15 @@
 package com.hly.july.controller;
 
+import cn.hutool.system.UserInfo;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.hly.july.common.biz.vo.AuthUserVO;
 import com.hly.july.common.biz.vo.UserInfoVO;
 import com.hly.july.common.constant.JulyConstants;
 import com.hly.july.common.constant.RoleEnum;
 import com.hly.july.common.entity.LoginUser;
+import com.hly.july.common.exception.BizException;
 import com.hly.july.common.result.Result;
 import com.hly.july.common.biz.entity.User;
-import com.hly.july.common.biz.service.IUserService;
 import com.hly.july.common.result.ResultCode;
 import com.hly.july.common.util.DateUtils;
 import com.hly.july.common.util.EncryptUtils;
@@ -16,24 +17,25 @@ import com.hly.july.common.util.JulyAuthorityUtils;
 import com.hly.july.common.util.WrappedBeanCopier;
 import com.hly.july.common.validation.group.LoginValidationGroup;
 import com.hly.july.common.validation.group.RegisterValidationGroup;
-import com.hly.july.service.api.AuthService;
+import com.hly.july.service.api.AuthApiService;
+import com.hly.july.service.impl.AuthServiceImpl;
 import com.hly.july.service.impl.UserServiceImpl;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.context.SecurityContextImpl;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.security.Principal;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Set;
+import javax.servlet.http.HttpSession;
+
+import java.util.*;
 
 /**
  * @author Linyuan Hou
@@ -41,39 +43,32 @@ import java.util.Set;
  */
 @RestController
 @RequestMapping("/user")
-@RestControllerAdvice
 @Slf4j
 public class UserController {
     @Resource
-    private AuthService authService;
+    private AuthServiceImpl authService;
 
     @Autowired
     private UserServiceImpl userService;
 
     @PostMapping(value = "/login")
-    public Result<Object> login(@Validated(LoginValidationGroup.class) @RequestBody AuthUserVO authUserVO){
+    public Result<Map<String,Object>> login(@Validated(LoginValidationGroup.class) @RequestBody AuthUserVO authUserVO){
         log.info("Login User:"+authUserVO.toString());
-        Map<String, String> parameters = new HashMap<String, String>();
-        parameters.put("grant_type","password");
-        parameters.put("username",authUserVO.getEmail());
-        parameters.put("password",authUserVO.getPassword());
-        OAuth2AccessToken token;
         try {
-            ResponseEntity<OAuth2AccessToken>  tokenResponseEntity = authService.postAccessToken(parameters);
-            token = tokenResponseEntity.getBody();
-            log.info("Login token:"+token.toString());
-        }catch (FeignException e){
-            String errorStr= e.toString();
-            if(errorStr.contains("error_description")){
-                errorStr = errorStr.split("error_description")[1].split("}")[0].replace("\"","").replace(":","");
+            Map<String,Object> token = authService.getTokenByAccount(authUserVO.getEmail(),authUserVO.getPassword());
+            if(token!=null){
+                return Result.success(token);
+            }else{
+                log.error("Token is null, account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
+                return Result.failure(ResultCode.TOKEN_FAIL);
             }
-            log.error("Login FeignException error:"+errorStr);
-            return Result.failure(ResultCode.AUTH_FAIL,errorStr);
+        }catch (BizException e){
+            log.error("Login BizException error:"+e.toString()+", account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
+            return Result.failure(e.getResultCode(),e.getErrorMsg());
         }catch (Exception e){
-            log.error("Login Exception error:"+e.toString());
-            return Result.failure(ResultCode.TOKEN_FAIL,e.getMessage());
+            log.error("Login Exception error:"+e.toString()+", account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
+            return Result.failure(ResultCode.TOKEN_FAIL);
         }
-        return Result.success(token);
     }
 
     @PostMapping(value = "/register")
@@ -109,24 +104,18 @@ public class UserController {
         newUser.setGmtUpdate(now);
         log.info("Start save new register:"+newUser.toString());
         if (userService.save(newUser)){
-            Map<String, String> parameters = new HashMap<String, String>();
-            parameters.put("grant_type","password");
-            parameters.put("username",authUserVO.getEmail());
-            parameters.put("password",authUserVO.getPassword());
-            OAuth2AccessToken token;
+            Map<String,Object> token = null;
             try {
-                ResponseEntity<OAuth2AccessToken>  tokenResponseEntity = authService.postAccessToken(parameters);
-                token = tokenResponseEntity.getBody();
-                log.info("Register token:"+token.toString());
-            }catch (FeignException e){
-                String errorStr= e.toString();
-                if(errorStr.contains("error_description")){
-                    errorStr = errorStr.split("error_description")[1].split("}")[0].replace("\"","").replace(":","");
+                token = authService.getTokenByAccount(authUserVO.getEmail(),authUserVO.getPassword());
+                if(token==null){
+                    log.error("Register ,Token is null, account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
+                    return Result.failure(ResultCode.TOKEN_FAIL);
                 }
-                log.error("Register FeignException error:"+errorStr);
-                return Result.failure(ResultCode.AUTH_FAIL,errorStr);
+            }catch (BizException e){
+                log.error("Register BizException error:"+e.toString()+", account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
+                return Result.failure(e.getResultCode(),e.getErrorMsg());
             }catch (Exception e){
-                log.error("Register Exception error:"+e.toString());
+                log.error("Register Exception error:"+e.toString()+", account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
                 return Result.failure(ResultCode.TOKEN_FAIL,e.getMessage());
             }
             UserInfoVO userInfoVO = new UserInfoVO(newUser,token);
@@ -147,10 +136,45 @@ public class UserController {
     }
 
     @GetMapping(value = "/{userId}")
-    public Result<User> getUser(@PathVariable String userId){
+    public Result<UserInfoVO> getUser(@PathVariable String userId, HttpSession session){
         log.info("get a userId:"+userId);
         User user = userService.getById(userId);
-        return Result.success("get success",user);
+        if (user ==null){
+            return Result.failure(ResultCode.API_DB_FAIL);
+        }
+        String host = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        UserInfoVO loginUser = null;
+        if(StringUtils.isNotBlank(host)){
+            User hostUser = userService.getUserByAccount(host);
+            if(hostUser!=null) {
+                loginUser = new UserInfoVO(hostUser);
+            }
+        }
+        log.info("loginUser:"+loginUser.toString());
+
+        if(loginUser == null){
+            log.warn("getUser-host is Null, get brief UserId:"+userId);
+            UserInfoVO userInfoVO = new UserInfoVO(user);
+            userInfoVO.setPhoneNumber(null);
+            userInfoVO.setEmail(null);
+            userInfoVO.setGmtCreate(null);
+            userInfoVO.setGmtBirthday(null);
+            return Result.success("get success",userInfoVO);
+        }else {
+            log.info("loginUser:"+loginUser.toString());
+            String hostUserId = loginUser.getUserId();
+            log.info("hostUserId:"+hostUserId);
+            if(user.getUserId().equals(hostUserId)) {
+                log.info("host get himself Info Successful, user:" + user.toString());
+                UserInfoVO userInfoVO = new UserInfoVO(user);
+                return Result.success("get success", userInfoVO);
+            } else {
+                log.info("host get not himself Info Successful, hostId:" + hostUserId+" , wanna get user:"+user.toString());
+                UserInfoVO userInfoVO = new UserInfoVO(user);
+                return Result.success("get success", userInfoVO);
+            }
+        }
+
     }
 
 }

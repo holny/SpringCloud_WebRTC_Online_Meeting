@@ -39,5 +39,6 @@ public interface AuthConstants {
 
     String AUTH_SEPARATOR = ";";
     String AUTHORITY_SEPARATOR = ".";
+    String AUTHORITY_SEPARATOR_ESCAPE = "\\.";
 
 }

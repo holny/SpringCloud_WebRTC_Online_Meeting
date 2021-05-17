@@ -47,6 +47,7 @@
     <july.common.core.version>1.0.2</july.common.core.version>
     <july.common.auth.version>1.0.2</july.common.auth.version>
     <july.common.db.version>1.0.2</july.common.db.version>
+    <july.common.web.version>1.0.1</july.common.web.version>
     <!-- -->
     <mysql-url>localhost:3305</mysql-url>
     <mysql-root-password>linymysql4321</mysql-root-password>
@@ -80,6 +81,12 @@
         <version>${spring-boot.version}</version>
         <type>pom</type>
         <scope>import</scope>
+        <exclusions>
+          <exclusion>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-logging</artifactId>
+          </exclusion>
+        </exclusions>
       </dependency>
       <!-- https://mvnrepository.com/artifact/org.springframework.cloud/spring-cloud-starter-bootstrap -->
       <dependency>
@@ -195,6 +202,11 @@
         <groupId>com.hly.july</groupId>
         <artifactId>common-db</artifactId>
         <version>${july.common.db.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>com.hly.july</groupId>
+        <artifactId>common-web</artifactId>
+        <version>${july.common.web.version}</version>
       </dependency>
       <!-- https://mvnrepository.com/artifact/com.esotericsoftware/reflectasm -->
       <dependency>

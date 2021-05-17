@@ -94,8 +94,9 @@ function userLogin(form){
             console.log(result);
             if (result.code == 10001) {
                 console.log('login success');
-                console.log(result.data.access_token);
-                localStorageSet(LS_KEY_AUTH_TOKEN,result.data);
+                console.log(result.data);
+                localStorageSet(LS_KEY_AUTH_TOKEN,JSON.stringify(result.data));
+                window.location.href = PAGE.PAGE_MEETING;
             } else {
                 console.log('login fail');
                 inputFeedback(form.find('input[type*=password]'),'error',result.msg);
@@ -143,8 +144,10 @@ function userRegister(form){
             console.log(result);
             if (result.code == 10001) {
                 console.log('register success');
+                localStorageSet(LS_KEY_AUTH_TOKEN,JSON.stringify(result.data.token));
                 // console.log(result.data.access_token);
                 // localStorageSet(LS_KEY_AUTH_TOKEN,result.data);
+                window.location.href = PAGE.PAGE_MEETING;
             } else {
                 console.log('register fail');
                 inputFeedback(form.find('#registerCode_input'),'error',result.msg);

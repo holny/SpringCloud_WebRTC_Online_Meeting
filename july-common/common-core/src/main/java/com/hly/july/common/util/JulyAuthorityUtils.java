@@ -1,6 +1,8 @@
 package com.hly.july.common.util;
 
+import cn.hutool.core.util.EscapeUtil;
 import com.hly.july.common.constant.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.*;
 
@@ -9,6 +11,7 @@ import java.util.*;
  * @author Linyuan Hou
  * @date 2021/5/11 21:03
  */
+@Slf4j
 public class JulyAuthorityUtils {
 
     public static String getRoleByRegisterCode(String registerCode) {
@@ -155,8 +158,9 @@ public class JulyAuthorityUtils {
             List<String> authorityList = Arrays.asList(authorityString.split(AuthConstants.AUTH_SEPARATOR));
             Map<String, Set<String>> authorityMap = new HashMap<>();
             authorityList.forEach(str -> {
-                if (str.contains(AuthConstants.AUTHORITY_SEPARATOR) && AuthorityEnum.getAllAuthorityList().contains(str)) {
-                    List<String> authorityPair = Arrays.asList(str.split(AuthConstants.AUTHORITY_SEPARATOR));
+                if (AuthorityEnum.getAllAuthorityList().contains(str)) {
+                    String[] authorityStringG = str.split(AuthConstants.AUTHORITY_SEPARATOR_ESCAPE);
+                    List<String> authorityPair = Arrays.asList(authorityStringG);
                     if (authorityPair.size() == 2) {
                         Set<String> authoritySet;
                         if (authorityMap.containsKey(authorityPair.get(0).trim())) {
