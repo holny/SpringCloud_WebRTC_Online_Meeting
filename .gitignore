@@ -38,3 +38,6 @@ hs_err_pid*
 /july-gateway/src/main/resources/static/vendor/@fortawesome/fontawesome/
 /july-gateway/src/main/resources/static/vendor/bootstrap-datepicker/dist/js/locales/
 /july-service-user/certificate/
+/july-biz-meeting/certificate/
+/july-biz-user/certificate/
+/july-web-page-bakup/

@@ -1,38 +1,33 @@
 package com.hly.july.controller;
 
-import cn.hutool.system.UserInfo;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
+import com.baomidou.mybatisplus.extension.api.R;
+import com.hly.july.common.biz.entity.User;
 import com.hly.july.common.biz.vo.AuthUserVO;
 import com.hly.july.common.biz.vo.UserInfoVO;
 import com.hly.july.common.constant.JulyConstants;
 import com.hly.july.common.constant.RoleEnum;
-import com.hly.july.common.entity.LoginUser;
+import com.hly.july.common.constant.UserStatusEnum;
 import com.hly.july.common.exception.BizException;
 import com.hly.july.common.result.Result;
-import com.hly.july.common.biz.entity.User;
 import com.hly.july.common.result.ResultCode;
-import com.hly.july.common.util.DateUtils;
-import com.hly.july.common.util.EncryptUtils;
-import com.hly.july.common.util.JulyAuthorityUtils;
-import com.hly.july.common.util.WrappedBeanCopier;
+import com.hly.july.common.util.*;
 import com.hly.july.common.validation.group.LoginValidationGroup;
 import com.hly.july.common.validation.group.RegisterValidationGroup;
-import com.hly.july.service.api.AuthApiService;
 import com.hly.july.service.impl.AuthServiceImpl;
 import com.hly.july.service.impl.UserServiceImpl;
-import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.context.SecurityContextImpl;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import java.util.*;
@@ -52,16 +47,37 @@ public class UserController {
     private UserServiceImpl userService;
 
     @PostMapping(value = "/login")
-    public Result<Map<String,Object>> login(@Validated(LoginValidationGroup.class) @RequestBody AuthUserVO authUserVO){
+    public Result<Map<String,Object>> login(HttpServletRequest request, @Validated(LoginValidationGroup.class) @RequestBody AuthUserVO authUserVO, HttpSession session){
         log.info("Login User:"+authUserVO.toString());
         try {
-            Map<String,Object> token = authService.getTokenByAccount(authUserVO.getEmail(),authUserVO.getPassword());
-            if(token!=null){
-                return Result.success(token);
+            String account;
+            if(JulyConstants.DEFAULT_LOGIN_BY_ACCOUNT.equals("phoneNumber")){
+                account = authUserVO.getPassword();
             }else{
-                log.error("Token is null, account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
-                return Result.failure(ResultCode.TOKEN_FAIL);
+                account = authUserVO.getEmail();
             }
+            User loginUser = userService.getUserByAccount(account);
+            if (loginUser!=null){
+                // 这里先判断此用户存在与否，存在才去鉴权服务器取token，这里需要看情况，如果鉴权服务器有用户信息，但本地没有用户信息(也就是第一次登陆)，Todo 应该是引导用户先去获得token，再在本地保存用户信息
+                Map<String,Object> token = authService.getTokenByAccount(account,authUserVO.getPassword());
+                if(token!=null){
+                    String ip = GetRequestInfo.getIpAddress(request);
+                    User updateUser = new User();
+                    if(StringUtils.isNotEmpty(ip)){
+                        updateUser.setLastLoginIp(ip);
+                    }
+                    updateUser.setGmtLastLogin(DateUtils.getCurrentDateTime());
+                    userService.updateUserByUserId(loginUser.getUserId(),updateUser);
+                    return Result.success(token);
+                }else{
+                    log.error("Token is null, account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
+                    return Result.failure(ResultCode.TOKEN_FAIL);
+                }
+            }else{
+                log.error("Account not exist in DB, account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
+                return Result.failure(ResultCode.AUTH_ACCOUNT_INVALID);
+            }
+
         }catch (BizException e){
             log.error("Login BizException error:"+e.toString()+", account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());
             return Result.failure(e.getResultCode(),e.getErrorMsg());
@@ -76,7 +92,7 @@ public class UserController {
         log.info("Register User:"+authUserVO.toString());
         Long userId= IdWorker.getId();
         User newUser = WrappedBeanCopier.copyProperties(authUserVO, User.class);
-        newUser.setUserId(userId);
+        newUser.setUserId(userId.toString());
         String role = RoleEnum.ROLE_USER.getCode();
         Set<String> authoritySet = JulyAuthorityUtils.getDefaultAuthorityByRole(role);
         if (StringUtils.isNotBlank(authUserVO.getRegisterCode())) {
@@ -125,7 +141,12 @@ public class UserController {
         }
     }
 
-    @PostMapping(value = "/validate")
+    /**
+     * 如果已经存在用户，返回fail，不存在用户则返回success
+     * @param authUserVO
+     * @return
+     */
+    @PostMapping(value = "/duplicate")
     public Result<Object> validate(@RequestBody AuthUserVO authUserVO){
         log.info("Validate User:"+authUserVO.toString());
         User user = WrappedBeanCopier.copyProperties(authUserVO, User.class);
@@ -142,10 +163,11 @@ public class UserController {
         if (user ==null){
             return Result.failure(ResultCode.API_DB_FAIL);
         }
-        String host = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        String hostId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+        log.info("Authentication:"+SecurityContextHolder.getContext().getAuthentication().toString());
         UserInfoVO loginUser = null;
-        if(StringUtils.isNotBlank(host)){
-            User hostUser = userService.getUserByAccount(host);
+        if(StringUtils.isNotBlank(hostId)){
+            User hostUser = userService.getById(hostId);
             if(hostUser!=null) {
                 loginUser = new UserInfoVO(hostUser);
             }
@@ -175,6 +197,29 @@ public class UserController {
             }
         }
 
+    }
+
+    @GetMapping(value = "/search")
+    public Result<List<UserInfoVO>> getUserBySearch(@RequestParam(value = "search", required = false) String search){
+        log.info("getUserBySearch , getUserBySearch:"+search);
+        if (StringUtils.isNotEmpty(search)) {
+            search = search.trim();
+            List<Integer> visibleUserStatusList = UserStatusEnum.getAllUserStatusCodeList();
+            List<User> userList = userService.getUserBySearch(search, 10, visibleUserStatusList);
+            log.info("getUserBySearch , userList:{}",userList.toString());
+            List<UserInfoVO> userInfoVOList = new ArrayList<>();
+            userList.forEach(user -> {
+                UserInfoVO userInfoVO = new UserInfoVO(user);
+                userInfoVOList.add(userInfoVO);
+            });
+            if (CollectionUtils.isNotEmpty(userInfoVOList)) {
+                return Result.success(userInfoVOList);
+            } else {
+                return Result.success("未搜索到任何结果");
+            }
+        }else{
+            return Result.failure(ResultCode.API_VALIDATION_ERROR,"搜索条件为空");
+        }
     }
 
 }

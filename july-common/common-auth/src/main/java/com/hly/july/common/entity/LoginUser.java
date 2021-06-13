@@ -13,7 +13,7 @@ import java.util.List;
  */
 @Data
 public class LoginUser implements UserDetails {
-    private Long userId;
+    private String userId;
     private String email;
     private String phoneNumber;
     private String password;
@@ -37,11 +37,15 @@ public class LoginUser implements UserDetails {
 
     @Override
     public String getUsername() {
-        return this.email;
+        return this.userId.toString();
     }
 
     public void setUsername(String userName) {
         this.email = userName;
+    }
+
+    public String getAccount() {
+        return this.email;
     }
 
     @Override

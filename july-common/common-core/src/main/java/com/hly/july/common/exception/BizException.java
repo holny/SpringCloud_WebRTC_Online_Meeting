@@ -43,13 +43,13 @@ public class BizException extends RuntimeException {
         this.errorMsg = resultCode.getMsg();
     }
 
-    public BizException(ResultCode resultCode,Throwable cause) {
+    public BizException(ResultCode resultCode, Throwable cause) {
         super(cause);
         this.resultCode = resultCode;
         this.errorMsg = cause.getMessage();
     }
 
-    public BizException(String errorMsg,Throwable cause) {
+    public BizException(String errorMsg, Throwable cause) {
         super(cause);
         this.resultCode = ResultCode.API_FAIL_400;
         this.errorMsg = errorMsg;
@@ -67,6 +67,10 @@ public class BizException extends RuntimeException {
         this.errorMsg = errorMsg;
     }
 
+    /**
+     * fillInStackTrace() 消耗性能最大，如无必要，自定义异常建议重写fillInStackTrace()直接返回this
+     * @return
+     */
     @Override
     public Throwable fillInStackTrace() {
         return this;

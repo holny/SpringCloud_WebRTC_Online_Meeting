@@ -1,18 +1,13 @@
 package com.hly.july.common.biz.vo;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableField;
-import com.baomidou.mybatisplus.annotation.TableId;
 import com.hly.july.common.biz.entity.User;
 import com.hly.july.common.constant.JulyConstants;
-import com.hly.july.common.constant.RoleEnum;
 import com.hly.july.common.constant.UserStatusEnum;
 import com.hly.july.common.util.JulyAuthorityUtils;
 import lombok.Data;
 
 import java.util.Date;
-import java.util.List;
 import java.util.Map;
 import java.util.Set;
 

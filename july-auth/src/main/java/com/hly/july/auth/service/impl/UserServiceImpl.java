@@ -3,12 +3,13 @@ package com.hly.july.auth.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
+import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.hly.july.common.biz.mapper.UserMapper;
 import com.hly.july.common.biz.entity.User;
-import com.hly.july.common.biz.service.IUserService;
+import com.hly.july.common.biz.mapper.UserMapper;
 import com.hly.july.common.constant.JulyConstants;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,10 +24,11 @@ import java.util.List;
  */
 @Service
 @Slf4j
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IUserService {
+public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IService<User> {
 
     public User getUserByAccount(String account){
         if(StringUtils.isNotBlank(account)) {
+            account = StringEscapeUtils.escapeSql(account);
             if(JulyConstants.DEFAULT_LOGIN_BY_ACCOUNT.equals("phoneNumber")){
                 return getUserByPhoneNumber(account);
             }else{

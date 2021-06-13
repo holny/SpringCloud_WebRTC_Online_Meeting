@@ -1,5 +1,7 @@
 package com.hly.july.common.constant;
 
+import lombok.extern.slf4j.Slf4j;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -8,13 +10,14 @@ import java.util.List;
  * @author Linyuan Hou
  * @date 2021/5/12 09:44
  */
+@Slf4j
 public enum RoleEnum {
-    ROLE_VISITOR("ROLE_VISITOR","role_visitor"),
-    ROLE_USER("ROLE_USER","role_user"),
-    ROLE_AUTHOR("ROLE_AUTHOR","role_author"),
-    ROLE_EXPERT("ROLE_EXPERT","role_expert"),
-    ROLE_ADMIN("ROLE_ADMIN","role_admin"),
-    ROLE_SUPER_ADMIN("ROLE_SUPER_ADMIN","role_superAdmin");
+    ROLE_VISITOR("ROLE_VISITOR","VISITOR"),
+    ROLE_USER("ROLE_USER","USER"),
+    ROLE_AUTHOR("ROLE_AUTHOR","AUTHOR"),
+    ROLE_EXPERT("ROLE_EXPERT","EXPERT"),
+    ROLE_ADMIN("ROLE_ADMIN","ADMIN"),
+    ROLE_SUPER_ADMIN("ROLE_SUPER_ADMIN","SUPER_ADMIN");
 
     private String code;
     private String desc;
@@ -59,6 +62,7 @@ public enum RoleEnum {
 
     public static RoleEnum getEnumByString(String str){
         RoleEnum[] list = RoleEnum.values();
+        log.info("getEnumByString:{}",list.toString());
         for (RoleEnum item : list) {
             if (item.getCode().equals(str)) {
                 return item;

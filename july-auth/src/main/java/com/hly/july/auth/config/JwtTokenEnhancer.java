@@ -44,8 +44,8 @@ public class JwtTokenEnhancer implements TokenEnhancer {
         }
 //        additionalInfo.put("permissions", authorities.stream().map(GrantedAuthority::getAuthority).collect(toList()));
         log.info("JwtTokenEnhancer  loginUser:"+user.toString());
-        additionalInfo.put("userId", user.getUserId().toString());
-        additionalInfo.put("userName", user.getUsername()); //设置Username，在资源服务器OncePerRequestFilter中会获取username来对比校验jwt token
+        additionalInfo.put("userId", user.getUserId());
+        additionalInfo.put("account", user.getAccount()); //设置account
         additionalInfo.put("status", user.getStatus());
         additionalInfo.put("createTime", df.format(LocalDateTime.now()));
         ((DefaultOAuth2AccessToken) accessToken).setAdditionalInformation(additionalInfo);

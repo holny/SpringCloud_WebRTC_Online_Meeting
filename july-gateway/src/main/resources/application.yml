@@ -8,6 +8,8 @@ spring:
         server-addr: @nacos-nginx-url@
 
     gateway:
+
+
       discovery:
         locator:
           enabled: true
@@ -30,15 +32,21 @@ spring:
           filters:
 
         - id: biz-user #路由id,唯一
-          uri: lb://user-manage-service #负载到consumer
+          uri: lb://user-manage-service
           predicates:
-            - Path=/user/** #以city开头的请求都负载到consumer服务
+            - Path=/user/**,/social/**
           filters:
-        - id: oauth #路由id,唯一
-          uri: lb://july-auth
+        - id: biz-meeting #路由id,唯一
+          uri: lb://meeting-service
           predicates:
-            - Path=/auth/**,/oauth/**
+            - Path=/meeting/**
           filters:
+#        - id: oauth #路由id,唯一
+#          uri: lb://july-auth
+#          predicates:
+#            - Path=/auth/**,/oauth/**
+#          filters:
+
   redis:
     host: @redis-url@
     port: @redis-port@

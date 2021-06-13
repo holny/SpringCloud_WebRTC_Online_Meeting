@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 public class RedisUtils {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisTemplate<String, Object> redisTemplate;
 
 //    public RedisTemplate getRedisTemplate() {
 //        return redisTemplate;
@@ -152,18 +152,50 @@ public class RedisUtils {
     }
 
     /**
+     * 判断一个Key是否存在
+     *
+     * @param key
+     * @return
+     */
+    public boolean exist(String key) {
+        try {
+            return  redisTemplate.hasKey(key);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * 删除Key
+     *
+     * @param key
+     * @return
+     */
+    public boolean delete(String key) {
+        try {
+            redisTemplate.delete(key);
+            return true;
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return false;
+        }
+    }
+
+
+    /**
      * 获取hash表项
      *
      * @param key
-     * @param item
+     * @param field
      * @return
      */
-    public Object hGet(String key, String item) {
+    public Object hGet(String key, String field) {
 
         if (key == null || "".equals(key)) {
             return null;
         } else {
-            return redisTemplate.opsForHash().get(key, item);
+            return redisTemplate.opsForHash().get(key, field);
         }
     }
 
@@ -254,19 +286,19 @@ public class RedisUtils {
      * 设置hash表项及过期时间
      *
      * @param key
-     * @param item
+     * @param field
      * @param value
      * @param time
      * @return
      */
-    public boolean hSet(String key, String item, Object value, long time) {
+    public boolean hSet(String key, String field, Object value, long time) {
 
-        if (key == null || "".equals(key) || item == null || "".equals(item) || time < 0) {
+        if (key == null || "".equals(key) || field == null || "".equals(field) || time < 0) {
             return false;
         }
 
         try {
-            redisTemplate.opsForHash().put(key, item, value);
+            redisTemplate.opsForHash().put(key, field, value);
             expire(key, time);
             return true;
         } catch (Exception e) {
@@ -279,12 +311,12 @@ public class RedisUtils {
      * 删除hash表项
      *
      * @param key
-     * @param items
+     * @param fields
      */
-    public void hDel(String key, Object... items) {
+    public void hDel(String key, Object... fields) {
 
         if (key != null && !"".equals(key)) {
-            redisTemplate.opsForHash().delete(key, items);
+            redisTemplate.opsForHash().delete(key, fields);
         }
     }
 
@@ -295,11 +327,11 @@ public class RedisUtils {
      * @param item
      * @return
      */
-    public boolean hHasKey(String key, String item) {
+    public boolean hHasKey(String key, String field) {
         if (key == null || "".equals(key)) {
             return false;
         }
-        return redisTemplate.opsForHash().hasKey(key, item);
+        return redisTemplate.opsForHash().hasKey(key, field);
     }
 
     /**
@@ -611,4 +643,55 @@ public class RedisUtils {
             return false;
         }
     }
+
+    /**
+     * string递增
+     * @param key 键
+     * @param delta 要增加几(大于0)
+     * @return
+     */
+    public long stringIncr(String key, long delta) {
+        if (delta < 0) {
+            throw new RuntimeException("递增因子必须大于0");
+        }
+        return redisTemplate.opsForValue().increment(key, delta);
+    }
+    /**
+     * string递减
+     * @param key 键
+     * @param delta 要减少几(小于0)
+     * @return
+     */
+    public long stringDecr(String key, long delta) {
+        if (delta < 0) {
+            throw new RuntimeException("递减因子必须大于0");
+        }
+        return redisTemplate.opsForValue().increment(key, -delta);
+    }
+
+    /**
+     * hash递增
+     * @param key 键
+     * @param delta 要增加几(大于0)
+     * @return
+     */
+    public long hashIncr(String key,String field, long delta) {
+        if (delta < 0) {
+            throw new RuntimeException("递增因子必须大于0");
+        }
+        return redisTemplate.opsForHash().increment(key,field, delta);
+    }
+    /**
+     * hash递减
+     * @param key 键
+     * @param delta 要减少几(小于0)
+     * @return
+     */
+    public long hashDecr(String key,String field, long delta) {
+        if (delta < 0) {
+            throw new RuntimeException("递减因子必须大于0");
+        }
+        return redisTemplate.opsForHash().increment(key,field, -delta);
+    }
+
 }

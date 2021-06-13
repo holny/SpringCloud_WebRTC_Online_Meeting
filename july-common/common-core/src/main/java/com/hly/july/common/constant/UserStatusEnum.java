@@ -41,6 +41,8 @@ public enum UserStatusEnum {
 
     private static List<Integer> allUserStatusCodeList;
 
+    private static List<Integer> visibleUserStatusCodeList;
+
     static {
         List<Integer> list1 = new ArrayList<>();
         list1.add(USER_STATUS_DELETE.getCode());
@@ -49,10 +51,20 @@ public enum UserStatusEnum {
         list1.add(USER_STATUS_LOCKED.getCode());
         list1.add(USER_STATUS_EXPIRED.getCode());
         allUserStatusCodeList = Collections.unmodifiableList(list1);
+
+        List<Integer> list2 = new ArrayList<>();
+        list2.add(USER_STATUS_NORMAL.getCode());
+        list2.add(USER_STATUS_LOCKED.getCode());
+        list2.add(USER_STATUS_EXPIRED.getCode());
+        visibleUserStatusCodeList = Collections.unmodifiableList(list2);
     }
 
     public static List<Integer> getAllUserStatusCodeList(){
         return allUserStatusCodeList;
+    }
+
+    public static List<Integer> getVisibleUserStatusCodeList(){
+        return visibleUserStatusCodeList;
     }
 
     public static RoleEnum getEnumByCode(Integer code){

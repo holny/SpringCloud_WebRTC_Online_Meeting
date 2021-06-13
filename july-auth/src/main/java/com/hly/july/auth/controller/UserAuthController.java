@@ -1,10 +1,6 @@
 package com.hly.july.auth.controller;
 
-import com.hly.july.common.biz.entity.User;
-import com.hly.july.common.biz.service.IUserService;
-import com.hly.july.common.result.Result;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 /**

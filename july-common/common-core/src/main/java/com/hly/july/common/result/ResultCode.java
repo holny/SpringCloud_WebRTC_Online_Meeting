@@ -39,8 +39,22 @@ public enum ResultCode implements IResultCode,Serializable {
     TOKEN_INVALID_REFRESH(20311,"Refresh token无效"),
     TOKEN_EXPIRED(20312,"Token过期"),
     TOKEN_ACCESS_FORBIDDEN(20313,"此Token禁止"),
-    TOKEN_FAIL(20314,"获取Token失败");
+    TOKEN_FAIL(20314,"获取Token失败"),
 
+
+    WEBSOCKET_SUCCESS(30001,"Websocket成功"),
+    WEBSOCKET_FAIL(30002,"Websocket失败"),
+    WEBSOCKET_SERVER_ERROR(30003,"服务器错误!"),
+    WEBSOCKET_REQUEST_ERROR(30004,"请求错误!"),
+    WEBSOCKET_ROOM_NOT_FOUND(30005,"没有找到Room"),
+    WEBSOCKET_ROOM_OCCUPIED(30006,"房间已满"),
+    WEBSOCKET_ROOM_DUPLICATE(30007,"房间已存在"),
+    WEBSOCKET_USER_EXIST(30008,"用户已存在"),
+    WEBSOCKET_ROOM_PERMISSION_DENIED(30009,"Permission denied!"),
+    WEBSOCKET_KEY_NOT_EXIST(30010,"key不存在!"),
+    WEBSOCKET_REQUEST_INVALID(30011,"无效的请求!"),
+
+    USER_SOCIAL_OVER_MAX(40001,"超过最大限度");
 
 //
 //

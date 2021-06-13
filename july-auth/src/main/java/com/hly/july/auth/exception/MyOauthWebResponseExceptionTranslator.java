@@ -41,6 +41,7 @@ public class MyOauthWebResponseExceptionTranslator implements WebResponseExcepti
         Throwable[] causeChain = throwableAnalyzer.determineCauseChain(e);
         Exception ase=null;
         log.error("MyOauthWebResponseExceptionTranslator Exception:"+e.getMessage());
+        e.printStackTrace();
         // 异常栈获取 OAuth2Exception 异常
         ase = (OAuth2Exception) throwableAnalyzer.getFirstThrowableOfType(
                 OAuth2Exception.class, causeChain);

@@ -1,0 +1,39 @@
+{
+  "name": "july-web-page",
+  "version": "0.1.0",
+  "author": "holny <holny@foxmail.com>",
+  "private": true,
+  "scripts": {
+    "serve": "vue-cli-service serve",
+    "dev": "vue-cli-service build --mode development",
+    "preview": "vue-cli-service build --mode preview",
+    "build": "vue-cli-service build --mode production",
+    "lint": "vue-cli-service lint"
+  },
+  "dependencies": {
+    "@quasar/extras": "^1.0.0",
+    "animate.css": "^4.1.1",
+    "axios": "^0.21.1",
+    "core-js": "^3.6.5",
+    "quasar": "^1.0.0",
+    "sockjs-client": "^1.5.1",
+    "stompjs": "^2.3.3",
+    "vue": "^2.6.11",
+    "vue-router": "^3.2.0",
+    "vuex": "^3.4.0"
+  },
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "~4.5.0",
+    "@vue/cli-plugin-eslint": "~4.5.0",
+    "@vue/cli-plugin-router": "~4.5.0",
+    "@vue/cli-plugin-vuex": "~4.5.0",
+    "@vue/cli-service": "~4.5.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.7.2",
+    "eslint-plugin-vue": "^6.2.2",
+    "node-sass": "^4.13.0",
+    "sass-loader": "^8.0.2",
+    "vue-cli-plugin-quasar": "~3.0.2",
+    "vue-template-compiler": "^2.6.11"
+  }
+}

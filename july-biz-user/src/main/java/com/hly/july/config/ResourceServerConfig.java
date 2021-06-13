@@ -1,5 +1,6 @@
 package com.hly.july.config;
 
+import com.hly.july.common.constant.RoleEnum;
 import com.hly.july.common.exception.CustomAccessDeniedHandler;
 import com.hly.july.common.exception.CustomAuthenticationEntryPoint;
 import com.hly.july.common.properties.RSAKeyProperties;
@@ -83,8 +84,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/user/login").permitAll()
                 .antMatchers("/user/register").permitAll()
-                .antMatchers("/user/validate").permitAll()
+                .antMatchers("/user/duplicate").permitAll()
+//                .antMatchers("/user/**").hasRole(RoleEnum.ROLE_SUPER_ADMIN.getCode())
                 .antMatchers("/user/**").permitAll()
+                .antMatchers("/social/**").permitAll()
 //                .antMatchers("/consumer/payment/**").hasRole("ADMIN")
 //                .antMatchers("/consumer/test/**").hasAuthority("PRO")
                 .antMatchers("/**").authenticated()//所有/r/**的请求必须认证通过 .anyRequest().permitAll()//除了/r/**，其它的请求可以访问

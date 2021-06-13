@@ -12,6 +12,7 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -27,10 +28,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * @author Linyuan Hou
@@ -38,6 +36,7 @@ import java.util.Set;
  */
 @Slf4j
 @Component
+@Order(1024)
 public class TokenAuthenticationFilter extends OncePerRequestFilter {
 
     @Resource
@@ -51,15 +50,6 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
         if(!StringUtils.isEmpty(token)) {
             if(JwtUtils.validateToken(token, rsaKeyProp.getPublicKey())) {
                 if (!JwtUtils.isTokenExpired(token, rsaKeyProp.getPublicKey())) {
-//                List<String> authorList = JSONUtil.toList(jsonObject.getJSONArray("authorities"),String.class);
-//                log.info("linyhou authorList:{}",authorList.toString());
-//                            UsernamePasswordAuthenticationToken authentication = new
-//                    UsernamePasswordAuthenticationToken(
-//                    user, null, AuthorityUtils.createAuthorityList(authorities));
-//                // 给使用该JWT令牌的用户进行授权
-//                UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities());
-//                // 交给spring security管理,在之后的过滤器中不会再被拦截进行二次授权了
-//                SecurityContextHolder.getContext().setAuthentication(authenticationToken);
                     try {
                         Claims claims = JwtUtils.getClaimsFromToken(token, rsaKeyProp.getPublicKey());
                         List<String> authorList = (List<String>) claims.get("authorities");
@@ -85,10 +75,11 @@ public class TokenAuthenticationFilter extends OncePerRequestFilter {
                             log.info("This userId:" + claims.get("userId") + " has no Authority.");
                         }
                         LoginUser loginUser = new LoginUser();
-                        loginUser.setUserId(Long.parseLong(claims.get("userId").toString()));
+                        loginUser.setUserId(claims.get("userId").toString());
                         loginUser.setJti(claims.get("jti").toString());
                         loginUser.setStatus(Integer.parseInt(claims.get("status").toString()));
-                        loginUser.setUsername(claims.get("userName").toString());
+                        loginUser.setUsername(claims.get("account").toString());
+                        loginUser.setAuthorities(new ArrayList<>(grantedAuthorities));
                         if (loginUser != null && SecurityContextHolder.getContext().getAuthentication() == null) {
                             // 给使用该JWT令牌的用户进行授权
                             log.info("This userId:" + claims.get("userId") + " start inject UsernamePasswordAuthenticationToken into security.");

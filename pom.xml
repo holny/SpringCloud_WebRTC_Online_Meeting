@@ -20,6 +20,8 @@
     <module>july-auth</module>
     <module>july-common</module>
     <module>july-biz-user</module>
+    <module>July-app-web</module>
+    <module>july-biz-meeting</module>
   </modules>
 
   <!-- 统一管理jar包版本 -->
@@ -110,6 +112,12 @@
         <scope>import</scope>
       </dependency>
 
+      <!-- 引入 websocket 依赖类-->
+      <dependency>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-websocket</artifactId>
+        <version>${spring-boot.version}</version>
+      </dependency>
       <!-- mysql -->
       <dependency>
         <groupId>mysql</groupId>

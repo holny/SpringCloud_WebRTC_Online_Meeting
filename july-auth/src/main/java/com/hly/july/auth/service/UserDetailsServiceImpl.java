@@ -1,6 +1,6 @@
 package com.hly.july.auth.service;
 
-import com.hly.july.auth.exception.MyOauthWebResponseExceptionTranslator;
+
 import com.hly.july.auth.service.impl.UserServiceImpl;
 import com.hly.july.common.biz.entity.User;
 import com.hly.july.common.constant.UserStatusEnum;
@@ -13,7 +13,6 @@ import org.springframework.security.authentication.AccountExpiredException;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.DisabledException;
 import org.springframework.security.authentication.LockedException;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,7 +22,6 @@ import org.springframework.util.CollectionUtils;
 import org.springframework.util.ObjectUtils;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Linyuan Hou
@@ -32,32 +30,6 @@ import java.util.stream.Collectors;
 @Slf4j
 @Service("userDetailsService")
 public class UserDetailsServiceImpl implements UserDetailsService {
-//    public static HashMap<String, LoginUser> userHashMap = new HashMap<>();
-//    static
-//    {
-//        //54321
-//        userHashMap.put("tttt",new LoginUser(1L,"Tom","$2a$10$Rk9.n5LiG1DLX6s1FSrJIOr4q8rP5XlVwHoB6dM.kmoKun98xu6Vq",true));
-//        //6543
-//        userHashMap.put("jjjj",new LoginUser(2L,"Jim","$2a$10$wh1BZ/e5eAjeVeJtMf8qWuD/VFp/EqSIHwZ9WZRmZGpsELOg/HOcu",true));
-//        //1234
-//        userHashMap.put("ffff",new LoginUser(3L,"Fury","$2a$10$Kuq9IXomzoju6mpEqE.1v.6foyVVywImgUPLuj6IemSD51b5m7SQm",true));
-//    }
-//
-//    public static HashMap<String, List<String>> roleHashMap = new HashMap<>();
-//    static
-//    {
-//        roleHashMap.put("tttt",new ArrayList<String>(Arrays.asList("ROLE_ADMIN","ROLE_USER")));
-//        roleHashMap.put("jjjj",new ArrayList<String>(Arrays.asList("ROLE_PRO","ROLE_USER")));
-//        roleHashMap.put("ffff",new ArrayList<String>(Arrays.asList("ROLE_USER")));
-//    }
-//
-//    public static HashMap<String, List<String>> authorityHashMap = new HashMap<>();
-//    static
-//    {
-//        authorityHashMap.put("tttt",new ArrayList<String>(Arrays.asList("CREATE","UPDATE","INSERT","DELETE")));
-//        authorityHashMap.put("jjjj",new ArrayList<String>(Arrays.asList("CREATE","UPDATE","INSERT")));
-//        authorityHashMap.put("ffff",new ArrayList<String>(Arrays.asList("CREATE","UPDATE")));
-//    }
 
     @Autowired
     private UserServiceImpl userService;
@@ -100,6 +72,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
             log.info("This userId:"+user.getUserId()+" has no Authority.");
         }
         Set<String> roleSet = JulyAuthorityUtils.roleClassifyString2Set(user.getRole());
+        log.info("roleSet:{}",roleSet.toString());
         if(!ObjectUtils.isEmpty(roleSet)) {
             log.info("This userId:"+user.getUserId()+" has Roles:{}", authoritySet.toString());
             roleSet.stream().forEach(role -> {

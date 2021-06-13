@@ -97,7 +97,7 @@
         <logger name="org.mybatis" level="INFO"></logger>
         <!-- Root节点用来指定项目的根日志，如果没有单独指定Logger，那么就会默认使用该Root日志输出 -->
         <!-- root是默认的logger，也就是公共的logger，供记录一些不常打印的系统参数或者其他组件参数 -->
-        <root level="DEBUG" includeLocation="true">
+        <root level="INFO" includeLocation="true">
             <AppenderRef ref="Console" />
             <AppenderRef ref="SYS_APPENDER" />
         </root>

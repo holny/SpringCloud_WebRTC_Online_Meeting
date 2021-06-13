@@ -12,6 +12,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.authentication.InsufficientAuthenticationException;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.oauth2.common.exceptions.InvalidGrantException;
@@ -39,10 +40,10 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
     @Override
     public void commence(HttpServletRequest request, HttpServletResponse response, AuthenticationException e) throws IOException, ServletException {
         log.error(e.getMessage());
+        log.error("Request URI:{}",request.getRequestURI());
         Result<String> result ;
         Throwable cause = e.getCause();
-        log.error("get Throwable case class:{}",cause.getClass());
-        log.error("get Throwable case:{}",cause.getStackTrace());
+        e.printStackTrace();
 
         if (cause instanceof InvalidTokenException) {
             result = Result.failure(ResultCode.TOKEN_INVALID);
@@ -53,13 +54,18 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         } else if (cause instanceof ExpiredJwtException)  {
             result = Result.failure(ResultCode.TOKEN_EXPIRED);
         }else{
-            result =  Result.failure(ResultCode.TOKEN_INVALID);
+            if (e instanceof InsufficientAuthenticationException){
+                result =  Result.failure(ResultCode.TOKEN_INVALID,e.getMessage());
+            }else{
+                result =  Result.failure(ResultCode.TOKEN_INVALID,e.getMessage());
+            }
         }
-        response.setStatus(HttpStatus.OK.value());
-        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        response.setHeader("Access-Control-Allow-Origin", "*");
-        response.setHeader("Cache-Control", "no-cache");
+        response.setStatus(HttpStatus.UNAUTHORIZED.value());
+//        response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+//        response.setHeader("Access-Control-Allow-Origin", "*");
+//        response.setHeader("Cache-Control", "no-cache");
         response.setCharacterEncoding("UTF-8");
+//        response.setHeader(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS,"false");
         response.setContentType("application/json;charset=UTF-8");
         try {
             ObjectMapper mapper = new ObjectMapper();
