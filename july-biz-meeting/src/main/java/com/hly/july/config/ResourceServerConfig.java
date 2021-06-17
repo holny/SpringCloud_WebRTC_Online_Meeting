@@ -1,10 +1,8 @@
 package com.hly.july.config;
 
-import com.hly.july.common.constant.AuthorityEnum;
-import com.hly.july.common.constant.RoleEnum;
-import com.hly.july.common.exception.CustomAccessDeniedHandler;
-import com.hly.july.common.exception.CustomAuthenticationEntryPoint;
-import com.hly.july.common.properties.RSAKeyProperties;
+import com.hly.july.common.biz.exception.CustomAccessDeniedHandler;
+import com.hly.july.common.biz.exception.CustomAuthenticationEntryPoint;
+import com.hly.july.common.biz.properties.RSAKeyProperties;
 import com.hly.july.filter.TokenAuthenticationFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

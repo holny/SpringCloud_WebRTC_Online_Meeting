@@ -1,17 +1,15 @@
 package com.hly.july.service.impl;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hly.july.common.biz.entity.User;
 import com.hly.july.common.biz.mapper.UserMapper;
-import com.hly.july.common.constant.JulyConstants;
+import com.hly.july.common.biz.constant.JulyConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.ibatis.annotations.Update;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -155,6 +153,30 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IS
             return baseMapper.updateById(updateUser);
         }
         return -1;
+    }
+
+    public User getUserListByUserIdAndStatus(String userId,List<Integer> statusList){
+        if(StringUtils.isNotEmpty(userId)&&CollectionUtils.isNotEmpty(statusList)){
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_id", userId).in("status",statusList);
+            List<User> userList = baseMapper.selectList(queryWrapper);
+            if(userList.size()>0){
+                return userList.get(0);
+            }else{
+                return null;
+            }
+        }
+        return null;
+    }
+
+    public List<User> getUserListByUserIdsAndStatus(List<String> userIds,List<Integer> statusList){
+        if(CollectionUtils.isNotEmpty(userIds)&&CollectionUtils.isNotEmpty(statusList)){
+            QueryWrapper<User> queryWrapper = new QueryWrapper<>();
+            queryWrapper.in("user_id", userIds).in("status",statusList);
+            List<User> userList = baseMapper.selectList(queryWrapper);
+            return userList;
+        }
+        return null;
     }
 
 }

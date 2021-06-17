@@ -3,9 +3,8 @@ package com.hly.july.auth.config;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 
-import com.hly.july.common.entity.LoginUser;
+import com.hly.july.common.biz.entity.LoginUser;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
@@ -14,11 +13,8 @@ import org.springframework.security.oauth2.provider.token.TokenEnhancer;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import static java.util.stream.Collectors.toList;
 
 /**
  * @author Linyuan Hou

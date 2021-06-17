@@ -1,22 +1,19 @@
 package com.hly.july.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.conditions.update.UpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.baomidou.mybatisplus.extension.api.R;
 import com.hly.july.common.biz.entity.User;
 import com.hly.july.common.biz.vo.AuthUserVO;
 import com.hly.july.common.biz.vo.UserInfoVO;
-import com.hly.july.common.constant.JulyConstants;
-import com.hly.july.common.constant.RoleEnum;
-import com.hly.july.common.constant.UserStatusEnum;
-import com.hly.july.common.exception.BizException;
-import com.hly.july.common.result.Result;
-import com.hly.july.common.result.ResultCode;
-import com.hly.july.common.util.*;
-import com.hly.july.common.validation.group.LoginValidationGroup;
-import com.hly.july.common.validation.group.RegisterValidationGroup;
+import com.hly.july.common.biz.constant.JulyConstants;
+import com.hly.july.common.biz.constant.RoleEnum;
+import com.hly.july.common.biz.constant.UserStatusEnum;
+import com.hly.july.common.biz.exception.BizException;
+import com.hly.july.common.biz.result.Result;
+import com.hly.july.common.biz.result.ResultCode;
+import com.hly.july.common.biz.util.*;
+import com.hly.july.common.biz.validation.group.LoginValidationGroup;
+import com.hly.july.common.biz.validation.group.RegisterValidationGroup;
 import com.hly.july.service.impl.AuthServiceImpl;
 import com.hly.july.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -163,6 +160,9 @@ public class UserController {
         if (user ==null){
             return Result.failure(ResultCode.API_DB_FAIL);
         }
+        if (!UserStatusEnum.getVisibleUserStatusCodeList().contains(user.getStatus())){
+            return Result.failure(ResultCode.AUTH_ACCOUNT_INVALID);
+        }
         String hostId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
         log.info("Authentication:"+SecurityContextHolder.getContext().getAuthentication().toString());
         UserInfoVO loginUser = null;
@@ -203,15 +203,26 @@ public class UserController {
     public Result<List<UserInfoVO>> getUserBySearch(@RequestParam(value = "search", required = false) String search){
         log.info("getUserBySearch , getUserBySearch:"+search);
         if (StringUtils.isNotEmpty(search)) {
+            String hostId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
+            log.info("Authentication:"+SecurityContextHolder.getContext().getAuthentication().toString());
             search = search.trim();
             List<Integer> visibleUserStatusList = UserStatusEnum.getAllUserStatusCodeList();
             List<User> userList = userService.getUserBySearch(search, 10, visibleUserStatusList);
             log.info("getUserBySearch , userList:{}",userList.toString());
             List<UserInfoVO> userInfoVOList = new ArrayList<>();
-            userList.forEach(user -> {
+
+            User hoster = null;
+            for (User user : userList) {
                 UserInfoVO userInfoVO = new UserInfoVO(user);
                 userInfoVOList.add(userInfoVO);
-            });
+                if(hostId!=null&&user.getUserId().equals(hostId)){
+                    hoster=user;
+                }
+            }
+            if(hoster!=null){
+                // 删除hoster自己
+                userList.remove(hoster);
+            }
             if (CollectionUtils.isNotEmpty(userInfoVOList)) {
                 return Result.success(userInfoVOList);
             } else {

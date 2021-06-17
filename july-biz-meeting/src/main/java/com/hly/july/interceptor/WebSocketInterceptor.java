@@ -1,10 +1,8 @@
 package com.hly.july.interceptor;
 
-import cn.hutool.core.util.CharsetUtil;
-import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
-import com.hly.july.common.result.Result;
-import com.hly.july.common.result.ResultCode;
+import com.hly.july.common.biz.result.Result;
+import com.hly.july.common.biz.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.MediaType;
 import org.springframework.http.server.ServerHttpRequest;
@@ -16,7 +14,6 @@ import org.springframework.web.socket.server.HandshakeInterceptor;
 
 import java.io.IOException;
 import java.nio.charset.Charset;
-import java.util.HashMap;
 import java.util.Map;
 
 /**

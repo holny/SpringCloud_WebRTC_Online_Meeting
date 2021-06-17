@@ -8,14 +8,24 @@
           <q-item>
             <q-item-section avatar>
               <q-avatar>
-                <img src="https://cdn.quasar.dev/img/avatar2.jpg">
+                <img :src="hostInfo!=null?hostInfo.avatar:''">
               </q-avatar>
             </q-item-section>
             <q-item-section>
-              <q-item-label>{{this.searchSelectUserInfo}}</q-item-label>
-              <q-item-label caption>Subhead</q-item-label>
+              <q-item-label>{{hostInfo!=null?hostInfo.userName:'Unknown'}}{{hostInfo!=null?(hostInfo.nickName!=null?'('+hostInfo.nickName+')':''):''}}</q-item-label>
+              <q-item-label caption class="text-white">{{hostInfo!=null?hostInfo.role:''}}</q-item-label>
             </q-item-section>
           </q-item>
+          <q-icon v-if="julyWebsocket.variable.connectionFlag['websocket']['status']===true" class="absolute-top-right q-mr-md q-mt-xs" size="sm" color="green" name="link" >
+            <q-tooltip>
+              <strong >当前前WebSocket已连接</strong>
+            </q-tooltip>
+          </q-icon>
+          <q-icon v-else class="absolute-top-right q-mr-md q-mt-xs" size="sm" color="negative" name="link_off" >
+            <q-tooltip>
+              <strong >当前前WebSocket未连接</strong>
+            </q-tooltip>
+          </q-icon>
         </div>
       </q-img>
     </q-card-section>
@@ -74,17 +84,17 @@
       <q-separator color="orange"  vertical inset />
       <q-list v-if="contactType==='recent'" class="full-width">
         <q-scroll-area class="full-height full-width">
-          <contact-item v-for="socialObject in contacts.variable.recentArray" :key="socialObject.peerId" :peer-object="socialObject"/>
+          <contact-item v-for="relationObject in contacts.variable.recentArray" :key="relationObject.peerId" :peer-object="relationObject" v-on:changePeer="changeChatPeer" v-on:addBookmarker="addBookMarkPeer" v-on:removeUserRelation="removeUserRelation"/>
         </q-scroll-area>
       </q-list>
       <q-list v-else-if="contactType==='bookmark'" class="full-width">
         <q-scroll-area class="full-height full-width">
-          <contact-item v-for="socialObject in contacts.variable.bookMarkArray" :key="socialObject.peerId" :peer-object="socialObject"/>
+          <contact-item v-for="relationObject in contacts.variable.bookMarkArray" :key="relationObject.peerId" :peer-object="relationObject" v-on:changePeer="changeChatPeer" v-on:addBookmarker="addBookMarkPeer" v-on:removeUserRelation="removeUserRelation"/>
         </q-scroll-area>
       </q-list>
       <q-list v-else-if="contactType==='group'" class="full-width">
         <q-scroll-area class="full-height full-width">
-          <contact-item v-for="socialObject in contacts.variable.groupArray" :key="socialObject.peerId" :peer-object="socialObject"/>
+          <contact-item v-for="relationObject in contacts.variable.groupArray" :key="relationObject.peerId" :peer-object="relationObject" v-on:changePeer="changeChatPeer" v-on:addBookmarker="addBookMarkPeer" v-on:removeUserRelation="removeUserRelation"/>
         </q-scroll-area>
       </q-list>
       <q-space/>
@@ -145,8 +155,8 @@
         <q-separator />
 
         <q-card-actions align="right">
-          <q-btn v-close-popup flat color="primary" round icon="bookmark" @click="$emit('bookMarkPeer',this.candidateUserInfo.userId)"/>
-          <q-btn v-close-popup flat color="green" round icon="chat" @click="$emit('changeChatPeer',this.candidateUserInfo.userId)" />
+          <q-btn v-close-popup flat color="primary" round icon="bookmark" @click="addBookMarkPeer(candidateUserInfo.userId,candidateUserInfo.peerType)"/>
+          <q-btn v-close-popup flat color="green" round icon="chat" @click="changeChatPeer(candidateUserInfo.userId,candidateUserInfo.peerType,candidateUserInfo.category)" />
         </q-card-actions>
       </q-card>
     </q-dialog>
@@ -154,11 +164,12 @@
 </template>
 
 <script>
-import {getHostId, getToken} from "@/utils/auth";
-import {filterPrintRole,convertPrintGender} from "@/utils/convert";
 import contactItem from '@/views/chat/contactItem'
-import {date} from "quasar";
+// import {date} from "quasar";
 import {initJulyWS} from "@/utils/socket";
+import {isNotEmpty} from "@/utils/validate";
+import {JULY,FUN} from "@/utils/julyCommon";
+import {CONSTANT} from "@/utils/constant";
 
 export default {
   name: "Contacts",
@@ -171,6 +182,10 @@ export default {
       type: Object,
       required: false
     },
+    hostInfo: {
+      peerType: Object,
+      required: false
+    }
   },
   components: {
     contactItem
@@ -178,7 +193,7 @@ export default {
   data () {
     return {
       contactType: 'recent',
-      hostId: getHostId(),
+      hostId: this.hostInfo!=null?this.hostInfo.userId:null,
       userInfoDialogShow: false,
       searchInputDisplayVal:'',
       options:[],
@@ -203,14 +218,10 @@ export default {
       },
       julyWebsocket:{
         constant: {
-          WSEndPointURI:  'http://localhost:80/meeting/endpointWS?Authorization=' + getToken(),
-          sendWSHeartBeatURI: '/app/heartbeat',
-          subWSHeartBeatURI: '/user/topic/heartbeat',
           stompClient: this.stompClient
         },
         variable: {
-          connectionFlag: this.connectionFlag!=null?this.connectionFlag:{'websocket':{'name':'websocket',"status":false}},
-          headers: {'Authorization': 'Bearer ' + getToken()}
+          connectionFlag: this.connectionFlag!=null?this.connectionFlag:{'websocket':{'name':'websocket',"status":false}}
         },
       },
     }
@@ -226,73 +237,92 @@ export default {
     initWSEnv(){
       if (this.julyWebsocket.constant.stompClient==null){
         console.log("contacts websocket not init , so start init by self")
-        this.julyWebsocket.constant.stompClient = initJulyWS(this.julyWebsocket.constant.WSEndPointURI,this.julyWebsocket.constant.sendWSHeartBeatURI)
+        this.julyWebsocket.constant.stompClient = initJulyWS(JULY.WEBSOCKET_URI_ENDPOINT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL)
       }
     },
     initWSWatcher(){
       console.log("contacts websocket watcher not init , so start init by self")
       let _that = this
       this.julyWebsocket.constant.stompClient.connect(
-          _that.julyWebsocket.variable.headers,
+          JULY.WEBSOCKET_HEADERS,
           function connectCallback () {
             // 订阅stompClient心跳检测
-            _that.julyWebsocket.constant.stompClient.subscribe(_that.julyWebsocket.constant.subWSHeartBeatURI, () => {
+            _that.julyWebsocket.constant.stompClient.subscribe(JULY.WEBSOCKET_URI_SUBSCRIBE_HEARTBEAT, () => {
               _that.julyWebsocket.variable.connectionFlag['websocket']['status'] = true
             })
           },
           function errorCallBack (error) {
             _that.julyWebsocket.variable.connectionFlag['websocket']['status'] = false
-            console.log('订阅失败:' + error)
+            FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
           }
       )
     },
     initContacts(hostId){
-      let _that =this
-      this.$store.dispatch('user/getUserSocial', hostId)
-          .then((data) => {
-            // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
-            console.log('initContacts getUserSocial successful')
-            console.log(data)
-            for(let index in data){
-              if (data[index].socialType==='recent'){
-                let newSocial = {}
-                newSocial['peerId'] = data[index].peerId
-                newSocial['socialType'] = data[index].socialType
-                newSocial['remarkName'] = data[index].remarkName
-                newSocial['tag'] = data[index].tag
-                newSocial['peerUserName'] = data[index].peerUserName
-                newSocial['peerAvatar'] = data[index].peerAvatar
-                newSocial['gmtLastContact'] = date.formatDate(date.extractDate(data[index].gmtLastContact, 'x'), 'YYYY-MM-DD HH:mm:ss')
-                newSocial['peerNickName'] = data[index].peerNickName
-                newSocial['peerGender'] = convertPrintGender(data[index].peerGender)
-                newSocial['peerRole'] = filterPrintRole(data[index].peerRole)
-                _that.contacts.variable.recentArray.push(newSocial)
-              }else if (data[index].socialType==='bookmark'){
-                let newSocial = {}
-                newSocial['peerId'] = data[index].peerId
-                newSocial['socialType'] = data[index].socialType
-                newSocial['remarkName'] = data[index].remarkName
-                newSocial['tag'] = data[index].tag
-                newSocial['peerUserName'] = data[index].peerUserName
-                newSocial['peerAvatar'] = data[index].peerAvatar
-                newSocial['gmtLastContact'] = date.formatDate(date.extractDate(data[index].gmtLastContact, 'x'), 'YYYY-MM-DD HH:mm:ss')
-                newSocial['peerNickName'] = data[index].peerNickName
-                newSocial['peerGender'] = convertPrintGender(data[index].peerGender)
-                newSocial['peerRole'] = filterPrintRole(data[index].peerRole)
-                _that.contacts.variable.bookMarkArray.push(newSocial)
+      if (isNotEmpty(hostId)) {
+        let _that =this
+        this.$store.dispatch('user/getUserRelation', {userId: hostId, peerId: null, category: null})
+            .then((data) => {
+              // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
+              console.log('initContacts getRelation successful')
+              console.log(data)
+              for (let index in data) {
+                if (data[index].category === CONSTANT.CONTACTS_CATEGORY_RECENT) {
+                  let newRelation = {}
+                  newRelation['peerId'] = data[index].peerId
+                  newRelation['peerType'] = data[index].peerType
+                  newRelation['remarkName'] = data[index].remarkName
+                  newRelation['tag'] = data[index].tag
+                  newRelation['peerUserName'] = data[index].peerUserName
+                  newRelation['peerAvatar'] = data[index].peerAvatar
+                  if (isNotEmpty(data[index].gmtCreate)) {
+                    newRelation['gmtCreate'] = data[index].gmtCreate
+                  } else {
+                    newRelation['gmtCreate'] = null
+                  }
+                  if (isNotEmpty(data[index].gmtLastContact)) {
+                    newRelation['gmtLastContact'] = data[index].gmtLastContact
+                  } else {
+                    newRelation['gmtLastContact'] = null
+                  }
+                  newRelation['peerNickName'] = data[index].peerNickName
+                  newRelation['peerGender'] = FUN.convertPrintGender(data[index].peerGender)
+                  newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
+                  newRelation['category'] = data[index].category
+                  _that.contacts.variable.recentArray.push(newRelation)
+                } else if (data[index].category === CONSTANT.CONTACTS_CATEGORY_BOOKMARK) {
+                  let newRelation = {}
+                  newRelation['peerId'] = data[index].peerId
+                  newRelation['peerType'] = data[index].peerType
+                  newRelation['remarkName'] = data[index].remarkName
+                  newRelation['tag'] = data[index].tag
+                  newRelation['peerUserName'] = data[index].peerUserName
+                  newRelation['peerAvatar'] = data[index].peerAvatar
+                  if (isNotEmpty(data[index].gmtCreate)) {
+                    newRelation['gmtCreate'] = data[index].gmtCreate
+                  } else {
+                    newRelation['gmtCreate'] = null
+                  }
+                  if (isNotEmpty(data[index].gmtLastContact)) {
+                    newRelation['gmtLastContact'] = data[index].gmtLastContact
+                  } else {
+                    newRelation['gmtLastContact'] = null
+                  }
+                  newRelation['peerNickName'] = data[index].peerNickName
+                  newRelation['peerGender'] = FUN.convertPrintGender(data[index].peerGender)
+                  newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
+                  newRelation['category'] = data[index].category
+                  _that.contacts.variable.bookMarkArray.push(newRelation)
+                }
               }
-            }
-          })
-          .catch((error) => {
-            console.log('initContacts getUserSocial fail')
-            console.log(error)
-            this.$q.notify({
-              type: 'negative',
-              message: error.toString(),
-              position: 'top',
-              timeout: 5000
             })
-          })
+            .catch((error) => {
+              console.log('initContacts getRelation fail')
+              console.log(error)
+              FUN.notify(error, FUN.NOTIFY_LEVEL_ERROR, FUN.NOTIFY_POSITION_TOP)
+            })
+      }else{
+        FUN.notify("没有当前用户信息，无法获取用户的联系人", FUN.NOTIFY_LEVEL_ERROR, FUN.NOTIFY_POSITION_TOP)
+      }
     },
     async filterFn (val, update, abort) {
       if (val.length < 1) {
@@ -311,38 +341,26 @@ export default {
         userInfo['nickName'] = candidateUserInfoArray[index].nickName
         userInfo['userName'] = candidateUserInfoArray[index].userName
         userInfo['avatar'] = candidateUserInfoArray[index].avatar
-        userInfo['gender'] = convertPrintGender(candidateUserInfoArray[index].gender)
-        userInfo['role'] = filterPrintRole(candidateUserInfoArray[index].role)
+        userInfo['gender'] = candidateUserInfoArray[index].gender
+        userInfo['role'] = candidateUserInfoArray[index].role
         _that.candidateOptions.push(userInfo)
       }
         update(() => {
           this.options = this.candidateOptions
         })
-      // setTimeout(() => {
-      //   update(() => {
-      //     if (val === '') {
-      //       this.options = this.candidateOptions
-      //     }
-      //     else {
-      //       const needle = val.toLowerCase()
-      //       this.options = this.candidateOptions.filter(v => v.label.toLowerCase().indexOf(needle) > -1)
-      //     }
-      //   })
-      // }, 1500)
     },
     async getSearchUserInfo (search) {
       let result
       console.log('getSearchUserInfo :' +search)
       await this.$store.dispatch('user/searchUserInfo', search)
           .then((data) => {
-            // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
             console.log('getSearchUserInfo successful')
             console.log(data)
             result = data
           })
           .catch((error) => {
             console.log('getSearchUserInfo fail')
-            console.log(error)
+            FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
             result = []
           })
       return result
@@ -360,34 +378,145 @@ export default {
       this.candidateUserInfo.userId = this.searchSelectUserInfo.userId
       this.candidateUserInfo.avatar = this.searchSelectUserInfo.avatar
       this.candidateUserInfo.role = this.searchSelectUserInfo.role
+      this.candidateUserInfo.peerType = CONSTANT.CONTAINER_PERSON
+      this.candidateUserInfo.cateGory = CONSTANT.CONTACTS_CATEGORY_RECENT
     },
-    addBookMarkPeer(peerId){
+    changeChatPeer(peerId,peerType,category){
+      console.log('contacts changeChatPeer')
+      console.log(peerId)
+      console.log(peerType)
+      console.log(category)
+      let _that = this
+      this.$emit('changePeer',peerId,peerType)
+      let data ={userId:this.hostId,peerId:peerId,peerType:peerType}
+      this.$store.dispatch('user/upInsertUserRecentContact', {userId: this.hostId, data: JSON.stringify(data)})
+          .then((data) => {
+            // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
+            console.log('upInsertRecentContact successful')
+            console.log(data)
+            _that.updateRecentContactView(data)
+          })
+          .catch((error) => {
+            console.log('upInsertRecentContact fail')
+            FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
+
+          })
+
+    },
+    updateRecentContactView(data){
+      console.log("updateRecentContactView")
+      this.contacts.variable.recentArray=[]
+      for (let index in data){
+        let newRelation = {}
+        newRelation['peerId'] = data[index].peerId
+        newRelation['peerType'] = data[index].peerType
+        newRelation['remarkName'] = data[index].remarkName
+        newRelation['tag'] = data[index].tag
+        newRelation['peerUserName'] = data[index].peerUserName
+        newRelation['peerAvatar'] = data[index].peerAvatar
+        if (isNotEmpty(data[index].gmtCreate)) {
+          newRelation['gmtCreate'] = data[index].gmtCreate
+        } else {
+          newRelation['gmtCreate'] = null
+        }
+        if (isNotEmpty(data[index].gmtLastContact)) {
+          newRelation['gmtLastContact'] = data[index].gmtLastContact
+        } else {
+          newRelation['gmtLastContact'] = null
+        }
+        newRelation['peerNickName'] = data[index].peerNickName
+        newRelation['peerGender'] = FUN.convertPrintGender(data[index].peerGender)
+        newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
+        newRelation['category'] = data[index].category
+        this.contacts.variable.recentArray.push(newRelation)
+      }
+    },
+    updateBookmarkContactView(data){
+      this.contacts.variable.bookMarkArray=[]
+      for (let index in data){
+        let newRelation = {}
+        newRelation['peerId'] = data[index].peerId
+        newRelation['peerType'] = data[index].peerType
+        newRelation['remarkName'] = data[index].remarkName
+        newRelation['tag'] = data[index].tag
+        newRelation['peerUserName'] = data[index].peerUserName
+        newRelation['peerAvatar'] = data[index].peerAvatar
+        if (isNotEmpty(data[index].gmtCreate)) {
+          newRelation['gmtCreate'] = data[index].gmtCreate
+        } else {
+          newRelation['gmtCreate'] = null
+        }
+        if (isNotEmpty(data[index].gmtLastContact)) {
+          newRelation['gmtLastContact'] = data[index].gmtLastContact
+        } else {
+          newRelation['gmtLastContact'] = null
+        }
+        newRelation['peerNickName'] = data[index].peerNickName
+        newRelation['peerGender'] = FUN.convertPrintGender(data[index].peerGender)
+        newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
+        newRelation['category'] = data[index].category
+        this.contacts.variable.bookMarkArray.push(newRelation)
+      }
+    },
+    removeUserRelation(peerId,peerType,category){
+      console.log('contacts removeUserRelation')
+      console.log(peerId)
+      console.log(peerType)
+      console.log(category)
+      if(isNotEmpty(peerId)&&isNotEmpty(peerType)&&isNotEmpty(category)){
+        let _that = this
+        if(category===CONSTANT.CONTACTS_CATEGORY_RECENT){
+          let data ={userId:this.hostId,peerId:peerId,peerType:peerType}
+          this.$store.dispatch('user/removeUserRecentContact',{userId: this.hostId, data: JSON.stringify(data)})
+              .then((data) => {
+                // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
+                console.log('removeUserRecentContact successful')
+                console.log(data)
+                FUN.notify("删除最近联系人成功",FUN.NOTIFY_LEVEL_INFO,FUN.NOTIFY_POSITION_TOP)
+                _that.updateRecentContactView(data)
+              })
+              .catch((error) => {
+                console.log('removeUserRecentContact fail')
+                console.log(error)
+                FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
+              })
+        }else if(category===CONSTANT.CONTACTS_CATEGORY_BOOKMARK){
+          let data ={userId: this.hostId, peerId:peerId,peerType:peerType}
+          this.$store.dispatch('user/removeUserRelation',data)
+              .then((data) => {
+                // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
+                console.log('removeUserRelation successful')
+                console.log(data)
+                FUN.notify("删除收藏联系人成功",FUN.NOTIFY_LEVEL_INFO,FUN.NOTIFY_POSITION_TOP)
+                _that.updateBookmarkContactView(data)
+              })
+              .catch((error) => {
+                console.log('removeUserRelation fail')
+                console.log(error)
+                FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
+              })
+        }
+      }else{
+        console.log("removeUserRelation 参数不正确")
+      }
+    },
+    addBookMarkPeer(peerId,peerType){
       console.log('bookMarkPeer:'+peerId)
-      this.$store.dispatch('user/addUserSocial', {userId:this.hostId,peerId:peerId,type:'bookmark'})
+      console.log('bookMarkPeer:'+peerType)
+      let _that = this
+      let data = {userId:this.hostId,peerId:peerId,peerType:peerType}
+      this.$store.dispatch('user/upInsertUserRelation',{userId:this.hostId,category:CONSTANT.CONTACTS_CATEGORY_BOOKMARK,data:JSON.stringify(data)})
           .then((data) => {
             // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
             console.log('addBookMarkPeer successful')
             console.log(data)
+            _that.updateBookmarkContactView(data)
+            FUN.notify("添加成功",FUN.NOTIFY_LEVEL_INFO,FUN.NOTIFY_POSITION_TOP)
           })
           .catch((error) => {
             console.log('addBookMarkPeer fail')
             console.log(error)
-
-          })
-    },
-    addRecentPeer(peerId){
-      console.log('startChatPeer:'+peerId)
-      this.chatPeerId = peerId
-      this.$store.dispatch('user/addUserSocial', {userId:this.hostId,peerId:peerId,type:'recent'})
-          .then((data) => {
-            // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
-            console.log('addBookMarkPeer successful')
-            console.log(data)
-          })
-          .catch((error) => {
-            console.log('addBookMarkPeer fail')
-            console.log(error)
-
+            FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
           })
     },
   }

@@ -47,24 +47,46 @@ export function searchUser (search) {
   })
 }
 
-export function getSocial (userId) {
+export function getRelation (userId,peerId,category) {
   return request({
-    url: '/api/social/'+userId,
-    method: 'get'
+    url: '/api/relation/'+userId,
+    method: 'get',
+    params: { peerId:peerId,category:category }
   })
 }
-export function addSocial (userId,peerId,type) {
+export function upInsertRelation (userId,category,data) {
   return request({
-    url: '/api/social/'+userId,
+    url: '/api/relation/'+userId,
     method: 'post',
-    params: { peerId:peerId,type:type }
+    params: { category:category },
+    data
   })
 }
 
-export function removeSocial (userId,peerId,type) {
+export function removeRelation (userId,peerId,peerType) {
   return request({
-    url: '/api/social/'+userId,
+    url: '/api/relation/'+userId,
     method: 'delete',
-    params: { peerId:peerId,type:type }
+    params: { peerId:peerId,peerType:peerType }
+  })
+}
+
+export function upInsertRecentContact (userId,recentData) {
+  console.log("upInsertRecentContact")
+  console.log(recentData)
+  return request({
+    url: '/api/relation/'+userId+'/recent',
+    method: 'post',
+    data:recentData
+  })
+}
+
+export function removeRecentContact (userId,recentData) {
+  console.log("removeRecentContact")
+  console.log(recentData)
+  return request({
+    url: '/api/relation/'+userId+'/recent',
+    method: 'delete',
+    data:recentData
   })
 }

@@ -1,20 +1,20 @@
 package com.hly.july.service.api;
 
 import com.hly.july.common.biz.vo.UserInfoVO;
-import com.hly.july.common.constant.AuthConstants;
-import com.hly.july.common.result.Result;
+import com.hly.july.common.biz.constant.AuthConstants;
+import com.hly.july.common.biz.result.Result;
+import com.hly.july.config.FeignInterceptor;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
 import java.util.Map;
 
 /**
  * @author Linyuan Hou
  * @date 2021/5/9 15:48
  */
-@FeignClient(value = "user-manage-service")
+@FeignClient(value = "user-manage-service", configuration = FeignInterceptor.class)
 public interface UserApiService {
 
 //    @Headers({"Content-Type: application/json;charset=utf8","Authorization: "+ AuthConstants.CLIENT_BASIC_SECRET})
@@ -29,5 +29,5 @@ public interface UserApiService {
             Map<String, String> parameters);
 
     @GetMapping(value = "/user/{userId}")
-    public Result<UserInfoVO> getUser(@PathVariable String userId, HttpSession session);
+    public Result<UserInfoVO> getUser(@PathVariable String userId);
 }

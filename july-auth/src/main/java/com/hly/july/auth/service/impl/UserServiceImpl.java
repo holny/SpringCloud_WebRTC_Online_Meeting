@@ -7,7 +7,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.hly.july.common.biz.entity.User;
 import com.hly.july.common.biz.mapper.UserMapper;
-import com.hly.july.common.constant.JulyConstants;
+import com.hly.july.common.biz.constant.JulyConstants;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.springframework.stereotype.Service;

@@ -8,10 +8,10 @@
 
     <q-item-section>
       <q-item-label>{{peerObject.remarkName!=null?peerObject.remarkName:peerObject.peerUserName}}{{peerObject.remarkName!=null?'('+peerObject.peerUserName+')':''}}</q-item-label>
-      <q-item-label caption>{{peerObject.gmtLastContact!=null?peerObject.gmtLastContact:'未知'}}</q-item-label>
+      <q-item-label caption>{{peerObject.category===categoryRecent?peerObject.gmtLastContact:peerObject.gmtCreate}}</q-item-label>
     </q-item-section>
     <q-item-section side>
-      <q-icon name="chat_bubble" color="green" @click="$emit('changeChatPeer',peerObject)"/>
+      <q-icon name="chat_bubble" color="green" @click="$emit('changePeer',peerObject.peerId,peerObject.peerType,peerObject.category)"/>
     </q-item-section>
     <q-menu
         touch-position
@@ -19,11 +19,11 @@
     >
 
       <q-list dense style="min-width: 100px">
-        <q-item clickable v-close-popup v-if="peerObject.socialType==='recent'">
-          <q-item-section>标记</q-item-section>
+        <q-item clickable v-close-popup v-if="peerObject.category===categoryRecent">
+          <q-item-section @click="$emit('addBookmarker',peerObject.peerId,peerObject.peerType)">标记</q-item-section>
         </q-item>
         <q-item clickable v-close-popup>
-          <q-item-section>删除</q-item-section>
+          <q-item-section  @click="$emit('removeUserRelation',peerObject.peerId,peerObject.peerType,peerObject.category)">删除</q-item-section>
         </q-item>
         <q-item clickable v-close-popup>
           <q-item-section>屏蔽</q-item-section>
@@ -76,6 +76,8 @@
 </template>
 
 <script>
+import {CONSTANT} from "@/utils/constant";
+
 export default {
   name: "contactItem",
   props: {
@@ -84,6 +86,13 @@ export default {
       required: true
     }
   },
+  data () {
+    return {
+      categoryRecent: CONSTANT.CONTACTS_CATEGORY_RECENT,
+      categoryBookmark:CONSTANT.CONTACTS_CATEGORY_BOOKMARK
+    }
+  }
+
 }
 </script>
 

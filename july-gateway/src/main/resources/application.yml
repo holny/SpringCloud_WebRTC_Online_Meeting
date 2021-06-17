@@ -34,7 +34,7 @@ spring:
         - id: biz-user #路由id,唯一
           uri: lb://user-manage-service
           predicates:
-            - Path=/user/**,/social/**
+            - Path=/user/**,/relation/**
           filters:
         - id: biz-meeting #路由id,唯一
           uri: lb://meeting-service

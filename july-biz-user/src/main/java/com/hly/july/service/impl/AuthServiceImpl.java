@@ -1,22 +1,18 @@
 package com.hly.july.service.impl;
 
-import com.hly.july.common.exception.BizException;
-import com.hly.july.common.result.Result;
-import com.hly.july.common.result.ResultCode;
+import com.hly.july.common.biz.exception.BizException;
+import com.hly.july.common.biz.result.ResultCode;
 import com.hly.july.service.IAuthService;
 import com.hly.july.service.api.AuthApiService;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
-import org.springframework.security.oauth2.common.exceptions.InsufficientScopeException;
 import org.springframework.security.oauth2.common.exceptions.OAuth2Exception;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.HashMap;
-import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**

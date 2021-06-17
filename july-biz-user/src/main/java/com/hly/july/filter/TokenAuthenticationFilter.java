@@ -1,23 +1,17 @@
 package com.hly.july.filter;
 
-import cn.hutool.json.JSONObject;
-import cn.hutool.json.JSONUtil;
-
-import com.hly.july.common.entity.LoginUser;
-import com.hly.july.common.properties.RSAKeyProperties;
-import com.hly.july.common.util.DateUtils;
-import com.hly.july.common.util.JulyAuthorityUtils;
-import com.hly.july.common.util.JwtUtils;
+import com.hly.july.common.biz.entity.LoginUser;
+import com.hly.july.common.biz.properties.RSAKeyProperties;
+import com.hly.july.common.biz.util.DateUtils;
+import com.hly.july.common.biz.util.JwtUtils;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.core.annotation.Order;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.filter.OncePerRequestFilter;

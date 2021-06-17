@@ -1,6 +1,6 @@
-import { login, register, validate, getUserInfo,searchUser,getSocial,addSocial,removeSocial } from '@/api/user'
+import { login, register, validate, getUserInfo,searchUser,getRelation,upInsertRelation,removeRelation,upInsertRecentContact,removeRecentContact} from '@/api/user'
 import { getToken, setToken, getRefreshToken, setRefreshToken, getHostId, setHostId, removeHostId, removeRefreshToken, removeToken } from '@/utils/auth'
-
+import {RESULT_CODE} from "@/utils/constant";
 const state = {
   hostToken: getToken(),
   hostRefreshToken: getRefreshToken(),
@@ -57,7 +57,7 @@ const actions = {
       login({ email: account.trim(), password: password, rememberMe: rememberMe }).then(response => {
         const { data } = response
         console.log(data)
-        if (data.code === 10001) {
+        if (data.code === RESULT_CODE.SUCCESS) {
           // commit('SET_HOST_TOKEN', data.data.access_token, { root: true })
           commit('SET_HOST_TOKEN', data.data.access_token)
           setToken(data.data.access_token)
@@ -88,7 +88,7 @@ const actions = {
       register({userName: registerInfo.userName, email: registerInfo.email, phoneNumber: registerInfo.phoneNumber, password: registerInfo.confirmPassword, registerCode: registerInfo.registerCode}).then(response => {
         const { data } = response
         console.log(data)
-        if (data.code === 10001) {
+        if (data.code ===  RESULT_CODE.SUCCESS) {
           // commit('SET_HOST_TOKEN', data.data.access_token, { root: true })
           commit('SET_HOST_TOKEN', data.data.token.access_token)
           setToken(data.data.access_token)
@@ -118,7 +118,7 @@ const actions = {
       validate(userInfo).then(response => {
         const { data } = response
         console.log(data)
-        if (data.code === 10001) {
+        if (data.code ===  RESULT_CODE.SUCCESS) {
           resolve('pass')
         } else {
           resolve('not pass')
@@ -138,7 +138,7 @@ const actions = {
       getUserInfo(userId).then(response => {
         const { data } = response
         // console.log(data)
-        if (data.code === 10001) {
+        if (data.code ===  RESULT_CODE.SUCCESS) {
           resolve(data.data)
         } else {
           reject(data.msg)
@@ -157,7 +157,7 @@ const actions = {
       searchUser(search).then(response => {
         const { data } = response
         // console.log(data)
-        if (data.code === 10001) {
+        if (data.code ===  RESULT_CODE.SUCCESS) {
           resolve(data.data)
         } else {
           reject(data.msg)
@@ -168,15 +168,14 @@ const actions = {
     })
   },
 
-  getUserSocial ({ commit },userId) {
+  getUserRelation ({ commit },data) {
     commit
-    console.log('action - getUserSocial')
-    console.log(userId)
+    console.log('action - getUserRelation')
     return new Promise((resolve, reject) => {
-      getSocial(userId).then(response => {
+      getRelation(data.userId,data.peerId,data.category).then(response => {
         const { data } = response
         // console.log(data)
-        if (data.code === 10001) {
+        if (data.code ===  RESULT_CODE.SUCCESS) {
           resolve(data.data)
         } else {
           reject(data.msg)
@@ -187,15 +186,14 @@ const actions = {
     })
   },
 
-  addUserSocial({ commit },userId,peerId,type) {
+  upInsertUserRelation({ commit },payload) {
     commit
-    console.log('action - addUserSocial')
-    console.log(userId)
+    console.log('action - upInsertUserRelation')
     return new Promise((resolve, reject) => {
-      addSocial(userId,peerId,type).then(response => {
+      upInsertRelation(payload.userId,payload.category,payload.data).then(response => {
         const { data } = response
         // console.log(data)
-        if (data.code === 10001) {
+        if (data.code ===  RESULT_CODE.SUCCESS) {
           resolve(data.data)
         } else {
           reject(data.msg)
@@ -206,15 +204,52 @@ const actions = {
     })
   },
 
-  removeUserSocial ({ commit },userId,peerId,type) {
+  removeUserRelation ({ commit },payload) {
     commit
-    console.log('action - removeUserSocial')
-    console.log(userId)
+    console.log('action - removeUserRelation')
     return new Promise((resolve, reject) => {
-      removeSocial(userId,peerId,type).then(response => {
+      removeRelation(payload.userId,payload.peerId,payload.peerType).then(response => {
         const { data } = response
         // console.log(data)
-        if (data.code === 10001) {
+        if (data.code ===  RESULT_CODE.SUCCESS) {
+          resolve(data.data)
+        } else {
+          reject(data.msg)
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  upInsertUserRecentContact({ commit },payload) {
+    commit
+    console.log('action - upInsertUserRecentContact')
+    console.log(payload)
+    return new Promise((resolve, reject) => {
+      upInsertRecentContact(payload.userId,payload.data).then(response => {
+        const { data } = response
+        // console.log(data)
+        if (data.code ===  RESULT_CODE.SUCCESS) {
+          resolve(data.data)
+        } else {
+          reject(data.msg)
+        }
+      }).catch(error => {
+        reject(error)
+      })
+    })
+  },
+
+  removeUserRecentContact({ commit },payload) {
+    commit
+    console.log('action - removeUserRecentContact')
+    console.log(payload)
+    return new Promise((resolve, reject) => {
+      removeRecentContact(payload.userId,payload.data).then(response => {
+        const { data } = response
+        // console.log(data)
+        if (data.code ===  RESULT_CODE.SUCCESS) {
           resolve(data.data)
         } else {
           reject(data.msg)

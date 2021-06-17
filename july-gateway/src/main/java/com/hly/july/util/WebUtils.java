@@ -2,8 +2,8 @@ package com.hly.july.util;
 
 import cn.hutool.json.JSONUtil;
 
-import com.hly.july.common.result.Result;
-import com.hly.july.common.result.ResultCode;
+import com.hly.july.common.biz.result.Result;
+import com.hly.july.common.biz.result.ResultCode;
 import org.springframework.core.io.buffer.DataBuffer;
 import org.springframework.core.io.buffer.DataBufferUtils;
 import org.springframework.http.HttpHeaders;

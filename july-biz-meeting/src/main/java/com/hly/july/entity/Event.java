@@ -1,11 +1,9 @@
 package com.hly.july.entity;
 
-import com.hly.july.common.result.Result;
-import com.hly.july.common.util.DateUtils;
+import com.hly.july.common.biz.util.DateUtils;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * @ClassName Message

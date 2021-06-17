@@ -1,16 +1,11 @@
 package com.hly.july.service.api;
 
-import com.hly.july.common.constant.AuthConstants;
-import com.hly.july.common.entity.Payment;
-import feign.Headers;
-import feign.Param;
+import com.hly.july.common.biz.constant.AuthConstants;
+import com.hly.july.common.biz.entity.Payment;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.oauth2.common.DefaultOAuth2AccessToken;
-import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.*;
 
-import java.security.Principal;
 import java.util.Map;
 
 /**

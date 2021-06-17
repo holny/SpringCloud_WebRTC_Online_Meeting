@@ -1,8 +1,8 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
-export function initJulyWS (wsEndpointURI,sendWSHeartBeatURI) {
-    let stompClient = initWSConnection(wsEndpointURI)
+export async function initJulyWS (wsEndpointURI,sendWSHeartBeatURI,interval) {
+    let stompClient = await initWSConnection(wsEndpointURI)
     // 断开重连机制
     setInterval(() => {
         try {
@@ -11,7 +11,7 @@ export function initJulyWS (wsEndpointURI,sendWSHeartBeatURI) {
             console.log('WebSocket connection interrupt: ' + e)
             initWSConnection()
         }
-    }, 50000)
+    }, interval)
     return stompClient
 }
 function initWSConnection (wsEndpointURI) {

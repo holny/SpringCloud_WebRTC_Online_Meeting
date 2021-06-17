@@ -2,10 +2,10 @@
   <div class="q-pa-md chat-root-container">
     <div class="row justify-center">
       <div class="col-2 contacts-main-container float-left">
-        <contacts v-if="contactsShow" :stomp-client="julyWebsocket.constant.stompClient" :connection-flag="this.julyWebsocket.variable.connectionFlag"/>
+        <contacts v-if="contactsShow&&hostInfo!=null"  :host-info="hostInfo" :stomp-client="julyWebsocket.constant.stompClient" :connection-flag="this.julyWebsocket.variable.connectionFlag" v-on:changePeer="changeChatPeer"/>
       </div>
       <div class="col-4 chat-window-main-container">
-        <chat-window v-if="chatWindowShow" :stomp-client="julyWebsocket.constant.stompClient" :peer-id="chatPeerId" :connection-flag="this.julyWebsocket.variable.connectionFlag"/>
+        <chat-window v-if="chatWindowShow&&chatPeerId!=null&&chatPeerType!=null&&hostInfo!=null" :host-info="hostInfo" :stomp-client="julyWebsocket.constant.stompClient" :peer-id="chatPeerId" :peer-type="chatPeerType" :connection-flag="this.julyWebsocket.variable.connectionFlag"/>
       </div>
     </div>
   </div>
@@ -14,8 +14,9 @@
 <script>
 import contacts from "@/views/chat/contacts";
 import chatWindow from "@/views/chat/chatWindow";
+import {getHostId} from "@/utils/auth";
 import {initJulyWS, closeConnectionJuly} from "@/utils/socket";
-import {getToken} from "@/utils/auth";
+import {JULY,FUN} from "@/utils/julyCommon";
 // import {date} from "quasar";
 export default {
   name: "ChatLand",
@@ -25,28 +26,28 @@ export default {
   },
   data () {
     return {
+      hostId: getHostId(),
+      hostInfo: null,
       contactsShow: false,
       chatWindowShow: false,
-      chatPeerId: '',
+      chatPeerId: null,
+      chatPeerType: null,
       julyWebsocket:{
         constant: {
-          WSEndPointURI:  'http://localhost:80/meeting/endpointWS?Authorization=' + getToken(),
-          sendWSHeartBeatURI: '/app/heartbeat',
-          subWSHeartBeatURI: '/user/topic/heartbeat',
           stompClient: null
         },
         variable: {
-          connectionFlag: {'websocket':{'name':'websocket',"status":false}},
-          headers: {'Authorization': 'Bearer ' + getToken()}
+          connectionFlag: {'websocket':{'name':'websocket',"status":false}}
         },
       },
     }
   },
-  created() {
-    this.initWSEnv()
+  async created() {
+    this.hostInfo = await this.getUserInfo(this.hostId)
+    await this.initWSEnv()
   },
   mounted () {
-    this.initWSWatcher()
+
   },
   // keep-alive会缓存组件状态，activated()和 deactivated() 这两个钩子函数。activated()是keep-alive 组件激活时调用，而 deactivated() 是 keep-alive 组件停用时调用。activated ()替换mounted()
   activated () {
@@ -55,42 +56,55 @@ export default {
     closeConnectionJuly(this.julyWebsocket.constant.stompClient)
   },
   methods: {
-    initWSEnv() {
+    async initWSEnv() {
       if (this.julyWebsocket.constant.stompClient == null) {
         console.log("start init chatLand websocket")
-        this.julyWebsocket.constant.stompClient = initJulyWS(this.julyWebsocket.constant.WSEndPointURI, this.julyWebsocket.constant.sendWSHeartBeatURI)
+        this.julyWebsocket.constant.stompClient = await initJulyWS(JULY.WEBSOCKET_URI_ENDPOINT, JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL)
       }
+      this.initWSConnectionHeartBeatWatcher()
     },
-    initWSWatcher(){
+    initWSConnectionHeartBeatWatcher(){
       let _that = this
       this.julyWebsocket.constant.stompClient.connect(
-          _that.julyWebsocket.variable.headers,
+          JULY.WEBSOCKET_HEADERS,
           function connectCallback () {
+            _that.julyWebsocket.variable.connectionFlag['websocket']['status'] = true
             _that.contactsShow = true
             _that.chatWindowShow = true
             // 订阅stompClient心跳检测
-            _that.julyWebsocket.constant.stompClient.subscribe(_that.julyWebsocket.constant.subWSHeartBeatURI, () => {
+            _that.julyWebsocket.constant.stompClient.subscribe(JULY.WEBSOCKET_URI_SUBSCRIBE_HEARTBEAT, () => {
               _that.julyWebsocket.variable.connectionFlag['websocket']['status'] = true
             })
           },
-          function errorCallBack (error) {
+          function errorCallBack () {
             _that.julyWebsocket.variable.connectionFlag['websocket']['status'] = false
-            console.log('订阅失败:' + error)
+            FUN.notify("初始连接websocket失败",FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
           }
       )
     },
-    changeChatPeer(peerInfo){
-      console.log('changeChatPeer')
-      console.log(peerInfo)
-    }
-    // bookMarkPeer(peerId){
-    //   console.log('bookMarkPeer:'+peerId)
-    //   this.chatPeerId = peerId
-    // },
-    // startChatPeer(peerId){
-    //   console.log('startChatPeer:'+peerId)
-    //   this.chatPeerId = peerId
-    // },
+    changeChatPeer(peerId,peerType){
+      console.log("Chat land changeChatPeer")
+      console.log(peerId)
+      this.chatPeerId = peerId
+      this.chatPeerType = peerType
+    },
+    async getUserInfo (userId) {
+      let result=null
+      await this.$store.dispatch('user/getUserInfo', userId)
+          .then((data) => {
+            // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
+            console.log('got user info successful')
+            data.gender = FUN.convertPrintGender(data.peerGender)
+            data.role = FUN.filterPrintRole(data.peerRole)
+            result = data
+          })
+          .catch(() => {
+            console.log('got user info fail')
+            FUN.notify("无法获取当前用户信息",FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
+            result = null
+          })
+      return result
+    },
   }
 }
 </script>
