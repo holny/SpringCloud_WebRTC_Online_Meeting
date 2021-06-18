@@ -5,12 +5,8 @@ import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
-
-import com.baomidou.mybatisplus.core.toolkit.IdWorker;
-import com.hly.july.common.biz.constant.ContainerEnum;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.commons.lang3.StringUtils;
 
 /**
  * <p>
@@ -18,7 +14,7 @@ import org.apache.commons.lang3.StringUtils;
  * </p>
  *
  * @author Linyuan Hou
- * @since 2021-06-15
+ * @since 2021-06-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -47,5 +43,9 @@ public class Relation implements Serializable {
 
     @TableField("tag")
     private String tag;
+
+    @TableField("rel_type")
+    private Integer relType;
+
 
 }

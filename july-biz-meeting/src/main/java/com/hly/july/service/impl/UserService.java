@@ -1,9 +1,14 @@
 package com.hly.july.service.impl;
 
+import com.hly.july.common.biz.exception.ServiceInternalException;
 import com.hly.july.common.biz.utils.RedisUtils;
 import com.hly.july.common.biz.result.Result;
 import com.hly.july.common.biz.result.ResultCode;
+import com.hly.july.entity.Event;
+import com.hly.july.entity.Shouting;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,6 +25,13 @@ import java.util.Map;
 @Service
 @Slf4j
 public class UserService {
+    private final SimpMessagingTemplate simpMessagingTemplate;
+
+    @Autowired
+    public UserService(SimpMessagingTemplate simpMessagingTemplate) {
+        this.simpMessagingTemplate = simpMessagingTemplate;
+    }
+
     @Resource
     private RedisUtils redisUtils;
 
@@ -63,5 +75,27 @@ public class UserService {
         }else {
             return Result.failure(ResultCode.WEBSOCKET_REQUEST_ERROR);
         }
+    }
+
+
+    public Boolean sendPersonalEvent(String userId,Event event)  throws ServiceInternalException{
+        log.info("sendPersonalEvent userId:{},hostId:{}, event:{}",userId);
+        event.setType("event");
+        if (userId!=null&&event!=null) {
+            sendPersonalShouting(event.getTo(),event);
+            return true;
+        }else{
+            throw new ServiceInternalException(ResultCode.WEBSOCKET_REQUEST_ERROR);
+        }
+    }
+
+    public void sendPersonalShouting(String userId, Shouting shouting)  throws ServiceInternalException {
+        log.info("sendPersonalShouting userId:{} shouting:{}",userId,shouting.toString());
+        shouting.setType("message");
+        simpMessagingTemplate.convertAndSendToUser(
+                userId,
+                "/topic/notify/"+userId,
+                shouting
+        );
     }
 }

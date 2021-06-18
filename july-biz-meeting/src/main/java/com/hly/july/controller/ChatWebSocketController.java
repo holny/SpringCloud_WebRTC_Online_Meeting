@@ -5,10 +5,14 @@ import com.hly.july.common.biz.exception.ServiceInternalException;
 import com.hly.july.common.biz.result.Result;
 import com.hly.july.common.biz.result.ResultCode;
 import com.hly.july.common.biz.util.DateUtils;
+import com.hly.july.common.biz.vo.RecentVO;
 import com.hly.july.entity.MessageVO;
 import com.hly.july.entity.Watcher;
+import com.hly.july.service.api.BizUserApiService;
+import com.hly.july.service.impl.AsyncJobService;
 import com.hly.july.service.impl.ChatService;
 import com.hly.july.service.impl.MessageServiceImpl;
+import com.hly.july.service.impl.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,6 +24,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.websocket.RemoteEndpoint;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -37,6 +43,12 @@ public class ChatWebSocketController {
 
     @Autowired
     private MessageServiceImpl messageService;
+
+    @Autowired
+    private BizUserApiService bizUserApiService;
+
+    @Autowired
+    private AsyncJobService asyncJobService;
 
     @MessageMapping({"/watch/{userId}"})
     public Result<String> watchChatSession(@DestinationVariable String userId, Watcher watcher, OAuth2Authentication auth2Authentication) {
@@ -65,14 +77,21 @@ public class ChatWebSocketController {
 //            String hostId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
             if (StringUtils.isNotEmpty(hostId)&&StringUtils.isNotEmpty(peerId)){
                 log.info("sendPersonalMessage hostId:{}",hostId);
+                Date messageDate = DateUtils.getCurrentDateTime();
                 message.setFrom(hostId);
                 message.setTo(peerId);
                 message.setPeerType(ContainerEnum.PERSON.getDesc());
-                message.setGmtCreate(DateUtils.getCurrentDateTime());
+                message.setGmtCreate(messageDate);
                 message.setType("message"); //用户只能发送message，不能发送event
                 try {
                     boolean result = chatService.sendPersonalMessage(peerId,hostId,message);
                     if(result){
+                        RecentVO recentVO = new RecentVO();
+                        recentVO.setUserId(hostId);
+                        recentVO.setPeerId(peerId);
+                        recentVO.setPeerType(ContainerEnum.PERSON.getDesc());
+                        recentVO.setGmtLastContact(messageDate);
+                        asyncJobService.upInsertRecentContact(hostId,peerId,recentVO);
                         return Result.success();
                     }else{
                         return Result.failure(ResultCode.WEBSOCKET_MESSAGE_FAIL);
@@ -98,6 +117,8 @@ public class ChatWebSocketController {
 //            String hostId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
             if (StringUtils.isNotEmpty(hostId)&&StringUtils.isNotEmpty(peerId)&&StringUtils.isNumeric(count)){
                 Integer dayCount = Integer.valueOf(count);
+                // Todo
+                chatService.clearUnRead(peerId,ContainerEnum.getCodeByDesc(ContainerEnum.PERSON.getDesc()),hostId);
                 List<MessageVO> messageVOList = messageService.getMessageVOByIdAndDayCount(hostId,peerId,dayCount,ContainerEnum.PERSON.getDesc());
                 if(messageVOList!=null){
                     return Result.success(messageVOList);

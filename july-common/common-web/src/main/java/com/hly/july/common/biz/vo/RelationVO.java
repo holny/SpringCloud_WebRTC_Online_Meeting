@@ -30,6 +30,10 @@ public class RelationVO implements Serializable {
 
     private String relId;
 
+    private String relType;
+
+    private Integer relTypeCode;
+
     private String userId;
 
     private String peerId;
@@ -37,6 +41,8 @@ public class RelationVO implements Serializable {
     private String remarkName;
 
     private String peerType;
+
+    private Integer peerTypeCode;
 
     @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
@@ -87,6 +93,8 @@ public class RelationVO implements Serializable {
     @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date gmtLastContact;
 
+    private Integer unReadMsgCount;
+
 
     public static RelationVO build(String userId, User peer){
         RelationVO relationVO = new RelationVO();
@@ -116,6 +124,7 @@ public class RelationVO implements Serializable {
             relationVO.peerRawRole = peer.getRole();
             relationVO.peerRawAuthority = peer.getAuthority();
         }
+        relationVO.unReadMsgCount = 0;
         return relationVO;
     }
 

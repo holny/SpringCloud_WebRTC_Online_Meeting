@@ -1,15 +1,16 @@
 package com.hly.july.controller;
 
 import com.hly.july.common.biz.constant.ContainerEnum;
+import com.hly.july.common.biz.constant.RelationTypeEnum;
 import com.hly.july.common.biz.constant.UserStatusEnum;
 import com.hly.july.common.biz.entity.Relation;
 import com.hly.july.common.biz.entity.User;
+import com.hly.july.common.biz.vo.RecentVO;
 import com.hly.july.common.biz.vo.RelationVO;
 import com.hly.july.common.biz.exception.ServiceInternalException;
 import com.hly.july.common.biz.result.Result;
 import com.hly.july.common.biz.result.ResultCode;
 import com.hly.july.common.biz.util.DateUtils;
-import com.hly.july.entity.RecentVO;
 import com.hly.july.service.impl.RelationServiceImpl;
 import com.hly.july.service.impl.UserServiceImpl;
 import lombok.extern.slf4j.Slf4j;
@@ -53,7 +54,7 @@ public class RelationController {
             return Result.failure(ResultCode.AUTH_UNAUTHORIZED);
         }
         try {
-            List<RelationVO> relationVOList = relationService.getUserRelation(userId, peerId, category);
+            List<RelationVO> relationVOList = relationService.getUserRelation(userId, peerId, category, null);
             return Result.success(relationVOList);
         }catch (ServiceInternalException e){
             return Result.failure(e.getResultCode(),e.getErrorMsg());
@@ -104,7 +105,7 @@ public class RelationController {
 
             int result = relationService.upInsertRelationByUserIdAndPeerIdAndCategory(addRelation);
             if(result>=0){
-                List<RelationVO> relationVOList = relationService.getUserRelation(userId, null, category);
+                List<RelationVO> relationVOList = relationService.getUserRelation(userId, null, category,RelationTypeEnum.FRIEND.getCode());
                 return Result.success(relationVOList);
             }else{
                 return Result.failure(ResultCode.API_DB_FAIL);
@@ -232,7 +233,7 @@ public class RelationController {
         Boolean result = relationService.deleteUserRelationByIdAndType(userId,peerId,peerTypeCode.toString());
         if(result){
             try {
-                List<RelationVO> relationVOList = relationService.getUserRelation(userId, null, "bookmark");
+                List<RelationVO> relationVOList = relationService.getUserRelation(userId, null, "bookmark",RelationTypeEnum.FRIEND.getCode());
                 return Result.success(relationVOList);
             }catch (ServiceInternalException e){
                 return Result.success("删除成功,但获取更新后列表失败");

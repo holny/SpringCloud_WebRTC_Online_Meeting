@@ -25,8 +25,8 @@ public class Event<T> extends Shouting implements Serializable {
         this.data = data;
     }
 
-    public static <T> Event<T> build(EventEnum eventType,String toId,String method,T data) {
-        Event event = new Event(toId,method,eventType.getCode(),eventType.getMsg(),data);
+    public static <T> Event<T> build(EventEnum eventType,String peerId,String method,T data) {
+        Event event = new Event(peerId,method,eventType.getCode(),eventType.getMsg(),data);
         return event;
     }
 
@@ -35,8 +35,8 @@ public class Event<T> extends Shouting implements Serializable {
         return event;
     }
 
-    public static <T> Event<T> buildPersonal(EventEnum eventType,String userId,T data) {
-        Event event = new Event(userId,"personal",eventType.getCode(),eventType.getMsg(),data);
+    public static <T> Event<T> buildPersonal(EventEnum eventType,String peerId,T data) {
+        Event event = new Event(peerId,"personal",eventType.getCode(),eventType.getMsg(),data);
         return event;
     }
 }

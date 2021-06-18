@@ -87,6 +87,7 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 //                .antMatchers("/user/**").hasRole(RoleEnum.ROLE_SUPER_ADMIN.getCode())
                 .antMatchers("/user/**").permitAll()
                 .antMatchers("/social/**").permitAll()
+                .antMatchers("/private/**").permitAll()
 //                .antMatchers("/consumer/payment/**").hasRole("ADMIN")
 //                .antMatchers("/consumer/test/**").hasAuthority("PRO")
                 .antMatchers("/**").authenticated()//所有/r/**的请求必须认证通过 .anyRequest().permitAll()//除了/r/**，其它的请求可以访问

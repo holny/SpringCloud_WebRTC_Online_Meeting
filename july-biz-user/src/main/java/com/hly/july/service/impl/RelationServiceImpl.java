@@ -6,19 +6,20 @@ import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.baomidou.mybatisplus.core.toolkit.IdWorker;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.hly.july.common.biz.constant.RelationTypeEnum;
 import com.hly.july.common.biz.constant.UserStatusEnum;
 import com.hly.july.common.biz.entity.Relation;
 import com.hly.july.common.biz.entity.User;
 import com.hly.july.common.biz.mapper.RelationMapper;
 import com.hly.july.common.biz.result.ResultCode;
 import com.hly.july.common.biz.utils.RedisUtils;
+import com.hly.july.common.biz.vo.RecentVO;
 import com.hly.july.common.biz.vo.RelationVO;
 import com.hly.july.common.biz.constant.ContainerEnum;
 import com.hly.july.common.biz.constant.UserConstants;
 import com.hly.july.common.biz.exception.ServiceInternalException;
 import com.hly.july.common.biz.util.DateUtils;
 import com.hly.july.common.biz.util.JulyAuthorityUtils;
-import com.hly.july.entity.RecentVO;
 import com.hly.july.mapper.CustomRelationMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -51,19 +52,19 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
 
     private String USER_RELATION_RECENT = "user_relation_recent_";
 
-    public List<RelationVO> getUserRelation(String userId, String peerId, String category) throws ServiceInternalException{
+    public List<RelationVO> getUserRelation(String userId, String peerId, String category,Integer relType) throws ServiceInternalException{
         log.info("getUserRelation userId:{},peerId:{},category:{}",userId,peerId,category);
         if(StringUtils.isNotEmpty(userId)){
             if(StringUtils.isNotEmpty(peerId)){
-                String type=null;
+                Integer type=null;
                 if (StringUtils.isEmpty(category)){
                     type=null;
                 }else if (category.toLowerCase().equals("bookmark")||category.toLowerCase().equals("recent")){
-                    type = ContainerEnum.PERSON.getCode().toString();
+                    type = ContainerEnum.PERSON.getCode();
                 }else if (category.toLowerCase().equals("group")){
-                    type=ContainerEnum.GROUP.getCode().toString();
+                    type=ContainerEnum.GROUP.getCode();
                 }
-                List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndType(userId,peerId,type);
+                List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndType(userId,peerId,type, relType);
                 if (relationVOS==null||relationVOS.size()==0){
                     List<Integer> visibleStatusList = UserStatusEnum.getAllUserStatusCodeList();
                     User peer = userService.getUserListByUserIdAndStatus(peerId,visibleStatusList);
@@ -84,12 +85,13 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                     }
                     relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                     relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
-                    relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerType())));
+                    relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
+                    relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
                 });
                 return relationVOS;
             }else{
                 if (StringUtils.isBlank(category)){
-                    List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndType(userId,null,null);
+                    List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndType(userId,null,null,relType);
                     for (RelationVO relationVO : relationVOS) {
                         if(ContainerEnum.PERSON.getCode().toString().equals(relationVO.getPeerType())) {
                             relationVO.setCategory("bookmark");
@@ -98,7 +100,8 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                         }
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                         relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
-                        relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerType())));
+                        relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
+                        relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
                     }
                     List<RelationVO> recentRelVOs = getUserRecentContactRelationVO(userId);
                     if(recentRelVOs!=null){
@@ -109,27 +112,45 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                     List<RelationVO> recentRelVOs = getUserRecentContactRelationVO(userId);
                     return recentRelVOs;
                 }else if (category.toLowerCase().equals("bookmark")){
-                    List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndType(userId,null,ContainerEnum.PERSON.getCode().toString());
+                    List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndType(userId,null,ContainerEnum.PERSON.getCode(),relType);
                     relationVOS.forEach(relationVO -> {
                         relationVO.setCategory(category.toLowerCase());
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                         relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
-                        relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerType())));
+                        relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
+                        relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
                     });
                     return relationVOS;
                 }else if (category.toLowerCase().equals("group")){
-                    List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndType(userId,null,ContainerEnum.GROUP.getCode().toString());
+                    List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndType(userId,null,ContainerEnum.GROUP.getCode(),relType);
                     relationVOS.forEach(relationVO -> {
                         relationVO.setCategory(category.toLowerCase());
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                         relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
-                        relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerType())));
+                        relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
+                        relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
                     });
                     return relationVOS;
                 }
 
                 return null;
             }
+        }else{
+            return null;
+        }
+    }
+
+    public List<RelationVO> getUserRelationByIdAndType(String userId, String peerId, Integer peerType,List<Integer> relType) throws ServiceInternalException{
+        log.info("getUserRelation userId:{},peerId:{},peerType:{},relType:{}",userId,peerId,peerType,relType);
+        if(StringUtils.isNotEmpty(userId)){
+            List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndTypeList(userId,peerId,peerType,relType);
+            relationVOS.forEach(relationVO -> {
+                relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
+                relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
+                relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
+                relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+            });
+            return relationVOS;
         }else{
             return null;
         }
@@ -172,7 +193,8 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                         relationVO.setCategory("recent");
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                         relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
-                        relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerType())));
+                        relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
+                        relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
                     });
                 }
                 return relationVOS;

@@ -54,7 +54,9 @@ public enum ResultCode implements IResultCode,Serializable {
     WEBSOCKET_KEY_NOT_EXIST(30010,"key不存在!"),
     WEBSOCKET_REQUEST_INVALID(30011,"无效的请求!"),
     WEBSOCKET_MESSAGE_FAIL(30012,"发送消息失败!"),
-    USER_SOCIAL_OVER_MAX(40001,"超过最大限度");
+    USER_SOCIAL_OVER_MAX(40001,"超过最大限度"),
+
+    USER_SOCIAL_BE_BLACKED(40002,"被对方屏蔽");
 
 //
 //

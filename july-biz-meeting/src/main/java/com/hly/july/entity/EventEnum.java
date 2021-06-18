@@ -14,7 +14,8 @@ public enum EventEnum {
     EVENT_CHAT_JOIN("E1001", "新人加入"),
     EVENT_CHAT_LEAVE("E1002", "有人离开"),
     EVENT_CHAT_CHANGED("E1003", "Room被改变"),
-    EVENT_CHAT_MESSAGE("E1004", "新消息");
+    EVENT_CHAT_MESSAGE("E1004", "新消息"),
+    EVENT_RECENT_CHANGED("E1005", "最近联系人列表改变");
 
     private String code;
     private String desc;

@@ -1,4 +1,4 @@
-package com.hly.july.entity;
+package com.hly.july.common.biz.vo;
 
 import lombok.Data;
 
