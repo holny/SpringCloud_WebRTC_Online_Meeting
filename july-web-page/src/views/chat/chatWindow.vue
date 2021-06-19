@@ -132,7 +132,7 @@ import {initJulyWS, closeConnectionJuly} from "@/utils/socket";
 import {CONSTANT,RESULT_CODE,EVENT_CODE} from "@/utils/constant";
 import {JULY,FUN} from "@/utils/julyCommon";
 export default {
-  name: "chatWindow",
+  name: "ChatWindow",
   props: {
     stompClient: {
       type: Object,
@@ -377,6 +377,7 @@ export default {
           let feedbackTS = date.formatDate(date.extractDate(feedback.gmtCreate,CONSTANT.DATE_FORMAT) , 'x')
           let newMsg = {'sender':feedback.from,'startTS': feedbackTS,'endTS': feedbackTS,'stamp':feedback.gmtCreate,'message':[feedback.message]}
           _that.insertMessageArray([newMsg])
+          _that.$emit('whenNewMsg',feedback.to,feedbackTS)
         }
       })
     },
@@ -409,9 +410,10 @@ export default {
         console.log(feedback)
         if (feedback.type=== CONSTANT.SHOUTING_MESSAGE){
           // type=== 'message' 说明是来了新聊天消息
-          let feedbackTS = date.formatDate(date.extractDate(feedback.gmtCreate,CONSTANT.DATE_FORMAT) , 'x')
+            let feedbackTS = date.formatDate(date.extractDate(feedback.gmtCreate,CONSTANT.DATE_FORMAT) , 'x')
           let newMsg = {'sender':feedback.from,'startTS': feedbackTS,'endTS': feedbackTS,'stamp':feedback.gmtCreate,'message':[feedback.message]}
           _that.insertMessageArray([newMsg])
+          _that.$emit('whenNewMsg',feedback.to,feedbackTS)
         }else if (feedback.type=== CONSTANT.SHOUTING_EVENT){
           // type=== 'message' 说明是来了新事件
           let feedbackTS = date.formatDate(date.extractDate(feedback.gmtCreate,CONSTANT.DATE_FORMAT) , 'x')
@@ -424,7 +426,7 @@ export default {
       })
     },
     initView(){
-      this.scrollToBottom() // 开局首先scrollbar保持底部
+      // this.scrollToBottom() // 开局首先scrollbar保持底部
       // 先立即执行一次更新View(更新历史消息状态)
       this.updateView()
       setInterval(this.updateView, this.julyChat.constant.updateViewInterval)
@@ -540,8 +542,8 @@ export default {
             }
           }
           if(tempMessageArray.length>0){
-            this.insertMessageArray(tempMessageArray)
-            this.scrollToBottom()
+            _that.insertMessageArray(tempMessageArray)
+            _that.scrollToBottom()
             FUN.notify('获取到历史消息'+tempMessageArray.length+"条",FUN.NOTIFY_LEVEL_INFO,FUN.NOTIFY_POSITION_TOP)
           }
 
@@ -552,7 +554,7 @@ export default {
           //   _that.insertMessage(newMsg)
           // }
         }else{
-          console.log("进入房间失败 error:"+feedback.msg)
+          console.log("获取历史消息失败 error:"+feedback.msg)
           FUN.notify("获取历史消息失败 error:"+feedback.msg,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
         }
         _that.julyChat.variable.inputMessageLoading = false
@@ -580,6 +582,7 @@ export default {
         this.releaseLock(this.updateMsgItems.lockObject)
       }
     },
+
     convertStamp(msgItems){
       // 根据当前时间，更新每一个消息的Stamp
       let lastUpdateTime = new Date(Date.now())  // 记录现在更新时间
@@ -744,7 +747,7 @@ export default {
     },
     scrollToBottom(){
       // 设置滚动到底部:
-      setScrollPosition (this.chatViewScrollEleTarget, getScrollHeight(this.chatViewScrollEleTarget), 500)
+      setScrollPosition (this.chatViewScrollEleTarget, getScrollHeight(this.chatViewScrollEleTarget), 800)
     },
     async updatePeerInfo (userId) {
       console.log(userId)

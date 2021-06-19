@@ -13,7 +13,7 @@ import '@quasar/extras/eva-icons/eva-icons.css'
 import { Quasar, Cookies, LocalStorage, SessionStorage, QCard,
     QCardSection,   Intersection,
     QCardActions,  QAjaxBar, QBtn,  QSlideTransition,QSpace,QSeparator, QInput,  QForm,QIcon,QTooltip,  QToggle,QSpinnerBall,QSpinnerRadio, Notify, QChatMessage, QInfiniteScroll,QUploader, QFile,QScrollObserver, QBar,
-    QList,  QMenu,
+    QList,  QMenu,QBadge,
     ClosePopup,QSelect,
     QItem,
     QItemSection,
@@ -72,7 +72,8 @@ Vue.use(Quasar, {
       QFooter,
       QPageSticky,
       QPageScroller,
-      QSelect
+      QSelect,
+      QBadge
   },
   lang: lang
  })

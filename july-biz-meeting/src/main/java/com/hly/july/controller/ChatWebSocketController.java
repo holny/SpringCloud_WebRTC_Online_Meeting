@@ -24,6 +24,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import javax.websocket.RemoteEndpoint;
 import java.util.Date;
 import java.util.List;
@@ -44,7 +45,7 @@ public class ChatWebSocketController {
     @Autowired
     private MessageServiceImpl messageService;
 
-    @Autowired
+    @Resource
     private BizUserApiService bizUserApiService;
 
     @Autowired
@@ -86,12 +87,6 @@ public class ChatWebSocketController {
                 try {
                     boolean result = chatService.sendPersonalMessage(peerId,hostId,message);
                     if(result){
-                        RecentVO recentVO = new RecentVO();
-                        recentVO.setUserId(hostId);
-                        recentVO.setPeerId(peerId);
-                        recentVO.setPeerType(ContainerEnum.PERSON.getDesc());
-                        recentVO.setGmtLastContact(messageDate);
-                        asyncJobService.upInsertRecentContact(hostId,peerId,recentVO);
                         return Result.success();
                     }else{
                         return Result.failure(ResultCode.WEBSOCKET_MESSAGE_FAIL);
@@ -117,10 +112,10 @@ public class ChatWebSocketController {
 //            String hostId = SecurityContextHolder.getContext().getAuthentication().getPrincipal().toString();
             if (StringUtils.isNotEmpty(hostId)&&StringUtils.isNotEmpty(peerId)&&StringUtils.isNumeric(count)){
                 Integer dayCount = Integer.valueOf(count);
-                // Todo
-                chatService.clearUnRead(peerId,ContainerEnum.getCodeByDesc(ContainerEnum.PERSON.getDesc()),hostId);
+                chatService.changeUnRead(peerId,ContainerEnum.PERSON.getCode(),hostId,"clear");
                 List<MessageVO> messageVOList = messageService.getMessageVOByIdAndDayCount(hostId,peerId,dayCount,ContainerEnum.PERSON.getDesc());
                 if(messageVOList!=null){
+                    asyncJobService.sendRecentListNotify(hostId,DateUtils.getCurrentDateTime());
                     return Result.success(messageVOList);
                 }else{
                     return Result.failure(ResultCode.WEBSOCKET_MESSAGE_FAIL);

@@ -2,18 +2,18 @@
   <div class="q-pa-md chat-root-container">
     <div class="row justify-center">
       <div class="col-2 contacts-main-container float-left">
-        <contacts v-if="contactsShow&&hostInfo!=null"  :host-info="hostInfo" :stomp-client="julyWebsocket.constant.stompClient" :connection-flag="this.julyWebsocket.variable.connectionFlag" v-on:changePeer="changeChatPeer"/>
+        <contacts ref="contacts" v-if="contactsShow&&hostInfo!=null"  :host-info="hostInfo" :stomp-client="julyWebsocket.constant.stompClient" :connection-flag="this.julyWebsocket.variable.connectionFlag" :peer-id="chatPeerId" :peer-type="chatPeerType" v-on:changePeer="changeChatPeer"/>
       </div>
       <div class="col-4 chat-window-main-container">
-        <chat-window v-if="chatWindowShow&&chatPeerId!=null&&chatPeerType!=null&&hostInfo!=null" :host-info="hostInfo" :stomp-client="julyWebsocket.constant.stompClient" :peer-id="chatPeerId" :peer-type="chatPeerType" :connection-flag="this.julyWebsocket.variable.connectionFlag"/>
+        <chat-window v-if="chatWindowShow&&chatPeerId!=null&&chatPeerType!=null&&hostInfo!=null" :host-info="hostInfo" :stomp-client="julyWebsocket.constant.stompClient" :peer-id="chatPeerId" :peer-type="chatPeerType" :connection-flag="this.julyWebsocket.variable.connectionFlag" v-on:whenNewMsg="whenNewMsg"/>
       </div>
     </div>
   </div>
 </template>
 
 <script>
-import contacts from "@/views/chat/contacts";
-import chatWindow from "@/views/chat/chatWindow";
+import Contacts from "@/views/chat/contacts";
+import ChatWindow from "@/views/chat/chatWindow";
 import {getHostId} from "@/utils/auth";
 import {initJulyWS, closeConnectionJuly} from "@/utils/socket";
 import {JULY,FUN} from "@/utils/julyCommon";
@@ -21,8 +21,8 @@ import {JULY,FUN} from "@/utils/julyCommon";
 export default {
   name: "ChatLand",
   components: {
-    contacts,
-    chatWindow
+    Contacts,
+    ChatWindow
   },
   data () {
     return {
@@ -81,6 +81,12 @@ export default {
             FUN.notify("初始连接websocket失败",FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
           }
       )
+    },
+    whenNewMsg(peerId,msgDate){
+      console.log("ChatLand whenNewMsg")
+      console.log(peerId)
+      console.log(msgDate)
+      this.$refs.contacts.updateOneRecentContactView(peerId,msgDate)
     },
     changeChatPeer(peerId,peerType){
       console.log("Chat land changeChatPeer")

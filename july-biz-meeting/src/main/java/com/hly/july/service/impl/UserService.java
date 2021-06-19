@@ -78,8 +78,10 @@ public class UserService {
     }
 
 
+
+
     public Boolean sendPersonalEvent(String userId,Event event)  throws ServiceInternalException{
-        log.info("sendPersonalEvent userId:{},hostId:{}, event:{}",userId);
+        log.info("sendPersonalEvent userId:{},event:{}",userId,event.toString());
         event.setType("event");
         if (userId!=null&&event!=null) {
             sendPersonalShouting(event.getTo(),event);
@@ -91,7 +93,6 @@ public class UserService {
 
     public void sendPersonalShouting(String userId, Shouting shouting)  throws ServiceInternalException {
         log.info("sendPersonalShouting userId:{} shouting:{}",userId,shouting.toString());
-        shouting.setType("message");
         simpMessagingTemplate.convertAndSendToUser(
                 userId,
                 "/topic/notify/"+userId,

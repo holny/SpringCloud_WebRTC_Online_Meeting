@@ -106,6 +106,7 @@ public class RelationVO implements Serializable {
         if(peer!=null){
             relationVO.peerId = peer.getUserId();
             relationVO.peerType = ContainerEnum.PERSON.getCode().toString();
+            relationVO.peerTypeCode = ContainerEnum.PERSON.getCode();
             relationVO.peerUserName = peer.getUserName();
             if(JulyConstants.USER_GENDER_FEMALE.equals(peer.getGender())){
                 relationVO.peerGender = "female";

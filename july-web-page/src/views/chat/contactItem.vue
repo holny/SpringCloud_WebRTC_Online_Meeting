@@ -3,6 +3,9 @@
     <q-item-section avatar>
       <q-avatar>
         <img :src="peerObject.peerAvatar">
+        <q-badge v-if="peerObject.unReadMsgCount!=null&&peerObject.unReadMsgCount>0" color="orange" floating transparent>
+          {{peerObject.unReadMsgCount}}
+        </q-badge>
       </q-avatar>
     </q-item-section>
 
@@ -11,7 +14,9 @@
       <q-item-label caption>{{peerObject.category===categoryRecent?peerObject.gmtLastContact:peerObject.gmtCreate}}</q-item-label>
     </q-item-section>
     <q-item-section side>
-      <q-icon name="chat_bubble" color="green" @click="$emit('changePeer',peerObject.peerId,peerObject.peerType,peerObject.category)"/>
+      <q-icon name="chat_bubble" color="green" @click="$emit('changePeer',peerObject.peerId,peerObject.peerType,peerObject.category)">
+
+      </q-icon>
     </q-item-section>
     <q-menu
         touch-position

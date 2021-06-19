@@ -7,7 +7,6 @@ export let JULY = {
     WEBSOCKET_URI_SUBSCRIBE_HEARTBEAT:'/user/topic/heartbeat',
     WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL: 50000,
     WEBSOCKET_HEADERS: {'Authorization': 'Bearer ' + getToken()},
-    NOTIFY_TYPE_ERROR:'/user/topic/heartbeat',
     CHAT_WATCH_SEND_INTERVAL: 5000,
 }
 export let FUN = {

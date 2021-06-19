@@ -45,9 +45,7 @@ public class PrivateController {
         if (user ==null){
             return Result.failure(ResultCode.API_DB_FAIL);
         }
-        if (!UserStatusEnum.getVisibleUserStatusCodeList().contains(user.getStatus())){
-            return Result.failure(ResultCode.AUTH_ACCOUNT_INVALID);
-        }
+
         try {
             if(relTypeList!=null&&relTypeList.size()==0){
                 relTypeList = null;
@@ -84,7 +82,9 @@ public class PrivateController {
             }else{
                 return Result.failure(ResultCode.API_VALIDATION_ERROR);
             }
-            recentVO.setGmtLastContact(DateUtils.getCurrentDateTime());
+            if(recentVO.getGmtLastContact()==null){
+                recentVO.setGmtLastContact(DateUtils.getCurrentDateTime());
+            }
             relationService.upInsertRecentList(recentVO);
             List<RelationVO> relationVOS  = relationService.getUserRecentContactRelationVO(userId);
             log.info("upInsertRecentContact  userId:{},recentVOs:{}",userId,relationVOS.toString());
@@ -95,6 +95,21 @@ public class PrivateController {
             }
         }catch (ServiceInternalException e){
             return Result.failure(e.getResultCode(),e.getErrorMsg());
+        }
+    }
+
+    @GetMapping(value = "/relation/{userId}/recent")
+    public Result<List<RelationVO>> getUserRecentRelation(@PathVariable String userId){
+        log.info("getUserRecentRelation userId:"+userId);
+        User user = userService.getById(userId);
+        if (user ==null){
+            return Result.failure(ResultCode.API_DB_FAIL);
+        }
+        List<RelationVO> relationVOList = relationService.getUserRecentContactRelationVO(userId);
+        if(relationVOList!=null){
+            return Result.success(relationVOList);
+        }else{
+            return Result.failure(ResultCode.API_VALIDATION_ERROR);
         }
     }
 }

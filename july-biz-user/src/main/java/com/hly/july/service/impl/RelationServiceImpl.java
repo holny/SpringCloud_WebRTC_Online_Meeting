@@ -51,6 +51,7 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
     private RedisUtils redisUtils;
 
     private String USER_RELATION_RECENT = "user_relation_recent_";
+    private String REDIS_UNREAD_COUNT = "chat_unread_count_";
 
     public List<RelationVO> getUserRelation(String userId, String peerId, String category,Integer relType) throws ServiceInternalException{
         log.info("getUserRelation userId:{},peerId:{},category:{}",userId,peerId,category);
@@ -70,6 +71,9 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                     User peer = userService.getUserListByUserIdAndStatus(peerId,visibleStatusList);
                     if(peer!=null){
                         RelationVO relationVO = RelationVO.build(userId,peer);
+                        relationVO.setRelTypeCode(RelationTypeEnum.TEMP.getCode());
+                        relationVO.setRelType(RelationTypeEnum.TEMP.getDesc());
+                        relationVO.setCategory(category);
                         relationVOS = new ArrayList<>();
                         relationVOS.add(relationVO);
                     }else{
@@ -78,10 +82,10 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                 }
 
                 relationVOS.forEach(relationVO -> {
-                    if(category!=null){
-                        relationVO.setCategory(category.toLowerCase());
-                    }else{
-                        relationVO.setCategory(null);
+                    if(ContainerEnum.PERSON.getCode()==relationVO.getPeerTypeCode()){
+                        relationVO.setCategory("bookmark");
+                    }else if(ContainerEnum.GROUP.getCode()==relationVO.getPeerTypeCode()){
+                        relationVO.setCategory("group");
                     }
                     relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                     relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
@@ -93,9 +97,9 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                 if (StringUtils.isBlank(category)){
                     List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndType(userId,null,null,relType);
                     for (RelationVO relationVO : relationVOS) {
-                        if(ContainerEnum.PERSON.getCode().toString().equals(relationVO.getPeerType())) {
+                        if(ContainerEnum.PERSON.getCode()==relationVO.getPeerTypeCode()){
                             relationVO.setCategory("bookmark");
-                        }else if(ContainerEnum.GROUP.getCode().toString().equals(relationVO.getPeerType())) {
+                        }else if(ContainerEnum.GROUP.getCode()==relationVO.getPeerTypeCode()){
                             relationVO.setCategory("group");
                         }
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
@@ -156,6 +160,19 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
         }
     }
 
+    public Integer getUnRead(String senderId,Integer senderType,String receiverId){
+        if(senderId!=null&&senderType!=null&&receiverId!=null){
+            if (redisUtils.hHasKey(REDIS_UNREAD_COUNT + receiverId,senderId)){
+                return (Integer)redisUtils.hGet(REDIS_UNREAD_COUNT + receiverId,senderId);
+            }else{
+                redisUtils.hSet(REDIS_UNREAD_COUNT + receiverId,senderId,0);
+                return 0;
+            }
+        }else{
+            return 0;
+        }
+    }
+
     public List<RelationVO> getUserRecentContactRelationVO(String userId){
         if(StringUtils.isNotEmpty(userId)){
             List<RecentVO> recentVOS = (ArrayList<RecentVO>) redisUtils.get(USER_RELATION_RECENT + userId);
@@ -179,6 +196,8 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                     if (recentMap.containsKey(relationVO.getPeerId())) {
                         relationVO.setGmtLastContact(recentMap.get(relationVO.getPeerId()).getGmtLastContact());
                     }
+                    relationVO.setRelTypeCode(RelationTypeEnum.TEMP.getCode());
+                    relationVO.setRelType(RelationTypeEnum.TEMP.getDesc());
                     relationVOS.add(relationVO);
                 });
                 // 降序排序
@@ -190,6 +209,8 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                 });
                 if(relationVOS!=null){
                     relationVOS.forEach(relationVO -> {
+                        Integer tempUnReadCount = getUnRead(relationVO.getPeerId(),relationVO.getPeerTypeCode(),relationVO.getUserId());
+                        relationVO.setUnReadMsgCount(tempUnReadCount);
                         relationVO.setCategory("recent");
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                         relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
@@ -199,7 +220,7 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                 }
                 return relationVOS;
             }else{
-                return null;
+                return new ArrayList<>();
             }
         }else{
             return null;
@@ -242,43 +263,38 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
     }
 
     public List<RecentVO> upInsertRecentList(RecentVO recentVO) throws ServiceInternalException{
+        log.info("upInsertRecentList recentVO:{}",recentVO.toString());
         if (recentVO!=null&&recentVO.getUserId()!=null&&recentVO.getPeerId()!=null&&recentVO.getPeerType()!=null){
+            if (recentVO.getGmtLastContact() == null) {
+                recentVO.setGmtLastContact(DateUtils.getCurrentDateTime());
+            }
             boolean isExisted = false;
             List<RecentVO> recentVOS = (ArrayList<RecentVO>) redisUtils.get(USER_RELATION_RECENT + recentVO.getUserId());
             if (recentVOS!=null) {
                 RecentVO theOlder = null;
+                // 找到用户的所有recent列表中相同userId和peerId的对象，同时找到列表中最老的对象最为新插入对象的替代对象
                 for (RecentVO tempVO : recentVOS) {
                     if (recentVO.getUserId().equals(tempVO.getUserId()) && recentVO.getPeerId().equals(tempVO.getPeerId())) {
-                        if (tempVO.getGmtLastContact() != null) {
-                            tempVO.setGmtLastContact(tempVO.getGmtLastContact());
-                        } else {
-                            tempVO.setGmtLastContact(DateUtils.getCurrentDateTime());
-                        }
+                        tempVO.setGmtLastContact(recentVO.getGmtLastContact());
                         isExisted = true;
                         break;
                     }
                     if (theOlder == null) {
                         theOlder = tempVO;
-                    }else if (theOlder.getGmtLastContact().after(tempVO.getGmtLastContact())) {
+                    }else if (tempVO.getGmtLastContact()!=null&&theOlder.getGmtLastContact().after(tempVO.getGmtLastContact())) {
                         theOlder = tempVO;
                     }
                 }
                 if (!isExisted) {
                     // 如果不存在，就说明上面的没有更新成功，需要插入新的数据
-                    if (recentVO.getGmtLastContact() == null) {
-                        recentVO.setGmtLastContact(DateUtils.getCurrentDateTime());
-                    }
                     if (recentVOS.size() >= UserConstants.USER_SOCIAL_RECENT_MAX_NUM) {
                         if (theOlder != null) {
                             recentVOS.remove(theOlder);
-                            recentVOS.add(recentVO);
                         } else {
-                            recentVOS.remove(recentVOS.size() - 1);
-                            recentVOS.add(recentVO);
+                            recentVOS.remove(recentVOS.size() - 1);;
                         }
-                    } else {
-                        recentVOS.add(recentVO);
                     }
+                    recentVOS.add(recentVO);
                 }
                 // 降序排序
                 recentVOS.sort(new Comparator<RecentVO>() {
@@ -290,11 +306,6 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                 redisUtils.set(USER_RELATION_RECENT + recentVO.getUserId(), recentVOS);
             }else{
                 recentVOS= new ArrayList<>();
-                if (recentVO.getGmtLastContact() != null) {
-                    recentVO.setGmtLastContact(recentVO.getGmtLastContact());
-                } else {
-                    recentVO.setGmtLastContact(DateUtils.getCurrentDateTime());
-                }
                 recentVOS.add(recentVO);
                 if (recentVOS.size() > UserConstants.USER_SOCIAL_RECENT_MAX_NUM) {
                     throw new ServiceInternalException("服务器限制为不能添加临时聊天");

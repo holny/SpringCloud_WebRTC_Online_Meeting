@@ -1,4 +1,4 @@
-package com.hly.july.config;
+package com.hly.july.common.biz.config;
 
 import feign.RequestInterceptor;
 import feign.RequestTemplate;
@@ -22,11 +22,13 @@ public class FeignInterceptor implements RequestInterceptor {
     @Override
     public void apply(RequestTemplate requestTemplate) {
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        log.info("RequestInterceptor  attributes:{}",attributes.toString());
-        HttpServletRequest request = attributes.getRequest();
-        log.info("RequestInterceptor  request:{}",request.toString());
-        //添加token
-        requestTemplate.header("Authorization", request.getHeader("Authorization"));
+        if(attributes!=null) {
+            log.info("RequestInterceptor  attributes:{}", attributes.toString());
+            HttpServletRequest request = attributes.getRequest();
+            log.info("RequestInterceptor  request:{}", request.toString());
+            //添加token
+            requestTemplate.header("Authorization", request.getHeader("Authorization"));
+        }
     }
 
 }

@@ -7,6 +7,7 @@ import com.hly.july.common.biz.constant.RelationTypeEnum;
 import com.hly.july.common.biz.exception.ServiceInternalException;
 import com.hly.july.common.biz.result.Result;
 import com.hly.july.common.biz.result.ResultCode;
+import com.hly.july.common.biz.util.DateUtils;
 import com.hly.july.common.biz.utils.RedisUtils;
 import com.hly.july.common.biz.vo.RelationVO;
 import com.hly.july.entity.*;
@@ -14,6 +15,7 @@ import com.hly.july.service.api.BizUserApiService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -42,13 +44,15 @@ public class ChatService {
     @Autowired
     private MessageServiceImpl messageService;
 
+    @Autowired
+    private AsyncJobService asyncJobService;
 
+    @Resource
     private BizUserApiService bizUserApiService;
     // watcher只存在30s，过期说明客户端没在监听，离线了
     private int REDIS_WATCHER_EXPIRED = JulyConstants.REDIS_WATCHER_EXPIRED;
     private String REDIS_WATCHER = "chat_watcher_";
 
-    private String REDIS_UNREAD_INFO = "chat_unread_info_";
     private String REDIS_UNREAD_COUNT = "chat_unread_count_";
 
     public Boolean upInsertWatcher(Watcher watcher){
@@ -91,7 +95,6 @@ public class ChatService {
     public Boolean sendPersonalMessage(String peerId,String senderId, MessageVO message) throws ServiceInternalException {
         log.info("sendPersonalMessage peerId:{},senderId:{}, message:{}",peerId,senderId,message.toString());
         if (peerId!=null&&message!=null) {
-            // Todo:要检查对方是否存在，并且是否黑名单
             Result<List<RelationVO>> relationVOListResult = bizUserApiService.getUserRelation(peerId,senderId,ContainerEnum.PERSON.getCode(), RelationTypeEnum.getNegativeCodeList());
             if(relationVOListResult.getCode()==ResultCode.SUCCESS.getCode()){
                 List<RelationVO> relationVOS = relationVOListResult.getData();
@@ -110,12 +113,13 @@ public class ChatService {
                     if(ContainerEnum.PERSON.getDesc().equals(message.getPeerType())){
                         sendPersonalShouting(message.getFrom(),message);
                     }
+                    asyncJobService.sendMsgSubProcess(message.getFrom(),ContainerEnum.PERSON.getCode(),message.getTo(),ContainerEnum.getCodeByDesc(message.getPeerType()),message.getGmtCreate(),false);
                     return true;
                 }else{
                     if(ContainerEnum.PERSON.getDesc().equals(message.getPeerType())){
                         sendPersonalShouting(message.getFrom(),message);
                     }
-                    upInsertUnRead(senderId,ContainerEnum.getCodeByDesc(message.getPeerType()),peerId);
+                    asyncJobService.sendMsgSubProcess(message.getFrom(),ContainerEnum.PERSON.getCode(),message.getTo(),ContainerEnum.getCodeByDesc(message.getPeerType()),message.getGmtCreate(),true);
                     throw new ServiceInternalException("对方不在线");
                 }
             }else{
@@ -127,7 +131,29 @@ public class ChatService {
         }
     }
 
-    public Boolean upInsertUnRead(String senderId,Integer senderType,String receiverId){
+    public Integer changeUnRead(String senderId,Integer senderType,String receiverId,String action){
+        if(senderId!=null&&senderType!=null&&receiverId!=null){
+            Boolean result = null;
+            if("update".equals(action)){
+                result = upInsertUnRead(senderId,senderType,receiverId);
+            }else if("clear".equals(action)){
+                result = clearUnRead(senderId,senderType,receiverId);
+            }
+            if(result!=null&&result){
+                Integer count = 0;
+                if (redisUtils.hHasKey(REDIS_UNREAD_COUNT + receiverId,senderId)){
+                    count = (Integer)redisUtils.hGet(REDIS_UNREAD_COUNT + receiverId,senderId);
+                }
+                return count;
+            }else{
+                return -1;
+            }
+        }else{
+            return -1;
+        }
+    }
+
+    private Boolean upInsertUnRead(String senderId,Integer senderType,String receiverId){
         if(senderId!=null&&senderType!=null&&receiverId!=null){
             if (redisUtils.hHasKey(REDIS_UNREAD_COUNT + receiverId,senderId)){
                 redisUtils.hashIncr(REDIS_UNREAD_COUNT + receiverId,senderId,1);
@@ -140,7 +166,7 @@ public class ChatService {
         }
     }
 
-    public Boolean clearUnRead(String senderId,Integer senderType,String receiverId){
+    private Boolean clearUnRead(String senderId,Integer senderType,String receiverId){
         if(senderId!=null&&senderType!=null&&receiverId!=null){
             if (redisUtils.hHasKey(REDIS_UNREAD_COUNT + receiverId,senderId)){
                 redisUtils.hSet(REDIS_UNREAD_COUNT + receiverId,senderId,0);
@@ -153,10 +179,10 @@ public class ChatService {
         }
     }
 
-    public long getUnRead(String senderId,Integer senderType,String receiverId){
+    public Integer getUnRead(String senderId,Integer senderType,String receiverId){
         if(senderId!=null&&senderType!=null&&receiverId!=null){
             if (redisUtils.hHasKey(REDIS_UNREAD_COUNT + receiverId,senderId)){
-                return (Long)redisUtils.hGet(REDIS_UNREAD_COUNT + receiverId,senderId);
+                return (Integer)redisUtils.hGet(REDIS_UNREAD_COUNT + receiverId,senderId);
             }else{
                 redisUtils.hSet(REDIS_UNREAD_COUNT + receiverId,senderId,0);
                 return 0;

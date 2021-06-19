@@ -1,11 +1,12 @@
 package com.hly.july.service.api;
 
+import com.hly.july.common.biz.config.FeignInterceptor;
 import com.hly.july.common.biz.vo.RecentVO;
 import com.hly.july.common.biz.vo.RelationVO;
 import com.hly.july.common.biz.vo.UserInfoVO;
 import com.hly.july.common.biz.constant.AuthConstants;
 import com.hly.july.common.biz.result.Result;
-import com.hly.july.config.FeignInterceptor;
+
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -39,4 +40,7 @@ public interface BizUserApiService {
 
     @PostMapping(value = "/private/relation/{userId}/recent")
     public Result<List<RelationVO>> upInsertRecentContact(@PathVariable String userId, @RequestBody RecentVO recentVO);
+
+    @GetMapping(value = "/private/relation/{userId}/recent")
+    public Result<List<RelationVO>> getUserRecentRelation(@PathVariable String userId);
 }

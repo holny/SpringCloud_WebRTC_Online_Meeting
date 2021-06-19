@@ -12,9 +12,10 @@ import java.util.List;
  * @Version 1.0.0
  **/
 public enum RelationTypeEnum {
-    FRIEND(1,"FRIEND"),
-    BLACK(2,"BLACK"),
-    IGNORE(3,"IGNORE");
+    FRIEND(1,"friend"),
+    TEMP(2,"temp"),
+    BLACK(3,"black"),
+    IGNORE(4,"ignore");
 
     private Integer code;
     private String desc;
@@ -66,8 +67,8 @@ public enum RelationTypeEnum {
     }
 
     public static String getDescByCode(Integer code){
-        ContainerEnum[] list = ContainerEnum.values();
-        for (ContainerEnum item : list) {
+        RelationTypeEnum[] list = RelationTypeEnum.values();
+        for (RelationTypeEnum item : list) {
             if (item.getCode().equals(code)) {
                 return item.getDesc();
             }
@@ -76,8 +77,8 @@ public enum RelationTypeEnum {
     }
 
     public static Integer getCodeByDesc(String desc){
-        ContainerEnum[] list = ContainerEnum.values();
-        for (ContainerEnum item : list) {
+        RelationTypeEnum[] list = RelationTypeEnum.values();
+        for (RelationTypeEnum item : list) {
             if (item.getDesc().equals(desc)) {
                 return item.getCode();
             }

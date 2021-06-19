@@ -67,9 +67,9 @@ public enum UserStatusEnum {
         return visibleUserStatusCodeList;
     }
 
-    public static RoleEnum getEnumByCode(Integer code){
-        RoleEnum[] list = RoleEnum.values();
-        for (RoleEnum item : list) {
+    public static UserStatusEnum getEnumByCode(Integer code){
+        UserStatusEnum[] list = UserStatusEnum.values();
+        for (UserStatusEnum item : list) {
             if (item.getCode().equals(code)) {
                 return item;
             }
@@ -78,8 +78,8 @@ public enum UserStatusEnum {
     }
 
     public static String getDescByCode(Integer code){
-        RoleEnum[] list = RoleEnum.values();
-        for (RoleEnum item : list) {
+        UserStatusEnum[] list = UserStatusEnum.values();
+        for (UserStatusEnum item : list) {
             if (item.getCode().equals(code)) {
                 return item.getDesc();
             }
