@@ -13,6 +13,7 @@ import com.hly.july.common.biz.vo.RelationVO;
 import com.hly.july.entity.*;
 import com.hly.july.service.api.BizUserApiService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.scheduling.annotation.Async;
@@ -55,6 +56,8 @@ public class ChatService {
 
     private String REDIS_UNREAD_COUNT = "chat_unread_count_";
 
+    private String USER_RELATION_FILTER = "user_relation_filter_";
+
     public Boolean upInsertWatcher(Watcher watcher){
         if(watcher!=null&&watcher.getWatcherId()!=null&&watcher.getPeerId()!=null){
             log.info("upInsertWatcher watcher:{}",watcher.toString());
@@ -95,15 +98,12 @@ public class ChatService {
     public Boolean sendPersonalMessage(String peerId,String senderId, MessageVO message) throws ServiceInternalException {
         log.info("sendPersonalMessage peerId:{},senderId:{}, message:{}",peerId,senderId,message.toString());
         if (peerId!=null&&message!=null) {
-            Result<List<RelationVO>> relationVOListResult = bizUserApiService.getUserRelation(peerId,senderId,ContainerEnum.PERSON.getCode(), RelationTypeEnum.getNegativeCodeList());
-            if(relationVOListResult.getCode()==ResultCode.SUCCESS.getCode()){
-                List<RelationVO> relationVOS = relationVOListResult.getData();
-                if(CollectionUtils.isNotEmpty(relationVOS)){
-                    for (RelationVO relationVO : relationVOS) {
-                        if(peerId.equals(relationVO.getUserId())&&senderId.equals(relationVO.getPeerId())&&RelationTypeEnum.getNegativeCodeList().contains(relationVO.getRelTypeCode())){
-                            throw new ServiceInternalException(ResultCode.USER_SOCIAL_BE_BLACKED);
-                        }
-                    }
+            Integer filterRelTypeCode = getRelationFilterRelTypeCode(peerId,senderId);
+            if(filterRelTypeCode!=null&&RelationTypeEnum.getNegativeCodeList().contains(filterRelTypeCode)){
+                if(RelationTypeEnum.BLACK.getCode()==filterRelTypeCode){
+                    throw new ServiceInternalException(ResultCode.USER_SOCIAL_BE_BLACKED);
+                }else if(RelationTypeEnum.IGNORE.getCode()==filterRelTypeCode){
+                    throw new ServiceInternalException(ResultCode.USER_SOCIAL_BE_IGNORED);
                 }
             }
             boolean result = messageService.insertTodayMessage(message);
@@ -211,6 +211,42 @@ public class ChatService {
                 "/topic/personal/"+userId,
                 shouting
         );
+    }
+
+    public Integer getRelationFilterRelTypeCode(String userId,String peerId){
+        if(StringUtils.isNotEmpty(userId)&&StringUtils.isNotEmpty(peerId)) {
+            Integer relTypeCode = null;
+            if(redisUtils.hHasKey(USER_RELATION_FILTER + userId,peerId)){
+                relTypeCode = (Integer) redisUtils.hGet(USER_RELATION_FILTER + userId,peerId);
+            }
+            return relTypeCode;
+        }else{
+            return null;
+        }
+    }
+
+    public Boolean upInsertRelationFilterRelTypeCode(String userId,String peerId,Integer relTypeCode){
+        if(StringUtils.isNotEmpty(userId)&&StringUtils.isNotEmpty(peerId)&&relTypeCode!=null) {
+            redisUtils.hSet(USER_RELATION_FILTER + userId,peerId,relTypeCode);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public Boolean removeRelationFilterRelTypeCode(String userId,String peerId,Integer relTypeCode){
+        log.info("removeRelationFilterRelTypeCode userId:{},peerId:{},relTypeCode:{}",userId,peerId,relTypeCode);
+        if(StringUtils.isNotEmpty(userId)&&StringUtils.isNotEmpty(peerId)&&relTypeCode!=null) {
+            Integer existedCode = getRelationFilterRelTypeCode(userId,peerId);
+            if(relTypeCode.equals(existedCode)){
+                redisUtils.hDel(USER_RELATION_FILTER + userId,peerId);
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 
 

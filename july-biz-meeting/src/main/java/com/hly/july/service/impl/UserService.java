@@ -80,18 +80,14 @@ public class UserService {
 
 
 
-    public Boolean sendPersonalEvent(String userId,Event event)  throws ServiceInternalException{
+    public Boolean sendPersonalEvent(String userId,Event event){
         log.info("sendPersonalEvent userId:{},event:{}",userId,event.toString());
         event.setType("event");
-        if (userId!=null&&event!=null) {
-            sendPersonalShouting(event.getTo(),event);
-            return true;
-        }else{
-            throw new ServiceInternalException(ResultCode.WEBSOCKET_REQUEST_ERROR);
-        }
+        sendPersonalShouting(event.getTo(),event);
+        return true;
     }
 
-    public void sendPersonalShouting(String userId, Shouting shouting)  throws ServiceInternalException {
+    public void sendPersonalShouting(String userId, Shouting shouting) {
         log.info("sendPersonalShouting userId:{} shouting:{}",userId,shouting.toString());
         simpMessagingTemplate.convertAndSendToUser(
                 userId,

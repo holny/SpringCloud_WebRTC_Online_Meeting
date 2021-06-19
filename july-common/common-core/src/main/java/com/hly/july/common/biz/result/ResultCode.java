@@ -56,7 +56,8 @@ public enum ResultCode implements IResultCode,Serializable {
     WEBSOCKET_MESSAGE_FAIL(30012,"发送消息失败!"),
     USER_SOCIAL_OVER_MAX(40001,"超过最大限度"),
 
-    USER_SOCIAL_BE_BLACKED(40002,"被对方屏蔽");
+    USER_SOCIAL_BE_BLACKED(40002,"被对方拉黑"),
+    USER_SOCIAL_BE_IGNORED(40003,"被对方屏蔽");
 
 //
 //

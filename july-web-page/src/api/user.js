@@ -63,11 +63,11 @@ export function upInsertRelation (userId,category,data) {
   })
 }
 
-export function removeRelation (userId,peerId,peerType) {
+export function removeRelation (userId,peerId,peerType,relType) {
   return request({
     url: '/api/relation/'+userId,
     method: 'delete',
-    params: { peerId:peerId,peerType:peerType }
+    params: { peerId:peerId,peerType:peerType,relType:relType }
   })
 }
 

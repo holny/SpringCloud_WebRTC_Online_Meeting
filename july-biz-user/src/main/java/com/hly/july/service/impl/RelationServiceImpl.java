@@ -52,6 +52,7 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
 
     private String USER_RELATION_RECENT = "user_relation_recent_";
     private String REDIS_UNREAD_COUNT = "chat_unread_count_";
+    private String USER_RELATION_FILTER = "user_relation_filter_";
 
     public List<RelationVO> getUserRelation(String userId, String peerId, String category,Integer relType) throws ServiceInternalException{
         log.info("getUserRelation userId:{},peerId:{},category:{}",userId,peerId,category);
@@ -90,7 +91,14 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                     relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                     relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
                     relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
-                    relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                    Integer filterRelTypeCode = getRelationFilterRelTypeCode(relationVO.getUserId(),relationVO.getPeerId());
+                    if(filterRelTypeCode!=null){
+                        relationVO.setRelType(RelationTypeEnum.getDescByCode(filterRelTypeCode));
+                        relationVO.setRelTypeCode(filterRelTypeCode);
+                    }else{
+                        relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                    }
+
                 });
                 return relationVOS;
             }else{
@@ -105,7 +113,14 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                         relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
                         relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
-                        relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                        Integer filterRelTypeCode = getRelationFilterRelTypeCode(relationVO.getUserId(),relationVO.getPeerId());
+                        if(filterRelTypeCode!=null){
+                            relationVO.setRelType(RelationTypeEnum.getDescByCode(filterRelTypeCode));
+                            relationVO.setRelTypeCode(filterRelTypeCode);
+                        }else{
+                            relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                        }
+
                     }
                     List<RelationVO> recentRelVOs = getUserRecentContactRelationVO(userId);
                     if(recentRelVOs!=null){
@@ -122,7 +137,14 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                         relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
                         relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
-                        relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                        Integer filterRelTypeCode = getRelationFilterRelTypeCode(relationVO.getUserId(),relationVO.getPeerId());
+                        if(filterRelTypeCode!=null){
+                            relationVO.setRelType(RelationTypeEnum.getDescByCode(filterRelTypeCode));
+                            relationVO.setRelTypeCode(filterRelTypeCode);
+                        }else{
+                            relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                        }
+
                     });
                     return relationVOS;
                 }else if (category.toLowerCase().equals("group")){
@@ -132,7 +154,14 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                         relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
                         relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
-                        relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                        Integer filterRelTypeCode = getRelationFilterRelTypeCode(relationVO.getUserId(),relationVO.getPeerId());
+                        if(filterRelTypeCode!=null){
+                            relationVO.setRelType(RelationTypeEnum.getDescByCode(filterRelTypeCode));
+                            relationVO.setRelTypeCode(filterRelTypeCode);
+                        }else{
+                            relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                        }
+
                     });
                     return relationVOS;
                 }
@@ -152,7 +181,14 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                 relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                 relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
                 relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
-                relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                Integer filterRelTypeCode = getRelationFilterRelTypeCode(relationVO.getUserId(),relationVO.getPeerId());
+                if(filterRelTypeCode!=null){
+                    relationVO.setRelType(RelationTypeEnum.getDescByCode(filterRelTypeCode));
+                    relationVO.setRelTypeCode(filterRelTypeCode);
+                }else{
+                    relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                }
+
             });
             return relationVOS;
         }else{
@@ -215,7 +251,14 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
                         relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                         relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
                         relationVO.setPeerType(ContainerEnum.getDescByCode(Integer.valueOf(relationVO.getPeerTypeCode())));
-                        relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                        Integer filterRelTypeCode = getRelationFilterRelTypeCode(relationVO.getUserId(),relationVO.getPeerId());
+                        if(filterRelTypeCode!=null){
+                            relationVO.setRelType(RelationTypeEnum.getDescByCode(filterRelTypeCode));
+                            relationVO.setRelTypeCode(filterRelTypeCode);
+                        }else{
+                            relationVO.setRelType(RelationTypeEnum.getDescByCode(Integer.valueOf(relationVO.getRelTypeCode())));
+                        }
+
                     });
                 }
                 return relationVOS;
@@ -227,38 +270,35 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
         }
     }
 
-    public int upInsertRelationByUserIdAndPeerIdAndCategory(Relation relation) throws ServiceInternalException{
-        if (relation!=null&&relation.getUserId()!=null&&relation.getPeerId()!=null ){
-            if (relation.getRemarkName()!=null||relation.getTag()!=null) {
+    public Boolean upInsertRelationByUserIdAndPeerIdAndCategory(Relation relation) throws ServiceInternalException{
+        log.info("upInsertRelationByUserIdAndPeerIdAndCategory  relation:{}",relation.toString());
+        if (relation!=null&&relation.getUserId()!=null&&relation.getPeerId()!=null){
+            if(relation.getRelType()!=null&&RelationTypeEnum.getNegativeCodeList().contains(relation.getRelType())){
+                upInsertRelationFilterRelTypeCode(relation.getUserId(),relation.getPeerId(),relation.getRelType());
+                return true;
+            }
+
+            QueryWrapper<Relation> queryWrapper = new QueryWrapper<>();
+            queryWrapper.eq("user_id", relation.getUserId()).eq("peer_id", relation.getPeerId()).eq("peer_type", relation.getPeerType());
+            List<Relation> relationList = baseMapper.selectList(queryWrapper);
+            if(relationList.size()>1){
+                throw new ServiceInternalException("重复的数据大于2个");
+            }else if(relationList.size()==1){
+                Relation exitedRelation = relationList.get(0);
+                relation.setRelId(null);
+                relation.setPeerId(null);
+                relation.setPeerType(null);
+                relation.setUserId(null);
+                UpdateWrapper<Relation> updateWrapper= new UpdateWrapper<>();
+                updateWrapper.eq("user_id", exitedRelation.getUserId()).eq("peer_id", exitedRelation.getPeerId()).eq("peer_type", exitedRelation.getPeerType());
+                return super.update(relation,updateWrapper);
+            }else{
                 Long newId= IdWorker.getId();
                 relation.setRelId(newId.toString());
-                relation.setGmtCreate(DateUtils.getCurrentDateTime());
-                UpdateWrapper<Relation> updateWrapper = new UpdateWrapper<>();
-                updateWrapper.set(relation.getRemarkName() != null, "remark_name", relation.getRemarkName()).set(relation.getTag() != null, "tag", relation.getTag())
-                        .eq("user_id", relation.getUserId()).eq("peer_id", relation.getPeerId()).eq("peer_type", relation.getPeerType());
-                boolean result = super.saveOrUpdate(relation,updateWrapper);
-                if(result){
-                    return 1;
-                }else{
-                    return -1;
-                }
-            }else{
-                QueryWrapper<Relation> queryWrapper = new QueryWrapper<>();
-                queryWrapper.eq("user_id", relation.getUserId()).eq("peer_id", relation.getPeerId()).eq("peer_type", relation.getPeerType());
-                List<Relation> relationList = baseMapper.selectList(queryWrapper);
-                if(relationList.size()>1){
-                    throw new ServiceInternalException("重复的数据大于2个");
-                }else if(relationList.size()==1){
-                    throw new ServiceInternalException("此关系已经存在");
-                }else{
-                    Long newId= IdWorker.getId();
-                    relation.setRelId(newId.toString());
-                    relation.setGmtCreate(DateUtils.getCurrentDateTime());
-                    return baseMapper.insert(relation);
-                }
+                return super.save(relation);
             }
         }else{
-            return -1;
+            return false;
         }
     }
 
@@ -343,21 +383,66 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
         }
     }
 
-    public Boolean deleteUserRelationByIdAndType(String userId,String peerId,String peerTypeCode){
+    public Boolean deleteUserRelationByIdAndType(String userId,String peerId,String peerTypeCode,Integer relTypeCode){
+        log.info("deleteUserRelationByIdAndType userId:{},peerId:{},peerTypeCode:{},relTypeCode:{}",userId,peerId,peerTypeCode,relTypeCode);
         if (userId!=null && peerId!=null){
             userId = StringEscapeUtils.escapeSql(userId);
             peerId = StringEscapeUtils.escapeSql(peerId);
             peerTypeCode = StringEscapeUtils.escapeSql(peerTypeCode);
-            QueryWrapper<Relation> queryWrapper = new QueryWrapper<>();
-            queryWrapper.eq("user_id", userId).eq("peer_id",peerId);
-            if(StringUtils.isNotEmpty(peerId)){
-                queryWrapper.eq("peer_type",peerTypeCode);
+            if(relTypeCode!=null&&RelationTypeEnum.getNegativeCodeList().contains(relTypeCode)){
+                removeRelationFilterRelTypeCode(userId,peerId,relTypeCode);
+                UpdateWrapper<Relation> updateWrapper = new UpdateWrapper<>();
+                updateWrapper.set("rel_type",RelationTypeEnum.FRIEND.getCode()).eq("user_id", userId).eq("peer_id",peerId).eq(relTypeCode!=null,"rel_type",relTypeCode);
+                super.update(updateWrapper);
+            }else{
+                QueryWrapper<Relation> queryWrapper = new QueryWrapper<>();
+                queryWrapper.eq("user_id", userId).eq("peer_id",peerId);
+                if(StringUtils.isNotEmpty(peerId)){
+                    queryWrapper.eq("peer_type",peerTypeCode);
+                }
+                queryWrapper.eq(relTypeCode!=null,"rel_type",relTypeCode);
+                super.remove(queryWrapper);
             }
-            super.remove(queryWrapper);
             return true;
         }else{
             return false;
         }
 
+    }
+
+    public Integer getRelationFilterRelTypeCode(String userId,String peerId){
+        if(StringUtils.isNotEmpty(userId)&&StringUtils.isNotEmpty(peerId)) {
+            Integer relTypeCode = null;
+            if(redisUtils.hHasKey(USER_RELATION_FILTER + userId,peerId)){
+                relTypeCode = (Integer) redisUtils.hGet(USER_RELATION_FILTER + userId,peerId);
+            }
+            return relTypeCode;
+        }else{
+            return null;
+        }
+    }
+
+    public Boolean upInsertRelationFilterRelTypeCode(String userId,String peerId,Integer relTypeCode){
+        if(StringUtils.isNotEmpty(userId)&&StringUtils.isNotEmpty(peerId)&&relTypeCode!=null) {
+            redisUtils.hSet(USER_RELATION_FILTER + userId,peerId,relTypeCode);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public Boolean removeRelationFilterRelTypeCode(String userId,String peerId,Integer relTypeCode){
+        log.info("removeRelationFilterRelTypeCode userId:{},peerId:{},relTypeCode:{}",userId,peerId,relTypeCode);
+        if(StringUtils.isNotEmpty(userId)&&StringUtils.isNotEmpty(peerId)&&relTypeCode!=null) {
+            Integer existedCode = getRelationFilterRelTypeCode(userId,peerId);
+            if(relTypeCode.equals(existedCode)){
+                redisUtils.hDel(USER_RELATION_FILTER + userId,peerId);
+                return true;
+            }else{
+                return false;
+            }
+        }else{
+            return false;
+        }
     }
 }

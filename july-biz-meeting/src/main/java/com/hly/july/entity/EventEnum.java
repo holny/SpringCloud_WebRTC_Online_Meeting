@@ -16,7 +16,8 @@ public enum EventEnum {
     EVENT_CHAT_CHANGED("E1003", "Room被改变"),
     EVENT_CHAT_MESSAGE("E1004", "新消息"),
     EVENT_RECENT_CHANGED("E1005", "最近联系人列表改变"),
-    EVENT_UNREAD_CHANGED("E1006", "未读信息计数改变");
+    EVENT_UNREAD_CHANGED("E1006", "未读信息计数改变"),
+    EVENT_CONSPICUOUS_NOTIFY("E1007", "显示消息");
 
     private String code;
     private String desc;

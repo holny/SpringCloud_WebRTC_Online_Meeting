@@ -84,17 +84,17 @@
       <q-separator color="orange"  vertical inset />
       <q-list v-if="contactType==='recent'" class="full-width">
         <q-scroll-area class="full-height full-width">
-          <contact-item v-for="relationObject in contacts.variable.recent.array" :key="relationObject.peerId" :peer-object="relationObject" v-on:changePeer="changeChatPeer" v-on:addBookmarker="addBookMarkPeer" v-on:removeUserRelation="removeUserRelation"/>
+          <contact-item v-for="relationObject in contacts.variable.recent.array" :key="relationObject.peerId" :peer-object="relationObject" v-on:changePeer="changeChatPeer" v-on:addBookmarker="addBookMarkPeer" v-on:removeUserRelation="removeUserRelation" v-on:updateUserRelationType="updateUserRelationType"/>
         </q-scroll-area>
       </q-list>
       <q-list v-else-if="contactType==='bookmark'" class="full-width">
         <q-scroll-area class="full-height full-width">
-          <contact-item v-for="relationObject in contacts.variable.bookMark.array" :key="relationObject.peerId" :peer-object="relationObject" v-on:changePeer="changeChatPeer" v-on:addBookmarker="addBookMarkPeer" v-on:removeUserRelation="removeUserRelation"/>
+          <contact-item v-for="relationObject in contacts.variable.bookMark.array" :key="relationObject.peerId" :peer-object="relationObject" v-on:changePeer="changeChatPeer" v-on:addBookmarker="addBookMarkPeer" v-on:removeUserRelation="removeUserRelation" v-on:updateUserRelationType="updateUserRelationType"/>
         </q-scroll-area>
       </q-list>
       <q-list v-else-if="contactType==='group'" class="full-width">
         <q-scroll-area class="full-height full-width">
-          <contact-item v-for="relationObject in contacts.variable.group.array" :key="relationObject.peerId" :peer-object="relationObject" v-on:changePeer="changeChatPeer" v-on:addBookmarker="addBookMarkPeer" v-on:removeUserRelation="removeUserRelation"/>
+          <contact-item v-for="relationObject in contacts.variable.group.array" :key="relationObject.peerId" :peer-object="relationObject" v-on:changePeer="changeChatPeer" v-on:addBookmarker="addBookMarkPeer" v-on:removeUserRelation="removeUserRelation" v-on:updateUserRelationType="updateUserRelationType"/>
         </q-scroll-area>
       </q-list>
       <q-space/>
@@ -287,12 +287,12 @@ export default {
         if (feedback.type=== CONSTANT.SHOUTING_EVENT){
           // type=== 'message' 说明是来了新事件
           let feedbackTS = date.formatDate(date.extractDate(feedback.gmtCreate,CONSTANT.DATE_FORMAT) , 'x')
-          console.log(feedbackTS)
-          console.log(_that.contacts.variable.recent.updateTS)
           if (feedback.code===EVENT_CODE.RECENT_CHANGED){ // E1005 最近联系人列表改变
             if(!isNotEmpty(_that.contacts.variable.recent.updateTS) || feedbackTS>_that.contacts.variable.recent.updateTS){
               _that.updateRecentContactView(feedback.data,feedbackTS)
             }
+          }else  if (feedback.code===EVENT_CODE.CONSPICUOUS_NOTIFY){ // E1007 显示消息
+            FUN.notify(feedback.message, FUN.NOTIFY_LEVEL_WARNING, FUN.NOTIFY_POSITION_TOP)
           }
         }
       })
@@ -333,7 +333,7 @@ export default {
                   newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
                   newRelation['category'] = data[index].category
                   newRelation['unReadMsgCount'] = data[index].unReadMsgCount
-                  newRelation['relType'] = data[index].relType
+                  newRelation['relTypeCode'] = data[index].relTypeCode
                   _that.contacts.variable.recent.array.push(newRelation)
                   _that.contacts.variable.recent.updateTS = date.formatDate(new Date(Date.now()) , 'x') // 记录现在更新时间
                 } else if (data[index].category === CONSTANT.CONTACTS_CATEGORY_BOOKMARK) {
@@ -359,7 +359,7 @@ export default {
                   newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
                   newRelation['category'] = data[index].category
                   newRelation['unReadMsgCount'] = data[index].unReadMsgCount
-                  newRelation['relType'] = data[index].relType
+                  newRelation['relTypeCode'] = data[index].relTypeCode
                   _that.contacts.variable.bookMark.array.push(newRelation)
                   _that.contacts.variable.bookMark.updateTS = date.formatDate(new Date(Date.now()) , 'x') // 记录现在更新时间
                 }
@@ -476,6 +476,8 @@ export default {
         needUpdatedItem.gmtLastContact = date.formatDate(date.extractDate(msgDate,'x') , CONSTANT.DATE_FORMAT)
         this.contacts.variable.recent.array.splice(needUpdatedItemIndex,1)
         this.contacts.variable.recent.array.splice(0,0,needUpdatedItem)
+      }else {
+          this.initContacts(this.hostId)
       }
     },
     updateRecentContactView(data,updateTS){
@@ -485,31 +487,33 @@ export default {
       this.contacts.variable.recent.array=[]
       this.contacts.variable.recent.updateTS=null
       for (let index in data){
-        let newRelation = {}
-        console.log(index)
-        newRelation['peerId'] = data[index].peerId
-        newRelation['peerType'] = data[index].peerType
-        newRelation['remarkName'] = data[index].remarkName
-        newRelation['tag'] = data[index].tag
-        newRelation['peerUserName'] = data[index].peerUserName
-        newRelation['peerAvatar'] = data[index].peerAvatar
-        if (isNotEmpty(data[index].gmtCreate)) {
-          newRelation['gmtCreate'] = data[index].gmtCreate
-        } else {
-          newRelation['gmtCreate'] = null
+        if(data[index].category===CONSTANT.CONTACTS_CATEGORY_RECENT) {
+          let newRelation = {}
+          console.log(index)
+          newRelation['peerId'] = data[index].peerId
+          newRelation['peerType'] = data[index].peerType
+          newRelation['remarkName'] = data[index].remarkName
+          newRelation['tag'] = data[index].tag
+          newRelation['peerUserName'] = data[index].peerUserName
+          newRelation['peerAvatar'] = data[index].peerAvatar
+          if (isNotEmpty(data[index].gmtCreate)) {
+            newRelation['gmtCreate'] = data[index].gmtCreate
+          } else {
+            newRelation['gmtCreate'] = null
+          }
+          if (isNotEmpty(data[index].gmtLastContact)) {
+            newRelation['gmtLastContact'] = data[index].gmtLastContact
+          } else {
+            newRelation['gmtLastContact'] = null
+          }
+          newRelation['peerNickName'] = data[index].peerNickName
+          newRelation['peerGender'] = FUN.convertPrintGender(data[index].peerGender)
+          newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
+          newRelation['category'] = data[index].category
+          newRelation['unReadMsgCount'] = data[index].unReadMsgCount
+          newRelation['relTypeCode'] = data[index].relTypeCode
+          this.contacts.variable.recent.array.push(newRelation)
         }
-        if (isNotEmpty(data[index].gmtLastContact)) {
-          newRelation['gmtLastContact'] = data[index].gmtLastContact
-        } else {
-          newRelation['gmtLastContact'] = null
-        }
-        newRelation['peerNickName'] = data[index].peerNickName
-        newRelation['peerGender'] = FUN.convertPrintGender(data[index].peerGender)
-        newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
-        newRelation['category'] = data[index].category
-        newRelation['unReadMsgCount'] = data[index].unReadMsgCount
-        newRelation['relType'] = data[index].relType
-        this.contacts.variable.recent.array.push(newRelation)
       }
       if(isNotEmpty(updateTS)){
         this.contacts.variable.recent.updateTS=updateTS // 记录现在更新时间
@@ -521,30 +525,32 @@ export default {
       this.contacts.variable.bookMark.array=[]
       this.contacts.variable.bookMark.updateTS=null
       for (let index in data){
-        let newRelation = {}
-        newRelation['peerId'] = data[index].peerId
-        newRelation['peerType'] = data[index].peerType
-        newRelation['remarkName'] = data[index].remarkName
-        newRelation['tag'] = data[index].tag
-        newRelation['peerUserName'] = data[index].peerUserName
-        newRelation['peerAvatar'] = data[index].peerAvatar
-        if (isNotEmpty(data[index].gmtCreate)) {
-          newRelation['gmtCreate'] = data[index].gmtCreate
-        } else {
-          newRelation['gmtCreate'] = null
+        if(data[index].category===CONSTANT.CONTACTS_CATEGORY_BOOKMARK) {
+          let newRelation = {}
+          newRelation['peerId'] = data[index].peerId
+          newRelation['peerType'] = data[index].peerType
+          newRelation['remarkName'] = data[index].remarkName
+          newRelation['tag'] = data[index].tag
+          newRelation['peerUserName'] = data[index].peerUserName
+          newRelation['peerAvatar'] = data[index].peerAvatar
+          if (isNotEmpty(data[index].gmtCreate)) {
+            newRelation['gmtCreate'] = data[index].gmtCreate
+          } else {
+            newRelation['gmtCreate'] = null
+          }
+          if (isNotEmpty(data[index].gmtLastContact)) {
+            newRelation['gmtLastContact'] = data[index].gmtLastContact
+          } else {
+            newRelation['gmtLastContact'] = null
+          }
+          newRelation['peerNickName'] = data[index].peerNickName
+          newRelation['peerGender'] = FUN.convertPrintGender(data[index].peerGender)
+          newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
+          newRelation['category'] = data[index].category
+          newRelation['unReadMsgCount'] = data[index].unReadMsgCount
+          newRelation['relTypeCode'] = data[index].relTypeCode
+          this.contacts.variable.bookMark.array.push(newRelation)
         }
-        if (isNotEmpty(data[index].gmtLastContact)) {
-          newRelation['gmtLastContact'] = data[index].gmtLastContact
-        } else {
-          newRelation['gmtLastContact'] = null
-        }
-        newRelation['peerNickName'] = data[index].peerNickName
-        newRelation['peerGender'] = FUN.convertPrintGender(data[index].peerGender)
-        newRelation['peerRole'] = FUN.filterPrintRole(data[index].peerRole)
-        newRelation['category'] = data[index].category
-        newRelation['unReadMsgCount'] = data[index].unReadMsgCount
-        newRelation['relType'] = data[index].relType
-        this.contacts.variable.bookMark.array.push(newRelation)
       }
       if(isNotEmpty(updateTS)){
         this.contacts.variable.bookMark.updateTS=updateTS // 记录现在更新时间
@@ -594,11 +600,63 @@ export default {
         console.log("removeUserRelation 参数不正确")
       }
     },
+    updateUserRelationType(peerId,peerType,relTypeCode,action){
+      console.log("updateUserRelationType")
+      console.log(peerId)
+      console.log(peerType)
+      console.log(relTypeCode)
+      console.log(action)
+      if(isNotEmpty(peerId)&&isNotEmpty(relTypeCode)&&isNotEmpty(action)){
+        let actionMsg = ''
+        let _that = this
+        if(relTypeCode===CONSTANT.RELATION_TYPE_IGNORE){
+          actionMsg = '屏蔽'
+        }else if(relTypeCode===CONSTANT.RELATION_TYPE_BLACK){
+          actionMsg = '拉黑'
+        }
+        if('add'===action){
+          actionMsg = '添加'+actionMsg
+          let data = {userId:this.hostId,peerId:peerId,peerType:peerType,relType:relTypeCode}
+          this.$store.dispatch('user/upInsertUserRelation',{userId:this.hostId,category:null,data:JSON.stringify(data)})
+              .then((data) => {
+                // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
+                console.log('updateUserRelationType add successful')
+                console.log(data)
+                _that.updateRecentContactView(data,null)
+                _that.updateBookmarkContactView(data,null)
+                FUN.notify(actionMsg+"成功",FUN.NOTIFY_LEVEL_INFO,FUN.NOTIFY_POSITION_TOP)
+              })
+              .catch((error) => {
+                console.log(error)
+                FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
+              })
+
+        }else if('remove'===action){
+          actionMsg = '取消'+actionMsg
+          let data ={userId: this.hostId, peerId:peerId,peerType:peerType,relType:relTypeCode}
+          this.$store.dispatch('user/removeUserRelation',data)
+              .then((data) => {
+                // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
+                console.log('updateUserRelationType successful')
+                console.log(data)
+                FUN.notify(actionMsg+"成功",FUN.NOTIFY_LEVEL_INFO,FUN.NOTIFY_POSITION_TOP)
+                _that.updateRecentContactView(data,null)
+                _that.updateBookmarkContactView(data,null)
+              })
+              .catch((error) => {
+                console.log('updateUserRelationType fail')
+                console.log(error)
+                FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
+              })
+        }
+
+      }
+    },
     addBookMarkPeer(peerId,peerType){
       console.log('bookMarkPeer:'+peerId)
       console.log('bookMarkPeer:'+peerType)
       let _that = this
-      let data = {userId:this.hostId,peerId:peerId,peerType:peerType}
+      let data = {userId:this.hostId,peerId:peerId,peerType:peerType,relType:CONSTANT.RELATION_TYPE_FRIEND}
       this.$store.dispatch('user/upInsertUserRelation',{userId:this.hostId,category:CONSTANT.CONTACTS_CATEGORY_BOOKMARK,data:JSON.stringify(data)})
           .then((data) => {
             // this.$router.push({path: this.redirect || '/', query: this.otherQuery})

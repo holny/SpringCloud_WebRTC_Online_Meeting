@@ -208,7 +208,7 @@ const actions = {
     commit
     console.log('action - removeUserRelation')
     return new Promise((resolve, reject) => {
-      removeRelation(payload.userId,payload.peerId,payload.peerType).then(response => {
+      removeRelation(payload.userId,payload.peerId,payload.peerType,payload.relType).then(response => {
         const { data } = response
         // console.log(data)
         if (data.code ===  RESULT_CODE.SUCCESS) {

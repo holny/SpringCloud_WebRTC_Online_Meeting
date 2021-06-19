@@ -6,6 +6,8 @@ import com.hly.july.common.biz.result.Result;
 import com.hly.july.common.biz.result.ResultCode;
 import com.hly.july.common.biz.util.DateUtils;
 import com.hly.july.common.biz.vo.RecentVO;
+import com.hly.july.entity.Event;
+import com.hly.july.entity.EventEnum;
 import com.hly.july.entity.MessageVO;
 import com.hly.july.entity.Watcher;
 import com.hly.july.service.api.BizUserApiService;
@@ -51,6 +53,9 @@ public class ChatWebSocketController {
     @Autowired
     private AsyncJobService asyncJobService;
 
+    @Autowired
+    private UserService userService;
+
     @MessageMapping({"/watch/{userId}"})
     public Result<String> watchChatSession(@DestinationVariable String userId, Watcher watcher, OAuth2Authentication auth2Authentication) {
         String hostId = auth2Authentication.getPrincipal().toString();
@@ -92,6 +97,13 @@ public class ChatWebSocketController {
                         return Result.failure(ResultCode.WEBSOCKET_MESSAGE_FAIL);
                     }
                 }catch (ServiceInternalException e){
+                    if(e.getResultCode().getCode()==ResultCode.USER_SOCIAL_BE_IGNORED.getCode()){
+                        Event<String> event = Event.buildPersonal(EventEnum.EVENT_CONSPICUOUS_NOTIFY,"已被对方屏蔽",hostId,peerId);
+                        userService.sendPersonalEvent(hostId,event);
+                    }else if(e.getResultCode().getCode()==ResultCode.USER_SOCIAL_BE_BLACKED.getCode()){
+                        Event<String> event = Event.buildPersonal(EventEnum.EVENT_CONSPICUOUS_NOTIFY,"已被对方拉黑",hostId,peerId);
+                        userService.sendPersonalEvent(hostId,event);
+                    }
                     return Result.failure(ResultCode.WEBSOCKET_MESSAGE_FAIL,e.getErrorMsg());
                 }
 

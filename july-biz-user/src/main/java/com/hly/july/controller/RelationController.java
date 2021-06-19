@@ -103,9 +103,9 @@ public class RelationController {
                 }
             }
 
-            int result = relationService.upInsertRelationByUserIdAndPeerIdAndCategory(addRelation);
-            if(result>=0){
-                List<RelationVO> relationVOList = relationService.getUserRelation(userId, null, category,RelationTypeEnum.FRIEND.getCode());
+            boolean result = relationService.upInsertRelationByUserIdAndPeerIdAndCategory(addRelation);
+            if(result){
+                List<RelationVO> relationVOList = relationService.getUserRelation(userId, null,null,null);
                 return Result.success(relationVOList);
             }else{
                 return Result.failure(ResultCode.API_DB_FAIL);
@@ -212,7 +212,7 @@ public class RelationController {
 //    }
 
     @DeleteMapping(value = "/{userId}")
-    public Result<List<RelationVO>> removeUserRelation(@PathVariable String userId, @RequestParam(value = "peerType", required = true) String peerType, @RequestParam(value = "peerId", required = true) String peerId){
+    public Result<List<RelationVO>> removeUserRelation(@PathVariable String userId, @RequestParam(value = "peerType", required = true) String peerType, @RequestParam(value = "peerId", required = true) String peerId, @RequestParam(value = "relType", required = false) Integer relTypeCode){
         log.info("removeUserRelation userId:"+userId);
         User user = userService.getById(userId);
         if (user ==null){
@@ -230,10 +230,10 @@ public class RelationController {
         if(peerTypeCode==null){
             return Result.failure(ResultCode.API_VALIDATION_ERROR);
         }
-        Boolean result = relationService.deleteUserRelationByIdAndType(userId,peerId,peerTypeCode.toString());
+        Boolean result = relationService.deleteUserRelationByIdAndType(userId,peerId,peerTypeCode.toString(),relTypeCode);
         if(result){
             try {
-                List<RelationVO> relationVOList = relationService.getUserRelation(userId, null, "bookmark",RelationTypeEnum.FRIEND.getCode());
+                List<RelationVO> relationVOList = relationService.getUserRelation(userId, null, null,null);
                 return Result.success(relationVOList);
             }catch (ServiceInternalException e){
                 return Result.success("删除成功,但获取更新后列表失败");
@@ -243,4 +243,5 @@ public class RelationController {
             return Result.failure(ResultCode.API_DB_FAIL);
         }
     }
+
 }

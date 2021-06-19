@@ -79,13 +79,8 @@ public class AsyncJobService {
                 List<RelationVO> receiverRelationVOList = receiverResult.getData();
                 Event<List<RelationVO>> event = Event.buildPersonal(EventEnum.EVENT_RECENT_CHANGED, receiverId, receiverRelationVOList);
                 event.setGmtCreate(gmtMsgDate);
-                try {
-                    userService.sendPersonalEvent(receiverId, event);
-                    return true;
-                } catch (ServiceInternalException e) {
-                    log.error("changeUnReadAndNotify error:{}", e.getErrorMsg());
-                    return false;
-                }
+                userService.sendPersonalEvent(receiverId, event);
+                return true;
 
             } else {
                 log.warn("changeUnReadAndNotify receiverResult fail:{}", receiverResult.toString());
@@ -104,13 +99,8 @@ public class AsyncJobService {
             List<RelationVO> receiverRelationVOList = receiverResult.getData();
             Event<List<RelationVO>> event = Event.buildPersonal(EventEnum.EVENT_RECENT_CHANGED, userId, receiverRelationVOList);
             event.setGmtCreate(gmtMsgDate);
-            try {
-                userService.sendPersonalEvent(userId, event);
-                return true;
-            } catch (ServiceInternalException e) {
-                log.error("changeUnReadAndNotify error:{}", e.getErrorMsg());
-                return false;
-            }
+            userService.sendPersonalEvent(userId, event);
+            return true;
         }else{
             log.info("process done ,not notify receiver:{}",userId);
             return true;

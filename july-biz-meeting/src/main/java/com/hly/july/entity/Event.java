@@ -39,4 +39,9 @@ public class Event<T> extends Shouting implements Serializable {
         Event event = new Event(peerId,"personal",eventType.getCode(),eventType.getMsg(),data);
         return event;
     }
+
+    public static <T> Event<T> buildPersonal(EventEnum eventType,String errorMsg,String peerId,T data) {
+        Event event = new Event(peerId,"personal",eventType.getCode(),errorMsg,data);
+        return event;
+    }
 }
