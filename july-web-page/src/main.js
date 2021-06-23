@@ -5,6 +5,9 @@ import store from './store'
 import './quasar'
 import request from '@/utils/request'
 import animated from 'animate.css'
+import Video from 'video.js'
+import 'video.js/dist/video-js.css'
+Vue.prototype.$video = Video
 Vue.use(animated)
 Vue.config.productionTip = false
 Vue.prototype.instance = request

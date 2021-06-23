@@ -57,7 +57,16 @@ public enum ResultCode implements IResultCode,Serializable {
     USER_SOCIAL_OVER_MAX(40001,"超过最大限度"),
 
     USER_SOCIAL_BE_BLACKED(40002,"被对方拉黑"),
-    USER_SOCIAL_BE_IGNORED(40003,"被对方屏蔽");
+    USER_SOCIAL_BE_IGNORED(40003,"被对方屏蔽"),
+    USER_ACTIVITY_PEER_BUSY(40004,"对方繁忙"),
+    USER_ACTIVITY_PEER_OFFLINE(40005,"对方不在线"),
+
+    MEETING_SESSION_ERROR(50001,"Session错误"),
+    MEETING_SESSION_FAIL(50002,"Session失败"),
+    MEETING_SESSION_CLOSED(50003,"Session已被关闭"),
+    MEETING_SESSION_GIVE_UP(50004,"有人放弃此Session"),
+    MEETING_FAIL(50005,"失败"),
+    MEETING_REQUEST_DUPLICATE(50006,"重复的请求");
 
 //
 //

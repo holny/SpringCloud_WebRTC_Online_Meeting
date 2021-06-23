@@ -18,10 +18,10 @@ import { Quasar, Cookies, LocalStorage, SessionStorage, QCard,
     QItem,
     QItemSection,
     QItemLabel,QDrawer,  QLayout,
-    QPageContainer,
+    QPageContainer,  QDialog,
     QPage,
     QHeader,
-    QFooter,
+    QFooter,Morph,
     QPageSticky,
     QPageScroller} from 'quasar'
 
@@ -34,7 +34,8 @@ Vue.use(Quasar, {
       Notify
   },
     directives: {
-        Intersection
+        Intersection,
+        Morph
     },
   components: {
       QCard,
@@ -73,7 +74,9 @@ Vue.use(Quasar, {
       QPageSticky,
       QPageScroller,
       QSelect,
-      QBadge
+      QBadge,
+      QDialog,
+
   },
   lang: lang
  })

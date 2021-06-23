@@ -35,6 +35,12 @@ public class ServiceInternalException extends Exception{
         this.errorMsg = resultCode.getMsg();
     }
 
+    public ServiceInternalException(ResultCode resultCode, String errorMsg) {
+        super(resultCode.getMsg());
+        this.resultCode = resultCode;
+        this.errorMsg = errorMsg;
+    }
+
     /**
      * fillInStackTrace() 消耗性能最大，如无必要，自定义异常建议重写fillInStackTrace()直接返回this
      * @return

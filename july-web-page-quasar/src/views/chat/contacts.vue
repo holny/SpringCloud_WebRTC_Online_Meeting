@@ -1,7 +1,7 @@
 <template>
-  <div class="contacts justify-center">
+  <div class="contacts q-pa-md justify-center">
   <q-card class="my-card" flat bordered>
-    <q-card-section horizontal style="height: 100px">
+    <q-card-section horizontal style="height: 12%">
       <q-img class="col" native-context-menu src="https://cdn.quasar.dev/img/mountains.jpg" >
 
         <div class="fit">
@@ -29,7 +29,7 @@
         </div>
       </q-img>
     </q-card-section>
-    <q-card-section class="q-pt-sm q-pb-sm" style="height: 50px">
+    <q-card-section class="q-pt-sm q-pb-sm" style="min-height: 4%">
       <q-select
           label="搜一搜"
           :dense="true"
@@ -62,7 +62,7 @@
         </template>
       </q-select>
     </q-card-section>
-    <q-card-section :style="{height: contactsWindowHeight}"  horizontal>
+    <q-card-section style="min-height: 78%"  horizontal>
 
       <q-card-actions vertical class="justify-start">
         <q-btn flat round color="accent" icon="bookmark"  @click="contactType='recent'">
@@ -194,11 +194,6 @@ export default {
     hostInfo: {
       peerType: Object,
       required: false
-    },
-    contactsWindowHeight: {
-      peerType: String,
-      required: false,
-      default: '650px'
     }
   },
   components: {
@@ -494,6 +489,7 @@ export default {
       for (let index in data){
         if(data[index].category===CONSTANT.CONTACTS_CATEGORY_RECENT) {
           let newRelation = {}
+          console.log(index)
           newRelation['peerId'] = data[index].peerId
           newRelation['peerType'] = data[index].peerType
           newRelation['remarkName'] = data[index].remarkName
@@ -681,12 +677,12 @@ export default {
 </script>
 
 <style scoped>
-.contacts {
-  width: 100%;
-  height: 100%;
-  /*max-width: max-content;*/
-  /*max-height: max-content;*/
-}
+  .contacts {
+    min-width: 400px;
+    height: 100%;
+    max-width: max-content;
+    max-height: max-content;
+  }
 
 .shadow-box{
   border: 1px solid #eee;

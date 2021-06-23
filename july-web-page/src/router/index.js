@@ -16,6 +16,7 @@ export const constantRouterMap = [
   {path: '/wstest', name: 'wstest', component: () => import('@/views/meeting/wstest'), hidden: true},
   {path: '/chatWindow', name: 'chatMessage', component: () => import('@/views/chat/chatWindow'), hidden: true},
   {path: '/contacts', name: 'contacts', component: () => import('@/views/chat/contacts'), hidden: true},
+  {path: '/meeting', name: 'meeting', component: () => import('@/views/meeting/meeting'), hidden: true},
   // {path: '/home', name: 'home', component: () => import('@/views/home'), hidden: true},
   {path: '/chat',
     component: () => import('@/views/chat/ChatLand'),

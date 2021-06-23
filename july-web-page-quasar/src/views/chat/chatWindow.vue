@@ -1,8 +1,8 @@
 <template>
-  <div class="chat-window justify-center">
+  <div class="chat-window q-pa-md justify-center">
     <q-card class="my-card" flat bordered>
 
-      <q-card-section horizontal style="height: 100px">
+      <q-card-section horizontal style="height: 12%">
         <q-img class="col" native-context-menu src="https://cdn.quasar.dev/img/mountains.jpg" >
 
           <div class="fit">
@@ -18,7 +18,7 @@
               </q-item-section>
             </q-item>
             <q-card-actions class="absolute-right justify-around">
-              <q-btn class="btn-small" flat round color="green" icon="videocam" @click.native="$emit('startOrEndMeeting',julyChat.variable.peerInfo,'start')" />
+              <q-btn class="btn-small" flat round color="green" icon="videocam" />
               <q-btn class="btn-small" flat round color="indigo" icon="mic" />
               <q-btn class="btn-small" flat round color="indigo" icon="star_outline" />
               <q-btn class="btn-small" v-show="julyChat.variable.peerType==='room'" @click="leaveChat" flat round color="negative" icon="fas fa-sign-out-alt" />
@@ -42,7 +42,7 @@
 <!--        </q-card-actions>-->
       </q-card-section>
 
-      <q-card-section :style="{height: messageWindowHeight}">
+      <q-card-section style="height: 73%">
         <div id="chat-scroll-container" class="scroll inset-shadow-down shadow-10 shadow-box q-pb-md " style="overflow: auto;min-height:100%;max-height:100%">
           <q-infinite-scroll scroll-target="#chat-scroll-container"  :offset="250" :thumb-style="thumbStyle" :bar-style="barStyle" @load="onLoad" reverse ref="scrollArea">
 <!--            <template slot="loading">-->
@@ -102,7 +102,7 @@
           </q-infinite-scroll>
         </div>
       </q-card-section>
-      <q-card-actions  class="column" style="height: 125px">
+      <q-card-actions  class="column" style="height: 15%">
         <div class="col full-width">
         <q-input  outlined clearable label="输入信息" :dense="dense" :loading="julyChat.variable.inputMessageLoading" @keyup.enter.native="sendMessage"
                   v-model="julyChat.variable.inputMessage" counter maxlength="255" type="textarea" style="width: 100%"
@@ -153,11 +153,6 @@ export default {
     hostInfo: {
       peerType: Object,
       required: false
-    },
-    messageWindowHeight: {
-      peerType: String,
-      required: false,
-      default: '575px'
     }
   },
   data () {
@@ -902,7 +897,7 @@ export default {
 
 <style scoped>
 .chat-window {
-  height: 1000px;
+  height: 100%;
 
 }
 .chat-main-message-area {

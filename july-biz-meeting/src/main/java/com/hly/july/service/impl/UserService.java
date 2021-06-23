@@ -1,18 +1,27 @@
 package com.hly.july.service.impl;
 
+import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
+import com.hly.july.common.biz.constant.ContainerEnum;
+import com.hly.july.common.biz.constant.RelationTypeEnum;
 import com.hly.july.common.biz.exception.ServiceInternalException;
 import com.hly.july.common.biz.utils.RedisUtils;
 import com.hly.july.common.biz.result.Result;
 import com.hly.july.common.biz.result.ResultCode;
+import com.hly.july.common.biz.vo.RelationVO;
 import com.hly.july.entity.Event;
 import com.hly.july.entity.Shouting;
+import com.hly.july.entity.UserActiveStatusEnum;
+import com.hly.july.service.api.BizUserApiService;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -35,10 +44,16 @@ public class UserService {
     @Resource
     private RedisUtils redisUtils;
 
+    @Resource
+    private BizUserApiService bizUserApiService;
+
+
     private String REDIS_PREFIX_ROOM_INFO = "meeting_room_info_";
     private String REDIS_PREFIX_ACK = "meeting_room_ack_";
 
-    private String REDIS_USER_INFO = "meeting_room_user_";
+    private String USER_ACTIVE_STATUS = "user_active_status";
+
+    private long USER_ACTIVE_STATUS_TIME = 30;
 
 
     public Result<String> updateAck(String objectId, String userId, Date ackDate){
@@ -75,6 +90,50 @@ public class UserService {
         }else {
             return Result.failure(ResultCode.WEBSOCKET_REQUEST_ERROR);
         }
+    }
+
+    public Boolean updateUserActiveStatus(String userId,Integer status){
+        if (StringUtils.isNotEmpty(userId)) {
+            if(!UserActiveStatusEnum.getAllCodeList().contains(status)){
+                status = UserActiveStatusEnum.ACTIVE_VISIBLE.getCode();
+            }
+            redisUtils.hSet(USER_ACTIVE_STATUS,userId,status,USER_ACTIVE_STATUS_TIME);
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public Integer getUserActiveStatus(String userId){
+        if (StringUtils.isNotEmpty(userId)) {
+            if(redisUtils.hHasKey(USER_ACTIVE_STATUS,userId)){
+                Integer status = (Integer)redisUtils.hGet(USER_ACTIVE_STATUS,userId);
+                log.info("getUserActiveStatus userId:{},status:{}",userId,status);
+                return status;
+            }else{
+                return UserActiveStatusEnum.OFFLINE.getCode();
+            }
+        }else{
+            return UserActiveStatusEnum.OFFLINE.getCode();
+        }
+    }
+
+    public Boolean isInPeerBookMark(String userId,String peerId){
+        if (StringUtils.isNotEmpty(userId)&&StringUtils.isNotEmpty(peerId)) {
+            List<Integer> relTypeList = new ArrayList<>();
+            relTypeList.add(RelationTypeEnum.FRIEND.getCode());
+            Result<List<RelationVO>> result = bizUserApiService.getUserRelation(peerId,null, ContainerEnum.PERSON.getCode(), relTypeList);
+            log.info("isInPeerBookMark  getUserRelation result:{}",result.toString());
+            if(result.getCode()==ResultCode.SUCCESS.getCode()){
+                List<RelationVO> relationVOList = result.getData();
+                if(CollectionUtils.isNotEmpty(relationVOList)){
+                    if(relationVOList.contains(userId)){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 
 

@@ -5,7 +5,7 @@ export let JULY = {
     WEBSOCKET_URI_ENDPOINT:'http://localhost:80/meeting/endpointWS?Authorization=' + getToken(),
     WEBSOCKET_URI_SEND_HEARTBEAT:'/app/heartbeat',
     WEBSOCKET_URI_SUBSCRIBE_HEARTBEAT:'/user/topic/heartbeat',
-    WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL: 50000,
+    WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL: 5000,
     WEBSOCKET_HEADERS: {'Authorization': 'Bearer ' + getToken()},
     CHAT_WATCH_SEND_INTERVAL: 5000,
 }

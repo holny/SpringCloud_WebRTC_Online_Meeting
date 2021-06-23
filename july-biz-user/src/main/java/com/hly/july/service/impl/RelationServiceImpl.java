@@ -177,6 +177,20 @@ public class RelationServiceImpl extends ServiceImpl<RelationMapper, Relation> i
         log.info("getUserRelation userId:{},peerId:{},peerType:{},relType:{}",userId,peerId,peerType,relType);
         if(StringUtils.isNotEmpty(userId)){
             List<RelationVO> relationVOS = customRelationMapper.getRelationVOByUserIdAndPeerIdAndTypeList(userId,peerId,peerType,relType);
+            if (relationVOS==null||relationVOS.size()==0){
+                List<Integer> visibleStatusList = UserStatusEnum.getAllUserStatusCodeList();
+                User peer = userService.getUserListByUserIdAndStatus(peerId,visibleStatusList);
+                if(peer!=null){
+                    RelationVO relationVO = RelationVO.build(userId,peer);
+                    relationVO.setRelTypeCode(RelationTypeEnum.TEMP.getCode());
+                    relationVO.setRelType(RelationTypeEnum.TEMP.getDesc());
+                    relationVO.setCategory("recent");
+                    relationVOS = new ArrayList<>();
+                    relationVOS.add(relationVO);
+                }else{
+                    throw new ServiceInternalException("不存在此聊天对象");
+                }
+            }
             relationVOS.forEach(relationVO -> {
                 relationVO.setPeerRole(JulyAuthorityUtils.roleClassifyString2Set(relationVO.getPeerRawRole()));
                 relationVO.setPeerAuthority(JulyAuthorityUtils.authorityClassifyString2Map(relationVO.getPeerRawAuthority()));
