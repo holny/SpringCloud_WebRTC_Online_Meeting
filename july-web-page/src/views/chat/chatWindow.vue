@@ -18,7 +18,7 @@
               </q-item-section>
             </q-item>
             <q-card-actions class="absolute-right justify-around">
-              <q-btn class="btn-small" flat round color="green" icon="videocam" @click.native="$emit('startOrEndMeeting',julyChat.variable.peerInfo,'start')" />
+              <q-btn class="btn-small" flat round color="green" icon="videocam" @click.native="$emit('startCallOut',julyChat.variable.peerInfo)" />
               <q-btn class="btn-small" flat round color="indigo" icon="mic" />
               <q-btn class="btn-small" flat round color="indigo" icon="star_outline" />
               <q-btn class="btn-small" v-show="julyChat.variable.peerType==='room'" @click="leaveChat" flat round color="negative" icon="fas fa-sign-out-alt" />

@@ -99,8 +99,8 @@ export default {
       console.log("remotePlayer loadedmetadata ")
       _that.logVideoLoaded(event)
     })
-    this.remotePlayer.on("loadedmetadata",function(event){
-      console.log("localPlayer loadedmetadata ")
+    this.remotePlayer.on("onresize",function(event){
+      console.log("localPlayer onresize ")
       _that.logResizedVideo(event)
     })
     // this.initMedia()

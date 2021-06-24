@@ -60,7 +60,6 @@ public class ChatService {
 
     public Boolean upInsertWatcher(Watcher watcher){
         if(watcher!=null&&watcher.getWatcherId()!=null&&watcher.getPeerId()!=null){
-            log.info("upInsertWatcher watcher:{}",watcher.toString());
             if(watcher.getAction()!=null&&"entry".equals(watcher.getAction())) {
                 redisUtils.set(REDIS_WATCHER + watcher.getWatcherId(), watcher, REDIS_WATCHER_EXPIRED);
                 return true;

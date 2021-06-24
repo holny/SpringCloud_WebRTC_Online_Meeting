@@ -26,8 +26,10 @@ function initWSConnection (wsEndpointURI) {
     //     console.log(socket)
     // })
     socket.onerror = function(event) {
+        event
         console.error("WebSocket error observed:", event);
     };
+    stompClient.debug = null  //关闭debug，debug如果不是function就不会输出
     // socket.on('disconnect', (socket) => {
     //     console.log("disconnect")
     //     console.log(socket)

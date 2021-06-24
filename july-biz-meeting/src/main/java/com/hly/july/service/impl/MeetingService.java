@@ -18,9 +18,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * @ClassName MeetingService
@@ -58,7 +56,7 @@ public class MeetingService {
      * @return
      * @throws ServiceInternalException
      */
-    public MeetingSession preMeetingProcess(String hostId,String peerId,String sessionId,boolean isAccept) throws ServiceInternalException {
+    public MeetingSession preMeetingProcess(String hostId,String peerId,String sessionId,boolean isAccept, Map<String,Object> signalingMap) throws ServiceInternalException {
         if(StringUtils.isNumeric(hostId)&&StringUtils.isNumeric(peerId)) {
             if(StringUtils.isEmpty(sessionId)){ // 如果sessionId为空，说明是第一次请求，HostId为发起人
                 // 先检查自己的在线状态
@@ -69,7 +67,6 @@ public class MeetingService {
                     throw new ServiceInternalException("自己必须在线状态");
                 }
                 sessionId = IdWorker.getIdStr();
-                // 先把双方置为in meeting
                 MeetingSession meetingSession = new MeetingSession();
                 meetingSession.setSessionId(sessionId);
                 meetingSession.setRequesterId(hostId);
@@ -159,36 +156,109 @@ public class MeetingService {
                         throw new ServiceInternalException(ResultCode.MEETING_REQUEST_DUPLICATE);
                     }
                     // 到这说明当前host是接受者，并且session检查完毕，可以给requester发送peer接受请求的消息。
-                    // Todo: HandShake握手阶段完毕, 这里peer得附带webrtc的信息给requester,
                     // IN_CONFIRM(HandSake)阶段完毕，进入Signaling阶段
                     meetingSession.setStatus(SessionStatusEnum.IN_SIGNALING.getCode());
                     redisUtils.hSet(MEETING_SESSION,sessionId,meetingSession); // 更新Session
+                    redisUtils.hSet(MEETING_USER_ACTIVITY ,hostId,sessionId,MEETING_USER_ACTIVITY_TIME);
                     Event<MeetingSession> meetingSessionEventToRequester = Event.buildPersonal(EventEnum.EVENT_CALL_PRE_CONNECT,meetingSession.getRequesterId(),meetingSession);
                     sendPersonalEvent(meetingSession.getRequesterId(),meetingSessionEventToRequester);
-
-                    Event<MeetingSession> meetingSessionEventToPeer = Event.buildPersonal(EventEnum.EVENT_CALL_PRE_CONNECT,meetingSession.getPeerId(),meetingSession);
-                    sendPersonalEvent(meetingSession.getPeerId(),meetingSessionEventToPeer);
-
-                    redisUtils.hSet(MEETING_USER_ACTIVITY ,hostId,sessionId,MEETING_USER_ACTIVITY_TIME);
+//
+//                    Event<MeetingSession> meetingSessionEventToPeer = Event.buildPersonal(EventEnum.EVENT_CALL_PRE_CONNECT,meetingSession.getPeerId(),meetingSession);
+//                    sendPersonalEvent(meetingSession.getPeerId(),meetingSessionEventToPeer);
                 }else if(meetingSession.getStatus()==SessionStatusEnum.IN_SIGNALING.getCode()){
                     // 第三步-requester(host)接受，说明现在已经进入signaling阶段
+                    boolean hostIsRequester = true;
                     if(!hostId.equals(meetingSession.getRequesterId())){
-                        // 携带了sessionId, host应该是接收者，但是Peer不为host，说明host是发起者(checkSessionStatusActive检验过host必为发起者或者接收者),说明host发出了无效请求。
-                        throw new ServiceInternalException(ResultCode.MEETING_REQUEST_DUPLICATE);
+//                        // 携带了sessionId, host应该是接收者，但是Peer不为host，说明host是发起者(checkSessionStatusActive检验过host必为发起者或者接收者),说明host发出了无效请求。
+//                        throw new ServiceInternalException(ResultCode.MEETING_REQUEST_DUPLICATE);
+                        hostIsRequester = false;
                     }
-                    // 到这说明当前host是requester发起者，并且session检查完毕,requester应当已经接收到了peer的webrtc信息，在这里requester要把自己的webrtc信息发送给peer。
-                    meetingSession.setStatus(SessionStatusEnum.IN_MEETING.getCode());
-                    meetingSession.setGmtMeetingStart(DateUtils.getCurrentDateTime());
+                    Map<String,Object> newSignalingMap = new HashMap<>();
+
+                    if(hostIsRequester){
+                        log.info("preMeetingProcess hostId:{}  is requester",hostId);
+                        // 三-1，在IN SIGNALING阶段， 如果host是requester，host要发出offer
+                        if(signalingMap.containsKey("done")){
+//                            meetingSession.addSignalingItem("requesterDone",true);
+                            newSignalingMap.put("requesterDone",true);
+                        }
+                        if(signalingMap.containsKey("offer")){
+//                            meetingSession.addSignalingItem("offer",signalingMap.get("offer"));
+                            newSignalingMap.put("offer",signalingMap.get("offer"));
+                        }
+                        if(signalingMap.containsKey("requesterIcecandidate")){
+//                            meetingSession.addSignalingItem("requesterIcecandidate",signalingMap.get("requesterIcecandidate"));
+                            newSignalingMap.put("requesterIcecandidate",signalingMap.get("requesterIcecandidate"));
+                        }
+                    }else{
+                        log.info("preMeetingProcess hostId:{}  is peer",hostId);
+                        // 三-2，在IN SIGNALING阶段， 如果host是peer，host接收到了offer，要发出answer
+                        if(signalingMap.containsKey("done")){
+//                            meetingSession.addSignalingItem("peerDone",true);
+                            newSignalingMap.put("peerDone",true);
+                        }
+                        if(signalingMap.containsKey("answer")){
+//                            meetingSession.addSignalingItem("answer",signalingMap.get("answer"));
+                            newSignalingMap.put("answer",signalingMap.get("answer"));
+                        }
+                        if(signalingMap.containsKey("peerIcecandidate")){
+//                            meetingSession.addSignalingItem("peerIcecandidate",signalingMap.get("peerIcecandidate"));
+                            newSignalingMap.put("peerIcecandidate",signalingMap.get("peerIcecandidate"));
+                        }
+                    }
+                    log.info("preMeetingProcess newSignalingMap.keys:{}",newSignalingMap.keySet().toString());
+                    // 这里把signaling参数保存下来，但是不能把已经传给前端的signaling的参数再传，否则报错:Failed to set remote answer sdp: Called in wrong state: stable
+                    Map<String,Object> exitedSignalingMap;
+                    if(meetingSession.getSignalingMap()!=null){
+                        exitedSignalingMap=meetingSession.getSignalingMap();
+                    }else{
+                        exitedSignalingMap = new HashMap<>();
+                    }
+                    if(newSignalingMap.size()>0){
+                        for (String key : newSignalingMap.keySet()) {
+                            if(key.equals("requesterIcecandidate")||key.equals("peerIcecandidate")){
+                                // iceCandidate 参数因为有多个，作为Set传
+                                Set<Object> iceCandidateSet;
+                                if(exitedSignalingMap.containsKey(key)){
+                                    iceCandidateSet = (HashSet<Object>)exitedSignalingMap.get(key);
+                                }else{
+                                    iceCandidateSet = new HashSet<>();
+                                }
+                                iceCandidateSet.add(newSignalingMap.get(key));
+                                exitedSignalingMap.put(key,iceCandidateSet);
+                            }else{
+                                exitedSignalingMap.put(key,newSignalingMap.get(key));
+                            }
+                        }
+                    }
+                    // newSignalingMap是当前请求携带的signaling参数，newSignalingMap当前传给另一个前端目标，
+                    meetingSession.setSignalingMap(newSignalingMap);
+                    if(meetingSession.getSignalingMap()!=null&&meetingSession.getSignalingMap().containsKey("requesterDone")&&meetingSession.getSignalingMap().containsKey("peerDone")){
+                        // 双方都发来了done信息，说明双方signaling完成，进入IN MEETING阶段
+                        meetingSession.setStatus(SessionStatusEnum.IN_MEETING.getCode());
+                        meetingSession.setGmtMeetingStart(DateUtils.getCurrentDateTime());
+                        Event<MeetingSession> meetingSessionEventToRequester = Event.buildPersonal(EventEnum.EVENT_CALL_CONNECTED,meetingSession.getRequesterId(),meetingSession);
+                        sendPersonalEvent(meetingSession.getRequesterId(),meetingSessionEventToRequester);
+
+                        Event<MeetingSession> meetingSessionEventToPeer = Event.buildPersonal(EventEnum.EVENT_CALL_CONNECTED,meetingSession.getPeerId(),meetingSession);
+                        sendPersonalEvent(meetingSession.getPeerId(),meetingSessionEventToPeer);
+                    }else{
+                        // 如果双方signaling没完成，就要继续signaling，把requester的signaling发给peer，或把peer的signaling发给requester
+                        if(hostIsRequester){
+                            Event<MeetingSession> meetingSessionEventToPeer = Event.buildPersonal(EventEnum.EVENT_CALL_PRE_CONNECT,meetingSession.getPeerId(),meetingSession);
+                            sendPersonalEvent(meetingSession.getPeerId(),meetingSessionEventToPeer);
+                        }else{
+                            Event<MeetingSession> meetingSessionEventToRequester = Event.buildPersonal(EventEnum.EVENT_CALL_PRE_CONNECT,meetingSession.getRequesterId(),meetingSession);
+                            sendPersonalEvent(meetingSession.getRequesterId(),meetingSessionEventToRequester);
+                        }
+
+                    }
+                    // exitedSignalingMap保存的是目前所有的signaling参数，exitedSignalingMap保存在数据库中。
+                    meetingSession.setSignalingMap(exitedSignalingMap);
                     redisUtils.hSet(MEETING_SESSION,sessionId,meetingSession); // 更新Session
-                    Event<MeetingSession> meetingSessionEventToRequester = Event.buildPersonal(EventEnum.EVENT_CALL_CONNECTED,meetingSession.getRequesterId(),meetingSession);
-                    sendPersonalEvent(meetingSession.getRequesterId(),meetingSessionEventToRequester);
-
-                    Event<MeetingSession> meetingSessionEventToPeer = Event.buildPersonal(EventEnum.EVENT_CALL_CONNECTED,meetingSession.getPeerId(),meetingSession);
-                    sendPersonalEvent(meetingSession.getPeerId(),meetingSessionEventToPeer);
-
                     redisUtils.hSet(MEETING_USER_ACTIVITY ,hostId,sessionId,MEETING_USER_ACTIVITY_TIME);
                 }else if(meetingSession.getStatus()==SessionStatusEnum.IN_MEETING.getCode()){
-                    // 已经进入IN MEETING阶段，说明已经完成以上三步，这里是更新host的session activity状态(证明自己在在线)，以免过期，并且获取对方是否在线状态
+                    // 四，已经进入IN MEETING阶段，说明已经完成以上三步，这里是更新host的session activity状态(证明自己在在线)，以免过期，并且获取对方是否在线状态
                     boolean isHangup = false;
                     if(hostId.equals(meetingSession.getRequesterId())){
                         if(!redisUtils.hHasKey(MEETING_USER_ACTIVITY,meetingSession.getPeerId())){
@@ -321,14 +391,14 @@ public class MeetingService {
 
 
     public Boolean sendPersonalEvent(String userId,Event event){
-        log.info("sendPersonalEvent userId:{},event:{}",userId,event.toString());
         event.setType("event");
         sendPersonalShouting(event.getTo(),event);
         return true;
     }
 
     public void sendPersonalShouting(String userId, Shouting shouting) {
-        log.info("sendPersonalShouting userId:{} shouting:{}",userId,shouting.toString());
+//        log.info("sendPersonalShouting userId:{} shouting:{}",userId,shouting.toString());
+        log.info("sendPersonalShouting userId:{}",userId);
         simpMessagingTemplate.convertAndSendToUser(
                 userId,
                 "/topic/meeting/notify/"+userId,

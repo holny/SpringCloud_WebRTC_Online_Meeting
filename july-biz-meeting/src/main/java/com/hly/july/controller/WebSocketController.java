@@ -32,14 +32,12 @@ public class WebSocketController {
         if(data.containsKey("status")){
             status = Integer.parseInt(data.get("status"));
         }
-        log.info("subscribeHeartBeat status:{}",status);
         if (auth2Authentication!=null) {
             String hostId = auth2Authentication.getPrincipal().toString();
             if (StringUtils.isNotEmpty(hostId)){
                 userService.updateUserActiveStatus(hostId,status);
             }
         }
-        log.info("subscribeHeartBeat host");
         return Result.success("hello!");
     }
 

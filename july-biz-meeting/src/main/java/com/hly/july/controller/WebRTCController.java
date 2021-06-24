@@ -15,6 +15,7 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -31,22 +32,27 @@ public class WebRTCController {
     private MeetingService meetingService;
 
     @MessageMapping({"/videoCall/{peerId}"})
-    public Result<MeetingSession> videoCallRequest(@DestinationVariable String peerId, Map<String,String> data, OAuth2Authentication auth2Authentication) {
+    public Result<MeetingSession> videoCallRequest(@DestinationVariable String peerId, Map<String,Object> data, OAuth2Authentication auth2Authentication) {
         String hostId = auth2Authentication.getPrincipal().toString();
         String sessionId = null;
         Boolean isAccept = true;
+        Map<String,Object> signalingMap = new HashMap<>();
+
         if(data.containsKey("sessionId")){
-            sessionId = data.get("sessionId");
+            sessionId = (String)data.get("sessionId");
         }
         if(data.containsKey("isAccept")){
             if(data.get("isAccept").equals("false")){
                 isAccept = false;
             }
         }
-        log.info("videoCallRequest hostId:{}, peerId:{}, sessionId:{}, isAccept:{}",hostId,peerId,sessionId,isAccept);
+        if(data.containsKey("signalingMap")){
+            signalingMap = (HashMap<String,Object>)data.get("signalingMap");
+        }
+        log.info("videoCallRequest hostId:{}, peerId:{}, sessionId:{}, isAccept:{}, signalingMap:{}",hostId,peerId,sessionId,isAccept,signalingMap.keySet().toString());
         if (StringUtils.isNotEmpty(hostId)){
             try {
-                MeetingSession meetingSession = meetingService.preMeetingProcess(hostId,peerId,sessionId,isAccept);
+                MeetingSession meetingSession = meetingService.preMeetingProcess(hostId,peerId,sessionId,isAccept,signalingMap);
                 return Result.success(meetingSession);
             }catch (ServiceInternalException e){
                 log.error("videoCallRequest  preMeetingProcess resultCode:{},resultMsg:{}",e.getResultCode().getCode(),e.getErrorMsg());

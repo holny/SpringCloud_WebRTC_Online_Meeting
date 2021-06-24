@@ -24,7 +24,7 @@ public enum EventEnum {
     EVENT_CALL_BUSY("E2004", "对方忙"),
     EVENT_CALL_OFFLINE("E2005", "对方不在线"),
     EVENT_CALL_DENY("E2006", "呼叫被拒绝"),
-    EVENT_CALL_PRE_CONNECT("E2007", "呼叫双方同意"),
+    EVENT_CALL_PRE_CONNECT("E2007", "会话连接建立中"),
     EVENT_CALL_CONNECTED("E2008", "呼叫双方通话中"),
     EVENT_CALL_HANGUP("E2009", "呼叫对放挂断");
 

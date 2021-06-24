@@ -24,6 +24,14 @@ export let CONSTANT = {
     USER_ACTIVE_STATUS_VISIBLE:3, //active_visible
     USER_ACTIVE_STATUS_ONLY_CATEGORY_BOOKMARK:4, //active_only_category_bookmark
     USER_ACTIVE_STATUS_ONLY_MESSAGE:5, //active_only_message
+
+    MEETING_SESSION_STATUS_IN_CONFIRM:1, //in_confirm
+    MEETING_SESSION_STATUS_CONFIRM:2, //confirm
+    MEETING_SESSION_STATUS_IN_SIGNALING:3, //in_signaling
+    MEETING_SESSION_STATUS_IN_MEETING:4, //in_meeting
+    MEETING_SESSION_STATUS_PRE_CLOSE:5, //pre_close
+    MEETING_SESSION_STATUS_CLOSED:6, //closed
+    MEETING_SESSION_STATUS_FAIL:7, //fail
 }
 
 export let EVENT_CODE = {

@@ -41,6 +41,7 @@ import adapter from 'webrtc-adapter'
 // import videoPlayer from '@/views/meeting/videoPlayer'
 import videojs from "video.js";
 import {FUN} from "@/utils/julyCommon";
+import {isNotEmpty} from "@/utils/validate";
 
 export default {
   name: "meeting",
@@ -68,12 +69,18 @@ export default {
       peerType: String,
       required: false,
       default: null,
-    }
+    },
+    inSignaling:{
+      peerType: Boolean,
+      required: false,
+      default: false
+    },
   },
   data() {
     return {
       localPlayer: '',
       remotePlayer: '',
+      joinOrCreate: 'join',
       julyWebsocket:{
         constant: {
           stompClient: this.stompClient,
@@ -82,21 +89,21 @@ export default {
           connectionFlag: this.connectionFlag!=null?this.connectionFlag:{'websocket':{'name':'websocket',"status":false}}
         },
       },
-      // startButtonDisable: false,
-      // callButtonDisable: false,
-      // hangupButtonDisable: false,
-      srcObject: null,
       mediaStreamConstraints: {
-        video: true,
-        audio: true
+        video: { width: 480, height: 320 },
+        audio: true,
       },
       offerOptions: {
-        offerToReceiveVideo: 1,
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true
       },
       localStream:null,
+      remoteStream:null,
       startTime:null,
-      localPeerConnection: null,
-      remotePeerConnection: null,
+      peerConnection: null,
+      peerConnectionConfig:{
+        iceServers: [{ urls: 'stun:stun.l.google.com:19302' }]
+      },
       playerOptions: {
         // video.js options
         controls: true,
@@ -107,9 +114,6 @@ export default {
         width: 320,
         height: 240,
       },
-      // videos
-      localVideo: {},
-      remoteVideo: {},
     }
   },
   computed: {
@@ -117,13 +121,50 @@ export default {
       return '/app/videoCall/' + this.peerInfo.userId
     },
   },
-  created() {
-    console.log("meeting create")
+  watch: {
+    inSignaling: {
+      // Will fire as soon as the component is created
+      immediate: true,
+      handler(newVal, oldVal) {
+        console.log('watch inSignaling changed')
+        console.log('newVal:'+newVal)
+        console.log('oldVal:'+oldVal)
+        if(newVal){
+          this.startSignaling()
+        }else{
+          FUN.notify("不能进行create PeerConnection, inSignaling:"+newVal+"  sessionId:"+this.sessionId,FUN.NOTIFY_LEVEL_WARNING,FUN.NOTIFY_POSITION_TOP)
+        }
+        // Fetch data about the movie
+      },
+      // deep: true
+    },
   },
-  mounted() {
+  created() {
+    if(isNotEmpty(this.sessionId)){
+      this.joinOrCreate='join'
+    }else{
+      this.joinOrCreate='create'
+    }
+    console.log("meeting create Im:"+this.joinOrCreate)
+  },
+  async mounted() {
     console.log("meeting mounted")
-    this.initMedia()
-
+    await this.initMedia()
+    console.log('mounted local stream.');
+    console.log(this.localStream)
+    // Get local media stream tracks.
+    if(this.localStream!=null){
+      const videoTracks = this.localStream.getVideoTracks();
+      const audioTracks = this.localStream.getAudioTracks();
+      if (videoTracks.length > 0) {
+        console.log(`Using video device: ${videoTracks[0].label}.`);
+      }
+      if (audioTracks.length > 0) {
+        console.log(`Using audio device: ${audioTracks[0].label}.`);
+      }
+    }
+    // 建立peerConnection并根据当前是requester还是peer来发起请求/接受
+    await this.createPeerConnection()
   },
   activated () {
     console.log("meeting activated")
@@ -135,14 +176,10 @@ export default {
     if (this.remotePlayer) {
       this.remotePlayer.dispose()
     }
-    if(this.localPeerConnection){
-      this.localPeerConnection.close();
+    if(this.peerConnection){
+      this.peerConnection.close();
     }
-    if(this.remotePeerConnection){
-      this.remotePeerConnection.close();
-    }
-    this.localPeerConnection = null;
-    this.remotePeerConnection = null;
+    this.peerConnection = null;
   },
   destroyed () {
     console.log("meeting destroyed")
@@ -155,35 +192,45 @@ export default {
     }
   },
   methods: {
-    initMedia(){
-      console.log(adapter.browserDetails.browser);
+    async initMedia(){
+      console.log(`Browser ${adapter.browserDetails.browser} — version ${adapter.browserDetails.version}`)
       this.localPlayer = videojs(this.$refs.localVideo, this.playerOptions, function onPlayerReady() {
         console.log('onPlayerReady localPlayer', this);
       })
       this.remotePlayer = videojs(this.$refs.remoteVideo, this.playerOptions, function onPlayerReady() {
         console.log('onPlayerReady remotePlayer', this);
       })
-      let _that =this
+      // init player listener
       this.localPlayer.on("loadedmetadata",function(event){
         console.log("localPlayer loadedmetadata ")
-        _that.logVideoLoaded(event)
+        const video = event.target;
+        console.log(`${video.id} videoWidth: ${video.videoWidth}px, ` +
+            `videoHeight: ${video.videoHeight}px.`);
       })
       this.remotePlayer.on("loadedmetadata",function(event){
         console.log("remotePlayer loadedmetadata ")
-        _that.logVideoLoaded(event)
+        const video = event.target;
+        console.log(`${video.id} videoWidth: ${video.videoWidth}px, ` +
+            `videoHeight: ${video.videoHeight}px.`);
       })
-      this.remotePlayer.on("loadedmetadata",function(event){
-        console.log("localPlayer loadedmetadata ")
-        _that.logResizedVideo(event)
+      this.remotePlayer.on("onresize",function(event){
+        console.log("localPlayer onresize ")
+        const video = event.target;
+        console.log(`${video.id} videoWidth: ${video.videoWidth}px, ` +
+            `videoHeight: ${video.videoHeight}px.`);
+        if (this.startTime) {
+          const elapsedTime = window.performance.now() - this.startTime;
+          this.startTime = null;
+          console.log(`Setup time: ${elapsedTime.toFixed(3)}ms.`);
+        }
       })
 
       if (this.hasUserMedia()){
-        navigator.mediaDevices.getUserMedia(this.mediaStreamConstraints)
+        await navigator.mediaDevices.getUserMedia(this.mediaStreamConstraints)
             .then((mediaStream) => {
               this.$refs.localVideo.srcObject = mediaStream;
               this.localStream = mediaStream;
               console.log('Received local stream.');
-              this.buildConnection()
             }).catch((error) => {
           FUN.notify(error.toString(),FUN.NOTIFY_LEVEL_WARNING,FUN.NOTIFY_POSITION_TOP)
           console.log(`navigator.getUserMedia error: ${error.toString()}.`);
@@ -193,206 +240,150 @@ export default {
         FUN.notify("无法获取到媒体设备",FUN.NOTIFY_LEVEL_WARNING,FUN.NOTIFY_POSITION_TOP)
       }
     },
-    buildConnection(){
-      let init_connection_params ={}
-      if(this.sessionId==null){
-        // SessionId不存在，说明是己方是发起方
-        init_connection_params = {
-          'sessionId': null,
-          'isAccept': true,
+    async createPeerConnection(){
+      await this.localStream
+      this.peerConnection = new RTCPeerConnection(this.peerConnectionConfig)
+      // addLocalStream
+      console.log(this.localStream)
+      let _that =this
+      this.peerConnection.addStream(this.localStream)
+      console.log(this.peerConnection)
+      this.peerConnection.addEventListener('icecandidate', (event)=>{
+        // const peerConnection = event.target;
+        const iceCandidate = event.candidate;
+        console.log('handleConnection')
+        // console.log(peerConnection)
+        // console.log(iceCandidate)
+        if (iceCandidate&&this.inSignaling) {
+          let params = {
+            'sessionId': _that.sessionId,
+            'isAccept': true,
+            'signalingMap':{
+              'peerIcecandidate': iceCandidate
+            }
+          }
+          if(_that.joinOrCreate === 'join'){
+            params['signalingMap']['peerIcecandidate'] = iceCandidate
+          }else{
+            params['signalingMap']['requesterIcecandidate'] = iceCandidate
+          }
+          _that.julyWebsocket.constant.stompClient.send(_that.sendVideoCallURI, {},JSON.stringify(params))
+          console.log(` ICE candidate:\n` +
+              `${event.candidate.candidate}.`);
         }
-      }else{
-        // SessionId不存在，说明是己方是接受方
-        // Todo:这里要附带自己的webrtc信息
-        init_connection_params = {
-          'sessionId': this.sessionId,
-          'isAccept': true,
+      });
+      this.peerConnection.addEventListener(
+          'iceconnectionstatechange', (event) =>{
+            const peerConnection = event.target
+            console.log('ICE state change event: ', event)
+            console.log(`ICE state: ` +`${peerConnection.iceConnectionState}.`)
+          });
+      this.peerConnection.addEventListener('addstream',(event) =>{
+        if (event.stream) {
+          _that.remoteStream = event.stream
+          _that.$refs.remoteVideo.srcObject = _that.remoteStream
+        }
+      });
+      this.peerConnection.addEventListener('removestream',(event) =>{
+        console.log('Remote stream removed. Event: ', event)
+      });
+      // peerConnection建立完毕，并且listener建立完毕就可以根据当前是requester还是peer来发第一次连接请求
+      this.initFirstRequest()
+    },
+    initFirstRequest(){
+      if(this.joinOrCreate==='create'){
+        // 如果初始Session为空，说明当前为requester会话发起方，需要发起会话
+        if(this.peerInfo!=null){
+          let params = {
+            'isAccept': true,
+          }
+          this.julyWebsocket.constant.stompClient.send(this.sendVideoCallURI, {},JSON.stringify(params))
+          FUN.notify("己方是会话发起方,发送会话",FUN.NOTIFY_LEVEL_INFO,FUN.NOTIFY_POSITION_TOP)
+        }
+      }else if(this.joinOrCreate==='join'){
+        // 如果初始Session不为空，说明当前为requester会话接受方，需要接受会话
+        if(this.peerInfo!=null){
+          let params = {
+            'isAccept': true,
+            'sessionId': this.sessionId
+          }
+          this.julyWebsocket.constant.stompClient.send(this.sendVideoCallURI, {},JSON.stringify(params))
+          FUN.notify("己方是会话接受方,接受会话",FUN.NOTIFY_LEVEL_INFO,FUN.NOTIFY_POSITION_TOP)
         }
       }
-      this.julyWebsocket.constant.stompClient.send(this.sendVideoCallURI, {},JSON.stringify(init_connection_params))
     },
-
-    // Handles call button action: creates peer connection.
-    callAction() {
-      this.callButtonDisable = true;
-      this.hangupButtonDisable = false;
-
-      console.log('Starting call.');
-      this.startTime = window.performance.now();
-
-      // Get local media stream tracks.
-      const videoTracks = this.localStream.getVideoTracks();
-      const audioTracks = this.localStream.getAudioTracks();
-      if (videoTracks.length > 0) {
-        console.log(`Using video device: ${videoTracks[0].label}.`);
+    startSignaling(){
+      if(this.joinOrCreate==='create'){
+        this.createOffer()
       }
-      if (audioTracks.length > 0) {
-        console.log(`Using audio device: ${audioTracks[0].label}.`);
+    },
+    async createOffer(){
+      if(this.joinOrCreate==='create'){
+        await this.peerConnection
+        this.peerConnection.createOffer((sessionDescription)=>{
+          this.peerConnection.setLocalDescription(sessionDescription)
+          // 发送自己的sessionDescription信息
+          let params = {
+            'sessionId': this.sessionId,
+            'isAccept': true,
+            'signalingMap':{
+              'offer': sessionDescription
+            }
+          }
+          this.julyWebsocket.constant.stompClient.send(this.sendVideoCallURI, {},JSON.stringify(params))
+        },(event)=>{
+          console.log('createOffer() error: ', event)
+        })
       }
-
-      const servers = null;  // Allows for RTC server configuration.
-
-      // Create peer connections and add behavior.
-      this.localPeerConnection = new RTCPeerConnection(servers);
-      console.log('Created local peer connection object localPeerConnection.');
-
-      this.localPeerConnection.addEventListener('icecandidate', this.handleConnection);
-      this.localPeerConnection.addEventListener(
-          'iceconnectionstatechange', this.handleConnectionChange);
-
-      this.remotePeerConnection = new RTCPeerConnection(servers);
-      console.log('Created remote peer connection object remotePeerConnection.');
-
-      this.remotePeerConnection.addEventListener('icecandidate', this.handleConnection);
-      this.remotePeerConnection.addEventListener(
-          'iceconnectionstatechange', this.handleConnectionChange);
-      this. remotePeerConnection.addEventListener('addstream', this.gotRemoteMediaStream);
-
-      // Add local stream to connection and create offer to connect.
-      this.localPeerConnection.addStream(this.localStream);
-      console.log('Added local stream to localPeerConnection.');
-
-      console.log('localPeerConnection createOffer start.');
-      this.localPeerConnection.createOffer(this.offerOptions)
-          .then(this.createdOffer).catch(this.setSessionDescriptionError);
     },
-    // Handles hangup action: ends up call, closes connections and resets peers.
-    hangupAction() {
-      this.localPeerConnection.close();
-      this.remotePeerConnection.close();
-      this.localPeerConnection = null;
-      this.remotePeerConnection = null;
-      this.hangupButtonDisable = true;
-      this.callButtonDisable = false;
-      console.log('Ending call.');
-    },
-    // Connects with new peer candidate.
-    handleConnection(event) {
-      const peerConnection = event.target;
-      const iceCandidate = event.candidate;
-
-      if (iceCandidate) {
-        const newIceCandidate = new RTCIceCandidate(iceCandidate);
-        const otherPeer = this.getOtherPeer(peerConnection);
-
-        otherPeer.addIceCandidate(newIceCandidate)
-            .then(() => {
-              this.handleConnectionSuccess(peerConnection);
-            }).catch((error) => {
-          this.handleConnectionFailure(peerConnection, error);
+    async handleOffer(offer){
+      console.log('handleOffer')
+      console.log(offer)
+      if(this.joinOrCreate==='join') {
+        await this.peerConnection
+        console.log(this.peerConnection)
+        // await this.peerConnection.setRemoteDescription(new RTCSessionDescription(offer))
+        await this.peerConnection.setRemoteDescription(offer)
+        console.log('handleOffer done')
+        await this.peerConnection.createAnswer(answer => {
+          this.peerConnection.setLocalDescription(answer);
+          let params = {
+            'sessionId': this.sessionId,
+            'isAccept': true,
+            'signalingMap': {
+              'answer': answer
+            }
+          }
+          console.log("generate answer and sent")
+          console.log(params)
+          this.julyWebsocket.constant.stompClient.send(this.sendVideoCallURI, {}, JSON.stringify(params))
+        }, err => {
+          console.err("Error creating an answer.", err);
         });
-
-        console.log(`${this.getPeerName(peerConnection)} ICE candidate:\n` +
-            `${event.candidate.candidate}.`);
       }
     },
-    // Logs changes to the connection state.
-    handleConnectionChange(event) {
-      const peerConnection = event.target;
-      console.log('ICE state change event: ', event);
-      console.log(`${this.getPeerName(peerConnection)} ICE state: ` +
-          `${peerConnection.iceConnectionState}.`);
-    },
-    // Gets the "other" peer connection.
-    getOtherPeer(peerConnection) {
-      return (peerConnection === this.localPeerConnection) ?
-          this.remotePeerConnection : this.localPeerConnection;
-    },
-    // Logs that the connection succeeded.
-    handleConnectionSuccess(peerConnection) {
-      console.log(`${this.getPeerName(peerConnection)} addIceCandidate success.`);
-    },
-    // Logs that the connection failed.
-    handleConnectionFailure(peerConnection, error) {
-      console.log(`${this.getPeerName(peerConnection)} failed to add ICE Candidate:\n`+
-          `${error.toString()}.`);
-    },
-
-    // Gets the name of a certain peer connection.
-    getPeerName(peerConnection) {
-      return (peerConnection === this.localPeerConnection) ?
-          'localPeerConnection' : 'remotePeerConnection';
-    },
-    // Handles remote MediaStream success by adding it as the remoteVideo src.
-    gotRemoteMediaStream(event) {
-      const mediaStream = event.stream;
-      this.$refs.remoteVideo.srcObject = mediaStream;
-      this.remoteStream = mediaStream;
-      console.log('Remote peer connection received remote stream.');
-    },
-    // Logs offer creation and sets peer connection session descriptions.
-    createdOffer(description) {
-      console.log(`Offer from localPeerConnection:\n${description.sdp}`);
-
-      console.log('localPeerConnection setLocalDescription start.');
-      this.localPeerConnection.setLocalDescription(description)
-          .then(() => {
-            this.setLocalDescriptionSuccess(this.localPeerConnection);
-          }).catch(this.setSessionDescriptionError);
-
-      console.log('remotePeerConnection setRemoteDescription start.');
-      this.remotePeerConnection.setRemoteDescription(description)
-          .then(() => {
-            this.setRemoteDescriptionSuccess(this.remotePeerConnection);
-          }).catch(this.setSessionDescriptionError);
-
-      console.log('remotePeerConnection createAnswer start.');
-      this.remotePeerConnection.createAnswer()
-          .then(this.createdAnswer)
-          .catch(this.setSessionDescriptionError);
-    },
-    // Logs answer to offer creation and sets peer connection session descriptions.
-    createdAnswer(description) {
-      console.log(`Answer from remotePeerConnection:\n${description.sdp}.`);
-
-      console.log('remotePeerConnection setLocalDescription start.');
-      this.remotePeerConnection.setLocalDescription(description)
-          .then(() => {
-            this.setLocalDescriptionSuccess(this.remotePeerConnection);
-          }).catch(this.setSessionDescriptionError);
-
-      console.log('localPeerConnection setRemoteDescription start.');
-      this.localPeerConnection.setRemoteDescription(description)
-          .then(() => {
-            this.setRemoteDescriptionSuccess(this.localPeerConnection);
-          }).catch(this.setSessionDescriptionError);
-    },
-    // Logs success when localDescription is set.
-    setLocalDescriptionSuccess(peerConnection) {
-      this.setDescriptionSuccess(peerConnection, 'setLocalDescription');
-    },
-    // Logs success when remoteDescription is set.
-    setRemoteDescriptionSuccess(peerConnection) {
-      this.setDescriptionSuccess(peerConnection, 'setRemoteDescription');
-    },
-    // Logs success when setting session description.
-    setDescriptionSuccess(peerConnection, functionName) {
-      const peerName =  this.getPeerName(peerConnection);
-      console.log(`${peerName} ${functionName} complete.`);
-    },
-    // Logs error when setting session description fails.
-    setSessionDescriptionError(error) {
-      console.log(`Failed to create session description: ${error.toString()}.`);
-    },
-    // Add behavior for video streams.
-
-    // Logs a message with the id and size of a video element.
-    logVideoLoaded(event) {
-      const video = event.target;
-      console.log(`${video.id} videoWidth: ${video.videoWidth}px, ` +
-          `videoHeight: ${video.videoHeight}px.`);
-    },
-    // Logs a message with the id and size of a video element.
-    // This event is fired when video begins streaming.
-    logResizedVideo(event) {
-      this.logVideoLoaded(event);
-
-      if (this.startTime) {
-        const elapsedTime = window.performance.now() - this.startTime;
-        this.startTime = null;
-        console.log(`Setup time: ${elapsedTime.toFixed(3)}ms.`);
+    async handleAnswer(answer){
+      console.log('answer')
+      console.log(answer)
+      if(this.inSignaling&&this.sessionId!=null) {
+        // await this.peerConnection.setRemoteDescription(new RTCSessionDescription(answer))
+        await this.peerConnection.setRemoteDescription(answer)
+        console.log('answer done')
       }
     },
+    async handleIcecandidate(icecandidate){
+      console.log('addIcecandidate')
+      console.log(icecandidate)
+      console.log(this.peerConnection)
+      if(this.inSignaling&&this.sessionId!=null) {
+        // new RTCIceCandidate(icecandidate)
+        await this.peerConnection
+        // await this.peerConnection.addIceCandidate(new RTCIceCandidate(icecandidate))
+        await this.peerConnection.addIceCandidate(icecandidate)
+        console.log('addIcecandidate done')
+      }
+    },
+
     hasUserMedia() {
       //check if the browser supports the WebRTC
       return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||

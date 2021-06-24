@@ -24,7 +24,7 @@ function notify(message,level,position){
         type: level,
         message: message,
         position: position,
-        timeout: 5000
+        timeout: 10000
     })
 
 }

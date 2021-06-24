@@ -59,7 +59,6 @@ public class ChatWebSocketController {
     @MessageMapping({"/watch/{userId}"})
     public Result<String> watchChatSession(@DestinationVariable String userId, Watcher watcher, OAuth2Authentication auth2Authentication) {
         String hostId = auth2Authentication.getPrincipal().toString();
-        log.info("watchChatSession userId:{}, watcher:{}, hostId:{}",userId,watcher.toString(),hostId);
         if (StringUtils.isNotEmpty(hostId)&&hostId.equals(watcher.getWatcherId())){
             watcher.setPeerId(userId);
             watcher.setGmtWatch(DateUtils.getCurrentDateTime());
