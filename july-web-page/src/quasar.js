@@ -10,10 +10,13 @@ import '@quasar/extras/material-icons-round/material-icons-round.css'
 import '@quasar/extras/material-icons-sharp/material-icons-sharp.css'
 import '@quasar/extras/fontawesome-v5/fontawesome-v5.css'
 import '@quasar/extras/eva-icons/eva-icons.css'
+import '@quasar/extras/bootstrap-icons/bootstrap-icons.css'
 import { Quasar, Cookies, LocalStorage, SessionStorage, QCard,
-    QCardSection,   Intersection,
+    QCardSection,   Intersection,QLinearProgress,QCircularProgress,
     QCardActions,  QAjaxBar, QBtn,  QSlideTransition,QSpace,QSeparator, QInput,  QForm,QIcon,QTooltip,  QToggle,QSpinnerBall,QSpinnerRadio, Notify, QChatMessage, QInfiniteScroll,QUploader, QFile,QScrollObserver, QBar,
-    QList,  QMenu,QBadge,
+    QList,  QMenu,QBadge, QSkeleton,QStepper,
+    QStep,
+    QStepperNavigation,
     ClosePopup,QSelect,
     QItem,
     QItemSection,
@@ -76,7 +79,12 @@ Vue.use(Quasar, {
       QSelect,
       QBadge,
       QDialog,
-
+      QSkeleton,
+      QLinearProgress,
+      QCircularProgress,
+      QStepper,
+      QStep,
+      QStepperNavigation
   },
   lang: lang
  })

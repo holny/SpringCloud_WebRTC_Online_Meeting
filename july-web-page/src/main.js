@@ -7,10 +7,12 @@ import request from '@/utils/request'
 import animated from 'animate.css'
 import Video from 'video.js'
 import 'video.js/dist/video-js.css'
+import * as echarts from 'echarts'
+Vue.prototype.$echarts = echarts
 Vue.prototype.$video = Video
+Vue.prototype.instance = request
 Vue.use(animated)
 Vue.config.productionTip = false
-Vue.prototype.instance = request
 router.beforeEach((to, from, next) => {
   if (to.meta.title) {
     document.title = to.meta.title

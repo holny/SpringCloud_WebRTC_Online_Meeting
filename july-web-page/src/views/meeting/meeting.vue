@@ -40,6 +40,14 @@
 import adapter from 'webrtc-adapter'
 // import videoPlayer from '@/views/meeting/videoPlayer'
 import videojs from "video.js";
+
+/* eslint-disable */
+import 'video.js/dist/video-js.css'
+import 'videojs-record/dist/css/videojs.record.css'
+import RecordRTC from 'recordrtc'
+import Record from 'videojs-record/dist/videojs.record.js'
+
+
 import {FUN} from "@/utils/julyCommon";
 import {isNotEmpty} from "@/utils/validate";
 
@@ -113,6 +121,17 @@ export default {
         fluid: false,
         width: 320,
         height: 240,
+        plugins: {
+          // videojs-record plugin options
+          record: {
+            image: false,
+            audio: false,
+            video: true,
+            displayMilliseconds: true,
+            debug: true,
+            videoMimeType: "video/webm;codecs=H264"
+          }
+        }
       },
     }
   },
@@ -194,12 +213,70 @@ export default {
   methods: {
     async initMedia(){
       console.log(`Browser ${adapter.browserDetails.browser} — version ${adapter.browserDetails.version}`)
-      this.localPlayer = videojs(this.$refs.localVideo, this.playerOptions, function onPlayerReady() {
-        console.log('onPlayerReady localPlayer', this);
+      this.localPlayer = videojs(this.$refs.localVideo, this.playerOptions, () => {
+        // print version information at startup
+        let msg = 'localPlayer using video.js ' + videojs.VERSION +
+            ' with videojs-record ' + videojs.getPluginVersion('record') +
+            ' and recordrtc ' + RecordRTC.version;
+        videojs.log(msg);
       })
-      this.remotePlayer = videojs(this.$refs.remoteVideo, this.playerOptions, function onPlayerReady() {
-        console.log('onPlayerReady remotePlayer', this);
+      this.remotePlayer = videojs(this.$refs.remoteVideo, this.playerOptions, () => {
+        // print version information at startup
+        let msg = ' remotePlayer using video.js ' + videojs.VERSION +
+            ' with videojs-record ' + videojs.getPluginVersion('record') +
+            ' and recordrtc ' + RecordRTC.version;
+        videojs.log(msg);
       })
+      // device is ready
+      this.localPlayer.on('deviceReady', () => {
+        console.log('device is ready!');
+      });
+
+      // user clicked the record button and started recording
+      this.localPlayer.on('startRecord', () => {
+        console.log('started recording!');
+      });
+      // user completed recording and stream is available
+      this.localPlayer.on('finishRecord', () => {
+        // the blob object contains the recorded data that
+        // can be downloaded by the user, stored on server etc.
+        console.log('finished recording: ', this.localPlayer.recordedData);
+      });
+
+      // error handling
+      this.localPlayer.on('error', (element, error) => {
+        console.warn(error);
+      });
+
+      this.localPlayer.on('deviceError', () => {
+        console.error('device error:', this.localPlayer.deviceErrorCode);
+      });
+      // device is ready
+      this.remotePlayer.on('deviceReady', () => {
+        console.log('device is ready!');
+      });
+
+      // user clicked the record button and started recording
+      this.remotePlayer.on('startRecord', () => {
+        console.log('started recording!');
+      });
+      // user completed recording and stream is available
+      this.remotePlayer.on('finishRecord', () => {
+        // the blob object contains the recorded data that
+        // can be downloaded by the user, stored on server etc.
+        console.log('finished recording: ', this.remotePlayer.recordedData);
+      });
+
+      // error handling
+      this.remotePlayer.on('error', (element, error) => {
+        console.warn(error);
+      });
+
+      this.remotePlayer.on('deviceError', () => {
+        console.error('device error:', this.remotePlayer.deviceErrorCode);
+      });
+
+
       // init player listener
       this.localPlayer.on("loadedmetadata",function(event){
         console.log("localPlayer loadedmetadata ")

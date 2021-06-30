@@ -1,5 +1,4 @@
 <template>
-  <div class="chat-window justify-center">
     <q-card class="my-card" flat bordered>
 
       <q-card-section horizontal style="height: 100px">
@@ -44,7 +43,7 @@
 
       <q-card-section :style="{height: messageWindowHeight}">
         <div id="chat-scroll-container" class="scroll inset-shadow-down shadow-10 shadow-box q-pb-md " style="overflow: auto;min-height:100%;max-height:100%">
-          <q-infinite-scroll scroll-target="#chat-scroll-container"  :offset="250" :thumb-style="thumbStyle" :bar-style="barStyle" @load="onLoad" reverse ref="scrollArea">
+          <q-infinite-scroll  :visible="false" scroll-target="#chat-scroll-container"  :offset="250" :thumb-style="thumbStyle" :bar-style="barStyle" @load="onLoad" reverse ref="scrollArea">
 <!--            <template slot="loading">-->
 <!--              <div class="row justify-center q-my-md">-->
 <!--                <q-spinner color="primary" name="dots" size="40px" />-->
@@ -120,8 +119,6 @@
         </div>
       </q-card-actions>
     </q-card>
-  </div>
-
 </template>
 
 <script>

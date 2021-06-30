@@ -6,7 +6,7 @@ function resolve (dir) {
 }
 
 module.exports = {
-  publicPath: IS_PROD ? process.env.VUE_APP_PUBLIC_PATH : "./", // 基本路径
+  publicPath: IS_PROD ? process.env.VUE_APP_PUBLIC_PATH : "/", // 基本路径
   outputDir: 'dist', // 输出文件目录
   lintOnSave: process.env.NODE_ENV === 'development', // eslint-loader 是否在保存的时候检查
   // see https://github.com/vuejs/vue-cli/blob/dev/docs/webpack.md
@@ -17,6 +17,11 @@ module.exports = {
     // provide the app's title in webpack's name field, so that
     // it can be accessed in index.html to inject the correct title.
     name: name,
+    resolve:{
+      alias:{
+        '@': resolve('src')
+      }
+    }
   },
   // 生产环境是否生成 sourceMap 文件
   productionSourceMap: !IS_PROD,
