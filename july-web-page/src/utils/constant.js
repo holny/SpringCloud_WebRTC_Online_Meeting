@@ -18,7 +18,7 @@ export let CONSTANT = {
     RELATION_TYPE_BLACK:3, //3
     RELATION_TYPE_IGNORE:4, //4
     DATE_FORMAT:'YYYY-MM-DD HH:mm:ss',
-
+    DATE_FORMAT_2:'YYYY-MM-DD HH:mm',
     USER_ACTIVE_STATUS_OFFLINE:1, //offline
     USER_ACTIVE_STATUS_INVISIBLE:2, //active_invisible
     USER_ACTIVE_STATUS_VISIBLE:3, //active_visible

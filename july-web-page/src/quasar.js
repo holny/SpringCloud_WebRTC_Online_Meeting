@@ -15,7 +15,7 @@ import { Quasar, Cookies, LocalStorage, SessionStorage, QCard,
     QCardSection,   Intersection,QLinearProgress,QCircularProgress,
     QCardActions,  QAjaxBar, QBtn,  QSlideTransition,QSpace,QSeparator, QInput,  QForm,QIcon,QTooltip,  QToggle,QSpinnerBall,QSpinnerRadio, Notify, QChatMessage, QInfiniteScroll,QUploader, QFile,QScrollObserver, QBar,
     QList,  QMenu,QBadge, QSkeleton,QStepper,
-    QStep,
+    QStep,QChip,QDate,QTime,QSlider,
     QStepperNavigation,
     ClosePopup,QSelect,
     QItem,
@@ -84,7 +84,11 @@ Vue.use(Quasar, {
       QCircularProgress,
       QStepper,
       QStep,
-      QStepperNavigation
+      QStepperNavigation,
+      QChip,
+      QDate,
+      QTime,
+      QSlider
   },
   lang: lang
  })

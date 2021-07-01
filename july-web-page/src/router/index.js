@@ -27,6 +27,7 @@ export const constantRouterMap = [
   // {path: '/videolist', name: 'videolist', component: () => import('@/views/video/VideoList'), hidden: true},
   {path: '/bookmarkcard', name: 'bookmarkcard', component: () => import('@/views/consult/BookMarkStep'), hidden: true},
   {path: '/sidebar', name: 'sidebar', component: () => import('@/views/common/UserInfoSideBar'), hidden: true},
+  {path: '/datetimepicker', name: 'datetimepicker', component: () => import('@/views/common/RangeDateTimePicker'), hidden: true},
   {path: '/charts', name: 'charts', component: () => import('@/views/charts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('@/views/charts/AllCharts.vue') }

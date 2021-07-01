@@ -6,7 +6,7 @@
     <div class="row no-wrap q-mt-md q-gutter-x-lg">
       <div class="column q-gutter-y-lg float-left">
         <div>
-          <ConsultSideBar :self-introduction="true" :bar-width="'380'"></ConsultSideBar>
+          <ConsultSideBar :self-introduction="true" :bar-width="'450'"></ConsultSideBar>
         </div>
       </div>
       <BookMarkStep></BookMarkStep>
