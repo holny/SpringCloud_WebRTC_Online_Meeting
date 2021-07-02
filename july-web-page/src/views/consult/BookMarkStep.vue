@@ -68,9 +68,6 @@
             <div class="q-mt-sm">
               <RangeDateTimePicker ref="consultRangeDTP" :start-date.sync="consultStartDate" :end-date.sync="consultEndDate" :consult-range-time.sync="consultRangeTime" :type="'dateTimeRange'" :max-range="5"></RangeDateTimePicker>
             </div>
-            <div class="q-mt-sm">
-              已挑选的时间范围:{{consultStartDateStr}} - {{consultEndDateStr}} ({{consultRangeTime}}小时)
-            </div>
             <q-stepper-navigation>
               <q-btn flat @click="step = 2" color="primary" label="返回" class="q-ml-sm" />
               <q-btn :disable="consultStartDate===null || consultEndDate===null" @click="() => { done3 = true; step = 4 }" color="primary" label="继续" />
@@ -79,12 +76,17 @@
 
           <q-step
               :name="4"
-              title="Ad template"
+              title="确认"
               icon="assignment"
               :done="step > 4"
               style="min-height: 200px;"
           >
-            This step won't show up because it is disabled.
+            <div class="q-mt-sm text-bold">
+              咨询专家:<strong class="text-deep-orange">{{consultStartDateStr}} - {{consultEndDateStr}} ({{consultRangeTime}}小时)</strong>
+            </div>
+            <div class="q-mt-sm text-bold">
+              已挑选的时间范围:<strong class="text-deep-orange">{{consultStartDateStr}} - {{consultEndDateStr}} ({{consultRangeTime}}小时)</strong>
+            </div>
             <q-stepper-navigation>
               <q-btn flat @click="step = 3" color="primary" label="返回" class="q-ml-sm" />
               <q-btn @click="() => { done4 = true; step = 5 }" color="primary" label="继续" />

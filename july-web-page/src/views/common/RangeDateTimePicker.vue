@@ -154,11 +154,11 @@ export default {
         oldVal
         if (date.isValid(this.startDateStr)) {
           let addMinutes = 60*newVal
-          console.log("add minutes:"+addMinutes)
+          // console.log("add minutes:"+addMinutes)
           let startDate = date.extractDate(this.startDateStr, CONSTANT.DATE_FORMAT_2)
           let endDate = date.addToDate(startDate , {minutes: addMinutes})
-          console.log(startDate.toString())
-          console.log(endDate.toString())
+          // console.log(startDate.toString())
+          // console.log(endDate.toString())
           this.endDateStr =date.formatDate(endDate, CONSTANT.DATE_FORMAT_2)
           this.$emit('update:endDate', endDate);
           this.$emit('update:consultRangeTime', newVal);
@@ -197,7 +197,7 @@ export default {
       }else{
         color = getQuasarColorByRatio(0)
       }
-      console.log("eventColor date:"+date+"  color:"+color)
+      // console.log("eventColor date:"+date+"  color:"+color)
       return color.toString()
     },
     optionsFn (date) {
