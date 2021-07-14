@@ -1,25 +1,47 @@
 <template>
-  <div>
-    <q-card>
+    <q-card class="my-card bg-grey-1" flat bordered>
       <q-card-section class="text-h6">
-        Line Chart
+        {{chartTitle}}
       </q-card-section>
       <q-card-section>
         <div ref="linechart" id="lineChart" style="height: 250px;"></div>
       </q-card-section>
       <q-resize-observer @resize="onResize"/>
     </q-card>
-  </div>
 </template>
 
 <script>
 export default {
   name: "LineChart",
+  props: {
+    chartTitle:{
+      type: String,
+      require: true,
+      default: 'Line Chart'
+    },legendMap:{
+      type: Object,
+      require: false,
+      default: ()=>({'Line 1':[140, 232, 101, 264, 90, 340, 250],
+        'Line 2':[120, 282, 111, 234, 220, 340, 310],
+        'Line 3':[320, 132, 201, 334, 190, 130, 220],
+        'Line 4':[220, 402, 231, 134, 190, 230, 120],
+        'Line 5':[220, 302, 181, 234, 210, 290, 150]})
+    },xAxis:{
+      type: Array,
+      require: false,
+      default: ()=>(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+    }
+  },
   data() {
     return {
       model: false,
+      color:{'0':{legendColor:'#80FFA5',areaColor:['rgba(128, 255, 165)','rgba(1, 191, 236)']},
+        '1':{legendColor:'#00DDFF',areaColor:['rgba(0, 221, 255)','rgba(77, 119, 255)']},
+        '2':{legendColor:'#37A2FF',areaColor:['rgba(55, 162, 255)','rgba(116, 21, 219)']},
+        '3':{legendColor:'#FF0087',areaColor:['rgba(255, 0, 135)','rgba(135, 0, 157)']},
+        '4':{legendColor:'#FFBF00',areaColor:['rgba(255, 191, 0)','rgba(224, 62, 76)']}},
       options: {
-        color: ['#80FFA5', '#00DDFF', '#37A2FF', '#FF0087', '#FFBF00'],
+        color: [], // 放入数据种类颜色
         tooltip: {
           trigger: 'axis',
           axisPointer: {
@@ -30,7 +52,7 @@ export default {
           }
         },
         legend: {
-          data: ['Line 1', 'Line 2', 'Line 3', 'Line 4', 'Line 5'],
+          data: [], // 放入数据种类Label名称
           bottom: 10,
         },
         grid: {
@@ -44,7 +66,7 @@ export default {
           {
             type: 'category',
             boundaryGap: false,
-            data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+            data: this.xAxis //放入横坐标名称
           }
         ],
         yAxis: [
@@ -52,146 +74,58 @@ export default {
             type: 'value'
           }
         ],
-        series: [
-          {
-            name: 'Line 1',
-            type: 'line',
-            stack: 'Total',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(128, 255, 165)'
-              }, {
-                offset: 1,
-                color: 'rgba(1, 191, 236)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [140, 232, 101, 264, 90, 340, 250]
-          },
-          {
-            name: 'Line 2',
-            type: 'line',
-            stack: 'Total',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(0, 221, 255)'
-              }, {
-                offset: 1,
-                color: 'rgba(77, 119, 255)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [120, 282, 111, 234, 220, 340, 310]
-          },
-          {
-            name: 'Line 3',
-            type: 'line',
-            stack: 'Total',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(55, 162, 255)'
-              }, {
-                offset: 1,
-                color: 'rgba(116, 21, 219)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [320, 132, 201, 334, 190, 130, 220]
-          },
-          {
-            name: 'Line 4',
-            type: 'line',
-            stack: 'Total',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(255, 0, 135)'
-              }, {
-                offset: 1,
-                color: 'rgba(135, 0, 157)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [220, 402, 231, 134, 190, 230, 120]
-          },
-          {
-            name: 'Line 5',
-            type: 'line',
-            stack: 'Total',
-            smooth: true,
-            lineStyle: {
-              width: 0
-            },
-            showSymbol: false,
-            label: {
-              show: true,
-              position: 'top'
-            },
-            areaStyle: {
-              opacity: 0.8,
-              color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
-                offset: 0,
-                color: 'rgba(255, 191, 0)'
-              }, {
-                offset: 1,
-                color: 'rgba(224, 62, 76)'
-              }])
-            },
-            emphasis: {
-              focus: 'series'
-            },
-            data: [220, 302, 181, 234, 210, 290, 150]
-          }
-        ]
+        series: []
       },
       line_chart: null
     }
   },
   mounted() {
-    this.init();
+    this.initData()
+    this.initView();
   },
   watch: {
     '$q.dark.isActive': function () {
-      this.init();
+      this.initView();
     }
   },
   methods: {
-    init() {
+    initData() {
+      let count = 0
+      for(let legendKey in this.legendMap){
+        // console.log(this.color)
+        // console.log(count%Object.keys(this.color).length.toString())
+        // console.log(this.color[count%Object.keys(this.color).length.toString()])
+        this.options.color.push(this.color[count%Object.keys(this.color).length.toString()].legendColor)
+        this.options.legend.data.push(legendKey)
+        let item={
+              name: legendKey,
+              type: 'line',
+              stack: 'Total',
+              smooth: true,
+              lineStyle: {
+                width: 0
+              },
+              showSymbol: false,
+              areaStyle: {
+                opacity: 0.8,
+                color: new this.$echarts.graphic.LinearGradient(0, 0, 0, 1, [{
+                  offset: 0,
+                  color: this.color[count%Object.keys(this.color).length.toString()].areaColor[0]
+                }, {
+                  offset: 1,
+                  color: this.color[count%Object.keys(this.color).length.toString()].areaColor[1]
+                }])
+              },
+              emphasis: {
+                focus: 'series'
+              },
+              data: this.legendMap[legendKey]
+            }
+        this.options.series.push(item)
+        count++
+      }
+    },
+    initView() {
       let lineChart = document.getElementById('lineChart');
       this.$echarts.dispose(lineChart);
       let theme = this.model ? 'dark' : 'light';
@@ -208,4 +142,13 @@ export default {
 </script>
 
 <style scoped>
+.my-card {
+  transition: box-shadow .3s;
+  height: 100%;
+  border-radius:10px;
+  width: 100%;
+}
+.my-card:hover {
+  box-shadow: 0px 0px 15px rgba(33,33,33,.2) !important;
+}
 </style>

@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <q-card>
+    <q-card class="my-card bg-grey-1" flat bordered>
       <q-card-section class="text-h6">
-        Guage Chart
+        {{chartTitle}}
 
         <q-btn icon="fa fa-download" class="float-right" @click="SaveImage" flat dense>
           <q-tooltip>Download PNG</q-tooltip>
@@ -13,12 +12,27 @@
       </q-card-section>
       <q-resize-observer @resize="onResize"/>
     </q-card>
-  </div>
+
 </template>
 
 <script>
 export default {
   name: "GuageChart",
+  props: {
+    chartTitle:{
+      type: String,
+      require: true,
+      default: 'Guage Chart'
+    },
+    dataSet:{
+      type: Array,
+      require: false,
+      default: ()=>( [{
+        value: 50,
+        name: 'SCORE'
+      }])
+    }
+  },
   data() {
     return {
       model: false,
@@ -36,10 +50,7 @@ export default {
             valueAnimation: true,
             formatter: '{value}'
           },
-          data: [{
-            value: 50,
-            name: 'SCORE'
-          }]
+          data: this.dataSet
         }]
       },
       guage_chart: null
@@ -80,4 +91,13 @@ export default {
 </script>
 
 <style scoped>
+.my-card {
+  transition: box-shadow .3s;
+  height: 100%;
+  border-radius:10px;
+  width: 100%;
+}
+.my-card:hover {
+  box-shadow: 0px 0px 15px rgba(33,33,33,.2) !important;
+}
 </style>

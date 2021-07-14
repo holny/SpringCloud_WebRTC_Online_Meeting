@@ -1,13 +1,39 @@
 <template>
-  <div>
-    <div ref="piechart" id="pieChart" style="height: 250px;"></div>
+  <q-card class="my-card bg-grey-1" flat bordered>
+    <q-card-section class="text-h6">
+      {{chartTitle}}
+<!--      <q-btn icon="fa fa-download" class="float-right" @click="SaveImage" flat dense>-->
+<!--        <q-tooltip>Download PNG</q-tooltip>-->
+<!--      </q-btn>-->
+    </q-card-section>
+    <q-card-section>
+      <div ref="piechart" id="pieChart" style="height: 250px;"></div>
+    </q-card-section>
     <q-resize-observer @resize="onResize"/>
-  </div>
+  </q-card>
 </template>
 
 <script>
 export default {
   name: "PieChart",
+  props: {
+    chartTitle:{
+      type: String,
+      require: true,
+      default: 'Pie Chart'
+    },
+    dataSet:{
+      type: Array,
+      require: false,
+      default: ()=>( [
+        {value: 1048, name: 'Search Engine'},
+        {value: 735, name: 'Direct access'},
+        {value: 580, name: 'Email marketing'},
+        {value: 484, name: 'Affiliate Advertising'},
+        {value: 300, name: 'Video ad'}
+      ])
+    }
+  },
   data() {
     return {
       model: false,
@@ -23,7 +49,7 @@ export default {
         },
         series: [
           {
-            name: 'Access source',
+            name: '数据',
             type: 'pie',
             radius: ['40%', '70%'],
             center: ['50%', '35%'],
@@ -47,13 +73,7 @@ export default {
             labelLine: {
               show: false
             },
-            data: [
-              {value: 1048, name: 'Search Engine'},
-              {value: 735, name: 'Direct access'},
-              {value: 580, name: 'Email marketing'},
-              {value: 484, name: 'Affiliate Advertising'},
-              {value: 300, name: 'Video ad'}
-            ]
+            data: this.dataSet
           }
         ]
       },
@@ -86,4 +106,13 @@ export default {
 </script>
 
 <style scoped>
+.my-card {
+  transition: box-shadow .3s;
+  height: 100%;
+  border-radius:10px;
+  width: 100%;
+}
+.my-card:hover {
+  box-shadow: 0px 0px 15px rgba(33,33,33,.2) !important;
+}
 </style>

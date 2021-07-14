@@ -1,5 +1,5 @@
 <template>
-  <q-card class="column my-card bg-grey-1 no-wrap" style="min-width: 1000px">
+  <q-card class="column my-card bg-grey-1 no-wrap full-width">
     <q-card-section class="q-pb-xs">
       <div class="text-subtitle1 inline-block text-bold">预约订单:&nbsp;<strong class="text-deep-orange">12312312312312312412312312</strong></div>
       <div class="text-subtitle1 float-right inline-block"><count-timer ></count-timer>
@@ -8,8 +8,8 @@
         </q-tooltip>
       </div>
     </q-card-section>
-    <q-card-section class="q-pt-xs">
-      <q-item class="column float-left" style="width: 500px">
+    <q-card-section  style="padding: 0px">
+      <q-item class="column float-left" style="width: 400px">
         <q-item-label header class="full-width col" style="height: 50px">专家信息</q-item-label>
         <div class="full-width col justify-center">
           <q-item-section avatar class="items-center q-gutter-y-sm">
@@ -62,7 +62,7 @@
           </q-item-section>
         </div>
       </q-item>
-      <q-separator vertical color="orange" class="inline-block" style="height: 300px" />
+      <q-separator vertical color="orange" class="inline-block" style="height: 250px" />
       <q-item class="vertical-top inline-block">
         <q-item-label header>预约信息</q-item-label>
         <q-card-actions  class="q-gutter-x-md">
@@ -94,16 +94,22 @@
                   单价: 16豆/30分钟，总计<strong class="text-deep-orange text-bold">202豆</strong>
                 </q-item-label>
               </q-item-section>
+              <q-item-section>
+                <q-item-label class="text-overline text-orange-9">支付流水ID:</q-item-label>
+                <q-item-label caption lines="1">
+                 <strong class="text-deep-orange text-bold">asdasdasdasdawgwaw31231</strong>
+                </q-item-label>
+              </q-item-section>
             </q-item>
           </q-list>
 
         </q-card-actions>
       </q-item>
     </q-card-section>
-    <q-card-actions  class="q-gutter-x-md justify-end">
+    <q-card-actions  class="q-pt-xs q-gutter-x-md justify-end">
       <div class="text-center justify-center">
         <q-btn flat round color="positive" icon="paid" ><q-tooltip>支付费用</q-tooltip></q-btn>
-        <div class="text-subtitle2" ><count-timer ></count-timer></div>
+        <div class="text-subtitle2" ><count-timer></count-timer></div>
       </div>
       <div>
         <q-btn flat round color="accent" icon="bookmark" ><q-tooltip>预约咨询</q-tooltip></q-btn>

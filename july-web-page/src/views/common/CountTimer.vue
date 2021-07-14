@@ -1,5 +1,5 @@
 <template>
-  <div class="text-positive text-bold" ref="countObject"><q-icon name="alarm" class="q-ml-lg"/>&nbsp; {{hour? hourString+':'+minuteString+':'+secondString : minuteString+':'+secondString}}</div>
+  <div class="text-positive text-bold" ref="countObject"><q-icon name="alarm"/>&nbsp; {{hour? hourString+':'+minuteString+':'+secondString : minuteString+':'+secondString}}</div>
 </template>
 
 <script>
@@ -49,6 +49,7 @@ export default {
     }
   },
   mounted () {
+    // console.log("CountTimer mounted")
     if(this.downOrUp==='down'){
       if (this.remainTime > 0) {
         this.initWarningLevel(this.remainTime)
@@ -73,6 +74,10 @@ export default {
         this.initWarningLevel(diff)
       }
     }
+  },
+  destroyed() {
+    // console.log("CountTimer destroy")
+    clearInterval(this.promiseTimer)
   },
   methods: {
     countDownBeforeDate (endDate) {
@@ -204,24 +209,24 @@ export default {
       if(remainTime<=this.warningLeve1){
         if(this.nowWarningLevel!==1){
           this.$refs.countObject.setAttribute("class","animate__animated animate__flash animate__infinite text-red text-bold")
-          console.log("set level 1")
+          // console.log("set level 1")
           this.nowWarningLevel = 1
         }
       }else if(remainTime<=this.warningLeve2){
         if(this.nowWarningLevel!==2) {
           this.$refs.countObject.setAttribute("class", "animate__animated animate__headShake animate__infinite text-orange text-bold")
-          console.log("set level 2")
+          // console.log("set level 2")
           this.nowWarningLevel = 2
         }
       }else if(remainTime<=this.warningLeve3){
         if(this.nowWarningLevel!==3) {
           this.$refs.countObject.setAttribute("class", "animate__animated animate__pulse animate__infinite text-amber text-bold")
-          console.log("set level 3")
+          // console.log("set level 3")
           this.nowWarningLevel = 3
         }
       }else if(remainTime>this.warningLeve3&&this.nowWarningLevel!==0){
         this.$refs.countObject.setAttribute("class","text-positive text-bold")
-        console.log("set level 0")
+        // console.log("set level 0")
         this.nowWarningLevel = 0
       }
     },

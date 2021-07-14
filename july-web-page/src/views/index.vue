@@ -130,7 +130,7 @@
 
     <q-page-container class="GPL__page-container">
       <div class="full-width">
-        <router-view class="q-mt-md no-wrap JULY__container" name="viewMain" style="margin: 0 auto;min-width: 1100px"></router-view>
+        <router-view class="q-mt-md no-wrap JULY__container" name="viewMain" style="margin: 0 auto;min-width: 1400px"></router-view>
       </div>
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">

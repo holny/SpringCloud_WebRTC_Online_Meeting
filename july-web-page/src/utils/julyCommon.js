@@ -16,7 +16,8 @@ export let FUN = {
     NOTIFY_POSITION_TOP :'top',
     notify:notify,
     filterPrintRole:filterPrintRole,
-    convertPrintGender:convertPrintGender
+    convertPrintGender:convertPrintGender,
+    convertUserStatus:convertUserStatus
 }
 
 function notify(message,level,position){
@@ -58,6 +59,22 @@ function convertPrintGender (gender) {
     }else {
         printGender = gender
     }
+    console.log(printGender)
     return printGender
 }
 
+function convertUserStatus (status) {
+    let result = "- 未知 -"
+    if(status===0){
+        result = '已删除'
+    }else if(status===1){
+        result = '正常'
+    }else if(status===2){
+        result = '被禁止'
+    }else if(status===3){
+        result = '被锁定'
+    }else if(status===4){
+        result = '过期'
+    }
+    return result
+}

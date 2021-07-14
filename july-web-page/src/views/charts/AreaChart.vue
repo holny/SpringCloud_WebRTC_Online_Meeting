@@ -1,20 +1,37 @@
 <template>
-  <div>
-    <q-card>
+    <q-card class="my-card bg-grey-1" flat bordered>
       <q-card-section class="text-h6">
-        Stacked Area Chart
+        {{chartTitle}}
       </q-card-section>
       <q-card-section>
         <div ref="areachart" id="areaChart" style="height: 250px;"></div>
       </q-card-section>
       <q-resize-observer @resize="onResize"/>
     </q-card>
-  </div>
 </template>
 
 <script>
 export default {
   name: "AreaChart",
+  props: {
+    chartTitle:{
+      type: String,
+      require: true,
+      default: 'Stacked Area Chart'
+    },legendMap:{
+      type: Object,
+      require: false,
+      default: ()=>({'Line 1':[140, 232, 101, 264, 90, 340, 250],
+        'Line 2':[120, 282, 111, 234, 220, 340, 310],
+        'Line 3':[320, 132, 201, 334, 190, 130, 220],
+        'Line 4':[220, 402, 231, 134, 190, 230, 120],
+        'Line 5':[220, 302, 181, 234, 210, 290, 150]})
+    },xAxis:{
+      type: Array,
+      require: false,
+      default: ()=>(['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'])
+    }
+  },
   data() {
     return {
       model: false,
@@ -29,7 +46,7 @@ export default {
           }
         },
         legend: {
-          data: ['Email marketing', 'Affiliate advertising', 'Video advertising', 'Direct access', 'Search engine'],
+          data:[],
           bottom: 10,
         },
         grid: {
@@ -43,7 +60,7 @@ export default {
           {
             type: 'category',
             boundaryGap: false,
-            data: ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+            data: this.xAxis
           }
         ],
         yAxis: [
@@ -51,67 +68,13 @@ export default {
             type: 'value'
           }
         ],
-        series: [
-          {
-            name: 'Email marketing',
-            type: 'line',
-            stack: 'Total',
-            areaStyle: {},
-            emphasis: {
-              focus: 'series'
-            },
-            data: [120, 132, 101, 134, 90, 230, 210]
-          },
-          {
-            name: 'Affiliate Advertising',
-            type: 'line',
-            stack: 'Total',
-            areaStyle: {},
-            emphasis: {
-              focus: 'series'
-            },
-            data: [220, 182, 191, 234, 290, 330, 310]
-          },
-          {
-            name: 'Video ads',
-            type: 'line',
-            stack: 'Total',
-            areaStyle: {},
-            emphasis: {
-              focus: 'series'
-            },
-            data: [150, 232, 201, 154, 190, 330, 410]
-          },
-          {
-            name: 'Direct access',
-            type: 'line',
-            stack: 'Total',
-            areaStyle: {},
-            emphasis: {
-              focus: 'series'
-            },
-            data: [320, 332, 301, 334, 390, 330, 320]
-          },
-          {
-            name: 'Search Engine',
-            type: 'line',
-            stack: 'Total',
-            label: {
-              show: true,
-              position: 'top'
-            },
-            areaStyle: {},
-            emphasis: {
-              focus: 'series'
-            },
-            data: [820, 932, 901, 934, 1290, 1330, 1320]
-          }
-        ]
+        series: []
       },
       area_chart: null
     }
   },
   mounted() {
+    this.initData()
     this.init();
   },
   watch: {
@@ -120,6 +83,27 @@ export default {
     }
   },
   methods: {
+    initData() {
+
+      for(let legendKey in this.legendMap){
+        // console.log(this.color)
+        // console.log(count%Object.keys(this.color).length.toString())
+        // console.log(this.color[count%Object.keys(this.color).length.toString()])
+        // this.options.color.push(this.color[count%Object.keys(this.color).length.toString()].legendColor)
+        this.options.legend.data.push(legendKey)
+        let item={
+              name: legendKey,
+              type: 'line',
+              stack: 'Total',
+              areaStyle: {},
+              emphasis: {
+                focus: 'series'
+              },
+           data: this.legendMap[legendKey]
+        }
+        this.options.series.push(item)
+      }
+    },
     init() {
       let areaChart = document.getElementById('areaChart');
       this.$echarts.dispose(areaChart);
@@ -137,4 +121,13 @@ export default {
 </script>
 
 <style scoped>
+.my-card {
+  transition: box-shadow .3s;
+  height: 100%;
+  border-radius:10px;
+  width: 100%;
+}
+.my-card:hover {
+  box-shadow: 0px 0px 15px rgba(33,33,33,.2) !important;
+}
 </style>

@@ -2,7 +2,7 @@
   <div class="q-pa-md">
     <div v-if="type==='dateTimeRange'" class="vertical-top">
       <!-- begin -->
-      <q-input outlined v-model="startDateStr" class="inline-block" @change="onStartChange($event)" label-slot  readonly borderless>
+      <q-input outlined v-model="startDateStr" class="inline-block"  label-slot  readonly borderless>
         <template v-slot:label>
           选择<strong class="text-deep-orange">起始</strong>日期时间
         </template>

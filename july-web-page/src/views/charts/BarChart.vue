@@ -1,8 +1,7 @@
 <template>
-  <div>
-    <q-card>
+    <q-card class="my-card bg-grey-1" flat bordered>
       <q-card-section class="text-h6">
-        Bar Chart
+        {{chartTitle}}
         <q-btn icon="fa fa-download" class="float-right" @click="SaveImage" flat dense>
           <q-tooltip>Download PNG</q-tooltip>
         </q-btn>
@@ -12,12 +11,29 @@
       </q-card-section>
       <q-resize-observer @resize="onResize"/>
     </q-card>
-  </div>
 </template>
 
 <script>
 export default {
   name: "BarChart",
+  props: {
+    chartTitle:{
+      type: String,
+      require: true,
+      default: 'Bar Chart'
+    },
+    dataSet:{
+      type: Array,
+      require: false,
+      default: ()=>([
+        ['product', '2015', '2016', '2017'],
+        ['Matcha Latte', 43.3, 85.8, 93.7],
+        ['Milk Tea', 83.1, 73.4, 55.1],
+        ['Cheese Cocoa', 86.4, 65.2, 82.5],
+        ['Walnut Brownie', 72.4, 53.9, 39.1]
+      ])
+    }
+  },
   data() {
     return {
       model: false,
@@ -27,13 +43,7 @@ export default {
         },
         tooltip: {},
         dataset: {
-          source: [
-            ['product', '2015', '2016', '2017'],
-            ['Matcha Latte', 43.3, 85.8, 93.7],
-            ['Milk Tea', 83.1, 73.4, 55.1],
-            ['Cheese Cocoa', 86.4, 65.2, 82.5],
-            ['Walnut Brownie', 72.4, 53.9, 39.1]
-          ]
+          source: this.dataSet
         },
         grid: {
           left: '3%',
@@ -90,4 +100,13 @@ export default {
 </script>
 
 <style scoped>
+.my-card {
+  transition: box-shadow .3s;
+  height: 100%;
+  border-radius:10px;
+  width: 100%;
+}
+.my-card:hover {
+  box-shadow: 0px 0px 15px rgba(33,33,33,.2) !important;
+}
 </style>
