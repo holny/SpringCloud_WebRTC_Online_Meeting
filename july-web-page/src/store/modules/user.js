@@ -1,10 +1,11 @@
 import { login, register, validate, getUserInfo,searchUser,getRelation,upInsertRelation,removeRelation,upInsertRecentContact,removeRecentContact} from '@/api/user'
-import { getToken, setToken, getRefreshToken, setRefreshToken, getHostId, setHostId, removeHostId, removeRefreshToken, removeToken } from '@/utils/auth'
+import { getToken, setToken, getRefreshToken, setRefreshToken, getHostId, setHostId, removeHostId,setHostInfo,getHostInfo,removeHostInfo, removeRefreshToken, removeToken } from '@/utils/auth'
 import {RESULT_CODE} from "@/utils/constant";
 const state = {
   hostToken: getToken(),
   hostRefreshToken: getRefreshToken(),
   hostId: getHostId(),
+  hostInfo: getHostInfo(),
   hostUserName: '',
   hostAvatar: '',
   hostStatus: '',
@@ -21,6 +22,9 @@ const mutations = {
   },
   SET_HOST_ID: (state, hostId) => {
     state.hostId = hostId
+  },
+  SET_HOST_INFO: (state, hostInfo) => {
+    state.hostInfo = hostInfo
   },
   SET_HOST_USER_NAME: (state, name) => {
     state.hostUserName = name
@@ -50,9 +54,11 @@ const actions = {
     removeToken()
     removeRefreshToken()
     removeHostId()
-    commit('SET_HOST_TOKEN', '')
-    commit('SET_HOST_REFRESH_TOKEN', '')
-    commit('SET_HOST_ID', '')
+    removeHostInfo()
+    commit('SET_HOST_TOKEN', null)
+    commit('SET_HOST_REFRESH_TOKEN', null)
+    commit('SET_HOST_ID', null)
+    commit('SET_HOST_INFO', null)
     return new Promise((resolve, reject) => {
       login({ email: account.trim(), password: password, rememberMe: rememberMe }).then(response => {
         const { data } = response
@@ -65,6 +71,8 @@ const actions = {
           setRefreshToken(data.data.refresh_token)
           commit('SET_HOST_ID', data.data.userId)
           setHostId(data.data.userId)
+          commit('SET_HOST_INFO', data.data.userInfo)
+          setHostInfo(data.data.userInfo)
           resolve()
         } else {
           reject(data.msg)
@@ -81,9 +89,11 @@ const actions = {
     removeToken()
     removeRefreshToken()
     removeHostId()
-    commit('SET_HOST_TOKEN', '')
-    commit('SET_HOST_REFRESH_TOKEN', '')
-    commit('SET_HOST_ID', '')
+    removeHostInfo()
+    commit('SET_HOST_TOKEN', null)
+    commit('SET_HOST_REFRESH_TOKEN', null)
+    commit('SET_HOST_ID', null)
+    commit('SET_HOST_INFO', null)
     return new Promise((resolve, reject) => {
       register({userName: registerInfo.userName, email: registerInfo.email, phoneNumber: registerInfo.phoneNumber, password: registerInfo.confirmPassword, registerCode: registerInfo.registerCode}).then(response => {
         const { data } = response
@@ -104,6 +114,20 @@ const actions = {
       })
     })
   },
+  // user logout
+  logout({ commit}) {
+    return new Promise(resolve => {
+      removeToken()
+      removeRefreshToken()
+      removeHostId()
+      removeHostInfo()
+      commit('SET_HOST_TOKEN', null)
+      commit('SET_HOST_REFRESH_TOKEN', null)
+      commit('SET_HOST_ID', null)
+      commit('SET_HOST_INFO', null)
+      resolve()
+    })
+  },
   // user validate
   validate ({ commit }, userInfo) {
     console.log('action - duplicate')
@@ -111,9 +135,11 @@ const actions = {
     removeToken()
     removeRefreshToken()
     removeHostId()
-    commit('SET_HOST_TOKEN', '')
-    commit('SET_HOST_REFRESH_TOKEN', '')
-    commit('SET_HOST_ID', '')
+    removeHostInfo()
+    commit('SET_HOST_TOKEN', null)
+    commit('SET_HOST_REFRESH_TOKEN', null)
+    commit('SET_HOST_ID', null)
+    commit('SET_HOST_INFO', null)
     return new Promise((resolve, reject) => {
       validate(userInfo).then(response => {
         const { data } = response
@@ -282,26 +308,6 @@ const actions = {
   //       commit('SET_AVATAR', avatar)
   //       commit('SET_INTRODUCTION', introduction)
   //       resolve(data)
-  //     }).catch(error => {
-  //       reject(error)
-  //     })
-  //   })
-  // },
-
-  // // user logout
-  // logout({ commit, state, dispatch }) {
-  //   return new Promise((resolve, reject) => {
-  //     logout(state.token).then(() => {
-  //       commit('SET_TOKEN', '')
-  //       commit('SET_ROLES', [])
-  //       removeToken()
-  //       resetRouter()
-  //
-  //       // reset visited views and cached views
-  //       // to fixed https://github.com/PanJiaChen/vue-element-admin/issues/2485
-  //       dispatch('tagsView/delAllViews', null, { root: true })
-  //
-  //       resolve()
   //     }).catch(error => {
   //       reject(error)
   //     })

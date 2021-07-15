@@ -7,6 +7,7 @@ import com.hly.july.biz.meeting.service.api.BizUserApiService;
 import com.hly.july.common.core.constant.ContainerEnum;
 import com.hly.july.common.core.result.Result;
 import com.hly.july.common.core.result.ResultCode;
+import com.hly.july.common.core.util.DateUtils;
 import com.hly.july.common.web.vo.RecentVO;
 import com.hly.july.common.web.vo.RelationVO;
 import lombok.extern.slf4j.Slf4j;
@@ -16,7 +17,9 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @ClassName AsyncJobService
@@ -71,6 +74,35 @@ public class AsyncJobService {
         recentReceiver.setPeerType(ContainerEnum.getDescByCode(senderType));
         recentReceiver.setGmtLastContact(gmtMsgDate);
         Result<List<RelationVO>> receiverResult =  bizUserApiService.upInsertRecentContact(receiverId,recentReceiver);
+
+        // 给收件人发送通知
+        Integer receiverAllUnreadCount = chatService.getAllUnRead(receiverId);
+        log.info("receiverId:{} has All unreadCount:{}",receiverId,receiverAllUnreadCount);
+        Map<String,Object> notifyMap = new HashMap<>();
+        notifyMap.put("allUnreadCount",receiverAllUnreadCount);
+        notifyMap.put("gmtCreate", DateUtils.getCurrentDateTime());
+        if (receiverResult.getCode() == ResultCode.SUCCESS.getCode()) {
+            List<RelationVO> receiverRelationVOList = receiverResult.getData();
+            for (RelationVO relationVO : receiverRelationVOList) {
+                if(senderId.equals(relationVO.getPeerId())){
+                    log.info("get realtionVO:{}",relationVO.toString());
+                    Map<String,Object> newMsgBrief = new HashMap<>();
+                    newMsgBrief.put("peerId",relationVO.getPeerId());
+                    newMsgBrief.put("peerType",relationVO.getPeerTypeCode());
+                    newMsgBrief.put("peerUserName",relationVO.getPeerUserName());
+                    newMsgBrief.put("peerAvatar",relationVO.getPeerAvatar());
+                    newMsgBrief.put("remarkName",relationVO.getRemarkName());
+                    newMsgBrief.put("peerNickName",relationVO.getPeerNickName());
+                    newMsgBrief.put("peerRole",relationVO.getPeerRole());
+                    newMsgBrief.put("msgGMT",gmtMsgDate);
+                    notifyMap.put("newMsg",newMsgBrief);
+                }
+            }
+        }
+        Event<Map<String,Object>> newMsgNotifyEvent = Event.buildPersonal(EventEnum.EVENT_NEW_MESSAGE_NOTIFY, receiverId,notifyMap);
+        newMsgNotifyEvent.setGmtCreate(gmtMsgDate);
+        userService.sendPersonalEvent(receiverId, newMsgNotifyEvent);
+
         if(isNotify) {
             if (receiverResult.getCode() == ResultCode.SUCCESS.getCode()) {
                 List<RelationVO> receiverRelationVOList = receiverResult.getData();

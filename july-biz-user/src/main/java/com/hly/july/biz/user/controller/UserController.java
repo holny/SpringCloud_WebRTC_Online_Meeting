@@ -66,9 +66,13 @@ public class UserController {
                     User updateUser = new User();
                     if(StringUtils.isNotEmpty(ip)){
                         updateUser.setLastLoginIp(ip);
+                        loginUser.setLastLoginIp(ip);
                     }
                     updateUser.setGmtLastLogin(DateUtils.getCurrentDateTime());
+                    loginUser.setGmtLastLogin(DateUtils.getCurrentDateTime());
                     userService.updateUserByUserId(loginUser.getUserId(),updateUser);
+                    UserInfoVO userInfoVO = new UserInfoVO(loginUser);
+                    token.put("userInfo",userInfoVO);
                     return Result.success(token);
                 }else{
                     log.error("Token is null, account:"+authUserVO.getEmail()+" password:"+authUserVO.getPassword());

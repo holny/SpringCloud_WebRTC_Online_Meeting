@@ -53,6 +53,7 @@ export let EVENT_CODE = {
     EVENT_CALL_PRE_CONNECT: 'E2007', //呼叫双方同意
     EVENT_CALL_CONNECTED: 'E2008', //呼叫双方通话中
     EVENT_CALL_HANGUP: 'E2009',//呼叫挂断
+    EVENT_NEW_MESSAGE_NOTIFY: 'E2010', //全局消息通知
 }
 
 export let RESULT_CODE = {

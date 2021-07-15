@@ -3,7 +3,7 @@ import {localStorageGet, localStorageSet, localStorageDelete} from '@/utils/stor
 const TokenKey = 'July-Token'
 const RefreshTokenKey = 'July-RefreshToken'
 const HostIdKey = 'July-HostId'
-
+const HostInfoKey = 'July-HostInfo'
 export function getToken () {
   let token = localStorageGet(TokenKey)
   return token
@@ -39,4 +39,16 @@ export function setHostId (id) {
 
 export function removeHostId () {
   return localStorageDelete(HostIdKey)
+}
+
+export function getHostInfo () {
+  return JSON.parse(localStorageGet(HostInfoKey))
+}
+
+export function setHostInfo (hostInfo) {
+  return localStorageSet(HostInfoKey, JSON.stringify(hostInfo))
+}
+
+export function removeHostInfo () {
+  return localStorageDelete(HostInfoKey)
 }

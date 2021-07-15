@@ -24,8 +24,8 @@ public enum EventEnum {
     EVENT_CALL_DENY("E2006", "呼叫被拒绝"),
     EVENT_CALL_PRE_CONNECT("E2007", "会话连接建立中"),
     EVENT_CALL_CONNECTED("E2008", "呼叫双方通话中"),
-    EVENT_CALL_HANGUP("E2009", "呼叫对放挂断");
-
+    EVENT_CALL_HANGUP("E2009", "呼叫对放挂断"),
+    EVENT_NEW_MESSAGE_NOTIFY("E2010", "全局消息通知");
     private String code;
     private String desc;
 

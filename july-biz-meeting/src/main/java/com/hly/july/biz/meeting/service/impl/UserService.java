@@ -2,6 +2,7 @@ package com.hly.july.biz.meeting.service.impl;
 
 import com.baomidou.mybatisplus.core.toolkit.CollectionUtils;
 import com.hly.july.biz.meeting.entity.Event;
+import com.hly.july.biz.meeting.entity.EventEnum;
 import com.hly.july.biz.meeting.entity.Shouting;
 import com.hly.july.biz.meeting.entity.UserActiveStatusEnum;
 import com.hly.july.biz.meeting.service.api.BizUserApiService;
@@ -9,6 +10,7 @@ import com.hly.july.common.core.constant.ContainerEnum;
 import com.hly.july.common.core.constant.RelationTypeEnum;
 import com.hly.july.common.core.result.Result;
 import com.hly.july.common.core.result.ResultCode;
+import com.hly.july.common.core.util.DateUtils;
 import com.hly.july.common.db.utils.RedisUtils;
 import com.hly.july.common.web.vo.RelationVO;
 import lombok.extern.slf4j.Slf4j;
@@ -18,10 +20,7 @@ import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @ClassName UserService
@@ -46,6 +45,8 @@ public class UserService {
     @Resource
     private BizUserApiService bizUserApiService;
 
+    @Autowired
+    private ChatService chatService;
 
     private String REDIS_PREFIX_ROOM_INFO = "meeting_room_info_";
     private String REDIS_PREFIX_ACK = "meeting_room_ack_";
@@ -135,7 +136,18 @@ public class UserService {
         return false;
     }
 
-
+    public Map<String,Object> getNotification(String userId){
+        // 给收件人发送通知
+        Integer receiverAllUnreadCount = chatService.getAllUnRead(userId);
+        log.info("userId:{} has All unreadCount:{}",userId,receiverAllUnreadCount);
+        Map<String,Object> notifyMap = new HashMap<>();
+        notifyMap.put("allUnreadCount",receiverAllUnreadCount);
+        notifyMap.put("gmtCreate",DateUtils.getCurrentDateTime());
+//        Event<Map<String,Object>> newMsgNotifyEvent = Event.buildPersonal(EventEnum.EVENT_NEW_MESSAGE_NOTIFY, userId,notifyMap);
+//        newMsgNotifyEvent.setGmtCreate(DateUtils.getCurrentDateTime());
+//        sendPersonalEvent(userId, newMsgNotifyEvent);
+        return notifyMap;
+    }
 
 
     public Boolean sendPersonalEvent(String userId,Event event){

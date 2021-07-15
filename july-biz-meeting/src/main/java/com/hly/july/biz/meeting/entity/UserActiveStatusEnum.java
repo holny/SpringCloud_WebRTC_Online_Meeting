@@ -51,7 +51,7 @@ public enum UserActiveStatusEnum {
 
         List<Integer> list2 = new ArrayList<>();
         list2.add(ACTIVE_VISIBLE.getCode());
-        list1.add(ACTIVE_INVISIBLE.getCode());
+        list2.add(ACTIVE_INVISIBLE.getCode());
         list2.add(ACTIVE_ONLY_CATEGORY_BOOKMARK.getCode());
         list2.add(ACTIVE_ONLY_MESSAGE.getCode());
         allOnLineList = Collections.unmodifiableList(list2);

@@ -645,7 +645,7 @@ export default {
         }else{
           server_message = {
             'from':this.hostId,
-            'to':this.julyChat.variable.peerType,
+            'to':this.julyChat.variable.peerId,
             'message':msgText,
             'method':CONSTANT.WS_METHOD_PERSONAL,
             "peerType": CONSTANT.CONTAINER_PERSON,

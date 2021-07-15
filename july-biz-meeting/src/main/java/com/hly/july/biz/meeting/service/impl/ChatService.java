@@ -9,12 +9,14 @@ import com.hly.july.common.core.exception.ServiceInternalException;
 import com.hly.july.common.core.result.ResultCode;
 import com.hly.july.common.db.utils.RedisUtils;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ObjectUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Map;
 
 /**
  * @ClassName ChatService
@@ -177,6 +179,32 @@ public class ChatService {
                 return (Integer)redisUtils.hGet(REDIS_UNREAD_COUNT + receiverId,senderId);
             }else{
                 redisUtils.hSet(REDIS_UNREAD_COUNT + receiverId,senderId,0);
+                return 0;
+            }
+        }else{
+            return 0;
+        }
+    }
+
+    public Integer getAllUnRead(String receiverId){
+        if(receiverId!=null){
+            if(redisUtils.hasKey(REDIS_UNREAD_COUNT + receiverId)){
+                Integer sum = new Integer(0);
+                Map<Object,Object> hm = redisUtils.hmGet(REDIS_UNREAD_COUNT + receiverId);
+                if(ObjectUtils.isNotEmpty(hm)){
+                    for (Map.Entry<Object,Object> entry : hm.entrySet()) {
+                        Integer count = (Integer) entry.getValue();
+                        if(count>0){
+                            if(count>=99){
+                                sum +=99;
+                            }else{
+                                sum +=count;
+                            }
+                        }
+                    }
+                }
+                return sum;
+            }else{
                 return 0;
             }
         }else{

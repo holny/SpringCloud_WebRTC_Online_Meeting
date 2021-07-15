@@ -272,6 +272,13 @@ export default {
               .then(() => {
                 // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
                 this.loading = false
+                if (this.$route.query.redirect) { //如果存在参数
+                  let redirect = this.$route.query.redirect
+                  this.$router.push(redirect)//则跳转至进入登录页前的路由
+                  console.log("has redirect,"+redirect)
+                } else {
+                  this.$router.push('/')//否则跳转至首页
+                }
               })
               .catch((error) => {
                 console.log("register error")

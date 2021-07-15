@@ -18,31 +18,9 @@ export const constantRouterMap = [
   //   hidden:true
   // },
   { path: '/', redirect: '/video' },
-
-  {path: '/login', name: 'login', component: () => import('@/views/login'), hidden: true},
-  {path: '/register', name: 'register', component: () => import('@/views/register'), hidden: true},
-  {path: '/entry', name: 'entry', component: () => import('@/views/entry'), hidden: true},
-  {path: '/wstest', name: 'wstest', component: () => import('@/views/meeting/wstest'), hidden: true},
-  {path: '/chatWindow', name: 'chatMessage', component: () => import('@/views/chat/chatWindow'), hidden: true},
-  {path: '/contacts', name: 'contacts', component: () => import('@/views/chat/contacts'), hidden: true},
-  {path: '/meeting', name: 'meeting', component: () => import('@/views/meeting/meeting'), hidden: true},
-  {path: '/videoitem', name: 'videoitem', component: () => import('@/views/video/VideoItem'), hidden: true},
-  {path: '/useritem', name: 'useritem', component: () => import('@/views/user/UserItem'), hidden: true},
-  // {path: '/videolist', name: 'videolist', component: () => import('@/views/video/VideoList'), hidden: true},
-  {path: '/bookmarkcard', name: 'bookmarkcard', component: () => import('@/views/consult/BookMarkStep'), hidden: true},
-  {path: '/countdown', name: 'countdown', component: () => import('@/views/common/CountTimer'), hidden: true},
-  {path: '/sidebar', name: 'sidebar', component: () => import('@/views/common/UserInfoSideBar'), hidden: true},
-  {path: '/datetimepicker', name: 'datetimepicker', component: () => import('@/views/common/RangeDateTimePicker'), hidden: true},
-  {path: '/settingmenu', name: 'settingmenu', component: () => import('@/views/common/MySettingMenuSideBar'), hidden: true},
-  {path: '/orderitem', name: 'orderitem', component: () => import('@/views/trading/OrderItem'), hidden: true},
-  {path: '/test', name: 'test', component: () => import('@/views/admin/Test'), hidden: true},
-  {path: '/mysetting', name: 'mysetting', component: () => import('@/views/user/MySetting'), hidden: true},
-  {path: '/charts', name: 'charts', component: () => import('@/views/charts/MainLayout.vue'),
-    children: [
-      { path: '', component: () => import('@/views/charts/AllCharts.vue') }
-    ], hidden: true},
-  {path: '/videoplayer', name: 'videoplayer', component: () => import('@/views/video/Video'), hidden: true},
-  {path: '/index', name: 'index', component: () => import('@/views/index'), hidden: true},
+  {path: '/entry', name: 'entry',meta: {
+      title: '欢迎登陆',
+    }, component: () => import('@/views/entry'), hidden: true},
   {path: '/my',  component: () => import('@/views/index'),children: [
       {
         // 当 /user/:id/posts 匹配成功
@@ -61,8 +39,6 @@ export const constantRouterMap = [
         //   viewSidebar: false
         // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'sorders',
         name: 'sellerOrders',
         components: {
@@ -72,13 +48,7 @@ export const constantRouterMap = [
           title: '卖家订单',
           component: 'sellerOrders'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'tradingrecords',
         name: 'tradingRecords',
         components: {
@@ -88,13 +58,7 @@ export const constantRouterMap = [
           title: '交易流水',
           component: 'transactionRecords'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'mysubscriptions',
         name: 'mySubscriptions',
         components: {
@@ -104,13 +68,7 @@ export const constantRouterMap = [
           title: '我的订阅',
           component: 'mySubscriptions'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'myfavourites',
         name: 'myFavourites',
         components: {
@@ -120,13 +78,7 @@ export const constantRouterMap = [
           title: '我的收藏',
           component: 'myFavourites'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'myvideos',
         name: 'myVideos',
         components: {
@@ -136,13 +88,7 @@ export const constantRouterMap = [
           title: '我的视频',
           component: 'myVideos'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'myfollowers',
         name: 'myFollowers',
         components: {
@@ -152,13 +98,7 @@ export const constantRouterMap = [
           title: '关注我的',
           component: 'myFollowers'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'myworkstat',
         name: 'myWorkStatistics',
         components: {
@@ -168,13 +108,7 @@ export const constantRouterMap = [
           title: '我的统计',
           component: 'myWorkStatistics'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'newproduct',
         name: 'newProduct',
         components: {
@@ -184,13 +118,7 @@ export const constantRouterMap = [
           title: '新建作品',
           component: 'newProduct'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'myinfo',
         name: 'myInfo',
         components: {
@@ -200,13 +128,7 @@ export const constantRouterMap = [
           title: '我的信息',
           component: 'myInfo'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'paymentsettings',
         name: 'myPaymentSettings',
         components: {
@@ -216,13 +138,7 @@ export const constantRouterMap = [
           title: '支付设置',
           component: 'myPaymentSettings'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       },{
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: 'sellersettings',
         name: 'sellerSettings',
         components: {
@@ -232,10 +148,6 @@ export const constantRouterMap = [
           title: '卖家设置',
           component: 'sellerSettings'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       }
     ], hidden: true},
   {path: '/admin',  component: () => import('@/views/index'),children: [
@@ -382,8 +294,6 @@ export const constantRouterMap = [
         }
       },
       {
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: '/user/:uid',
         name: 'profile',
         components: {
@@ -393,10 +303,6 @@ export const constantRouterMap = [
           title: '用户信息',
           sideBarPosition: 'right'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       }
     ],
     hidden: true},
@@ -418,8 +324,6 @@ export const constantRouterMap = [
         }
       },
       {
-          // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
         path: '/video/:vid',
         name: 'video',
         components: {
@@ -429,10 +333,6 @@ export const constantRouterMap = [
           title: '视频播放',
           sideBarPosition: 'right'
         }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
       }
     ],
     hidden: true},
@@ -454,49 +354,10 @@ export const constantRouterMap = [
           // sideBarPosition: 'left'
         }
       },
-      // {
-      //   // 当 /user/:id/posts 匹配成功
-      //   // UserPosts 会被渲染在 User 的 <router-view> 中
-      //   path: ':vid',
-      //   name: 'video',
-      //   components: {
-      //     viewMain: VideoContent,
-      //     viewSidebar: VideoListSideBar
-      //   },
-      //   meta: {
-      //     title: '视频播放',
-      //     sideBarPosition: 'right'
-      //   },
-      //   props: {
-      //     viewMain: true,
-      //     viewSidebar: false
-      //   }
-      // }
     ],
     hidden: true}
   // { path: '/404', component: () => import('@/page/errorPage/404'), hidden: true },
   // { path: '/401', component: () => import('@/page/errorPage/401'), hidden: true },
-  // {
-  //   path: '/index',
-  //   name: 'index',
-  //   component:Layout,
-  //   meta:{
-  //     title:'首页',
-  //     icon: 'icondashboard',
-  //   },
-  //   noDropdown:true,
-  //   children:[
-  //     {
-  //       path:'index',
-  //       meta:{
-  //         title:'首页',
-  //         icon:'icondashboard',
-  //         routerType:'leftmenu'
-  //       },
-  //       component: () => import('@/page/index/index'),
-  //     }
-  //   ]
-  // }
 ]
 
 const router = new VueRouter({
