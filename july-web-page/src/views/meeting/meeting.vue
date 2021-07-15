@@ -12,6 +12,15 @@
           <q-item-label>{{hostInfo!=null?hostInfo.userName:'Unknown'}}{{hostInfo!=null?(hostInfo.nickName!=null?'('+hostInfo.nickName+')':''):''}}</q-item-label>
           <q-item-label caption>Me</q-item-label>
         </q-item-section>
+        <q-item-section>
+          <q-btn :disable="localRecordStatus!='ready'&&localRecordStatus!='recording'&&localRecordStatus!='done'"
+                 v-if="localRecordStatus!=null" :icon="localRecordStatus==='ready'?'fiber_manual_record':(localRecordStatus==='recording'?'fiber_manual_record':(localRecordStatus==='done'?'file_download':'info'))"
+                 :color="localRecordStatus==='ready'?'positive':(localRecordStatus==='recording'?'accent':(localRecordStatus==='done'?'info':'negative'))"
+                 @click="localRecordStatusChange"
+                 :class="localRecordStatus==='ready'?'float-right btn-small':(localRecordStatus==='recording'?'float-right btn-small animate__animated animate__flash animate__infinite':'float-right btn-small')" flat round >
+            <q-tooltip>{{localRecordStatus==='ready'?'开始录像':(localRecordStatus==='recording'?'正在录像中，点击停止录像,已录制:'+localPlayer.record().getCurrentTime()+'秒':(localRecordStatus==='done'?'请先保存录像文件':'视频流停止,无法录像'))}}</q-tooltip>
+          </q-btn>
+        </q-item-section>
       </q-item>
 
       <video playsinline ref="localVideo"  class="video-js vjs-default-skin" style="overflow: hidden"></video>
@@ -27,6 +36,15 @@
         <q-item-section>
           <q-item-label>{{peerInfo.remarkName!=null?peerInfo.remarkName:peerInfo.userName}}{{peerInfo.remarkName!=null?'('+peerInfo.userName+')':''}}</q-item-label>
           <q-item-label caption>{{peerInfo.gender=='1'?'Him':'Her'}}</q-item-label>
+        </q-item-section>
+        <q-item-section>
+          <q-btn :disable="remoteRecordStatus!='ready'&&remoteRecordStatus!='recording'&&remoteRecordStatus!='done'"
+                 v-if="remoteRecordStatus!=null" :icon="remoteRecordStatus==='ready'?'fiber_manual_record':(remoteRecordStatus==='recording'?'fiber_manual_record':(remoteRecordStatus==='done'?'file_download':'info'))"
+                 :color="remoteRecordStatus==='ready'?'positive':(remoteRecordStatus==='recording'?'accent':(remoteRecordStatus==='done'?'info':'negative'))"
+                 @click="remoteRecordStatusChange"
+                 :class="remoteRecordStatus==='ready'?'float-right':(remoteRecordStatus==='recording'?'float-right animate__animated animate__flash animate__infinite':'float-right ')" flat>
+            <q-tooltip>{{remoteRecordStatus==='ready'?'开始录像':(remoteRecordStatus==='recording'?'正在录像中，点击停止录像,已录制:'+remotePlayer.record().getCurrentTime()+'秒':(remoteRecordStatus==='done'?'请先保存录像文件':'视频流停止,无法录像'))}}</q-tooltip>
+          </q-btn>
         </q-item-section>
       </q-item>
 
@@ -44,12 +62,15 @@ import videojs from "video.js";
 /* eslint-disable */
 import 'video.js/dist/video-js.css'
 import 'videojs-record/dist/css/videojs.record.css'
+import '@ffmpeg/ffmpeg/dist/ffmpeg.min.js'
 import RecordRTC from 'recordrtc'
 import Record from 'videojs-record/dist/videojs.record.js'
 
-
+import WebmWasmEngine from 'videojs-record/dist/plugins/videojs.record.webm-wasm.js';
+import TsEBMLEngine from 'videojs-record/dist/plugins/videojs.record.ts-ebml.js';
 import {FUN} from "@/utils/julyCommon";
 import {isNotEmpty} from "@/utils/validate";
+import {getBrowserType} from "@/utils/adapter";
 
 export default {
   name: "meeting",
@@ -107,6 +128,8 @@ export default {
       },
       localStream:null,
       remoteStream:null,
+      localRecordStatus: null,
+      remoteRecordStatus: null,
       startTime:null,
       peerConnection: null,
       peerConnectionConfig:{
@@ -116,6 +139,11 @@ export default {
         // video.js options
         controls: true,
         bigPlayButton: false,
+        controlBar: {
+          // hide fullscreen and volume controls
+          deviceButton: false,
+          recordToggle: false,
+        },
         autoplay: true,
         loop: false,
         fluid: false,
@@ -125,11 +153,24 @@ export default {
           // videojs-record plugin options
           record: {
             image: false,
-            audio: false,
+            audio: true,
             video: true,
             displayMilliseconds: true,
             debug: true,
-            videoMimeType: "video/webm;codecs=H264"
+            maxLength: 60*60,
+            audioMimeType: 'audio/wav',
+            videoMimeType: "video/webm;codecs=vp8,opus",
+            // enable ts-ebml plugin
+            convertEngine: 'ts-ebml'
+            // enable ffmpeg.wasm plugin
+            // convertEngine: 'ffmpeg.wasm',
+            // convertWorkerURL:'../../node_modules/@ffmpeg/core/dist/ffmpeg-core.js',
+            // // convert recorded data to MP4 (and copy over audio data without encoding)
+            // convertOptions: ['-c:v', 'libx264', '-preset', 'slow', '-crf', '22', '-c:a', 'copy', '-f', 'mp4'],
+            // // specify output mime-type
+            // pluginLibraryOptions: {
+            //   outputType: 'video/mp4'
+            // }
           }
         }
       },
@@ -143,7 +184,7 @@ export default {
   watch: {
     inSignaling: {
       // Will fire as soon as the component is created
-      immediate: true,
+      immediate: false,
       handler(newVal, oldVal) {
         console.log('watch inSignaling changed')
         console.log('newVal:'+newVal)
@@ -157,8 +198,46 @@ export default {
       },
       // deep: true
     },
+    localRecordStatus: {
+      // Will fire as soon as the component is created
+      immediate: true,
+      handler(newVal, oldVal) {
+        console.log('watch localRecordStatus changed')
+        console.log('newVal:'+newVal)
+        console.log('oldVal:'+oldVal)
+        // if(newVal==='ready'&&oldVal!='done'){
+        //   this.localPlayer.record().getDevice()
+        // }
+        // Fetch data about the movie
+      },
+      // deep: true
+    },
+    remoteRecordStatus: {
+      // Will fire as soon as the component is created
+      immediate: true,
+      handler(newVal, oldVal) {
+        console.log('watch remoteRecordStatus changed')
+        console.log('newVal:'+newVal)
+        console.log('oldVal:'+oldVal)
+        // if(newVal==='ready'&&oldVal!='done'){
+        //   this.remotePlayer.record().getDevice()
+        // }
+        // Fetch data about the movie
+      },
+      // deep: true
+    },
   },
   created() {
+    // let ffmpegPath = require('@/utils/ffmpeg-core')
+    // console.log(ffmpegPath)
+    let browserType = getBrowserType()
+    console.log("Browser type is:"+browserType)
+    // if (browserType==='Chrome'){
+    //   this.playerOptions.plugins.record.videoMimeType="video/webm;codecs=H264"
+    // }else{
+    //   this.playerOptions.plugins.record.videoMimeType="video/webm"
+    // }
+
     if(isNotEmpty(this.sessionId)){
       this.joinOrCreate='join'
     }else{
@@ -187,13 +266,23 @@ export default {
   },
   activated () {
     console.log("meeting activated")
+
   },
   beforeDestroy() {
+    console.log("meeting destroy")
     if (this.localPlayer) {
       this.localPlayer.dispose()
     }
     if (this.remotePlayer) {
       this.remotePlayer.dispose()
+    }
+    if (this.localStream) {
+      this.localStream.stop()
+      this.localRecordStatus = 'stop'
+    }
+    if (this.remoteStream) {
+      this.remoteStream.stop()
+      this.remoteRecordStatus = 'stop'
     }
     if(this.peerConnection){
       this.peerConnection.close();
@@ -230,6 +319,7 @@ export default {
       // device is ready
       this.localPlayer.on('deviceReady', () => {
         console.log('device is ready!');
+        this.localPlayer.record().start();
       });
 
       // user clicked the record button and started recording
@@ -240,9 +330,14 @@ export default {
       this.localPlayer.on('finishRecord', () => {
         // the blob object contains the recorded data that
         // can be downloaded by the user, stored on server etc.
-        console.log('finished recording: ', this.localPlayer.recordedData);
+        console.log('localPlayer finished recording: ', this.localPlayer.recordedData);
+        let now = Date.now()
+        // this.localPlayer.record().saveAs({'video': 'local-video-file_'+now+'.webm'});
       });
-
+      // converter completed and stream is available
+      this.localPlayer.on('finishConvert', () => {
+        console.log('localPlayer finished converting: ', this.localPlayer.convertedData)
+      })
       // error handling
       this.localPlayer.on('error', (element, error) => {
         console.warn(error);
@@ -254,6 +349,7 @@ export default {
       // device is ready
       this.remotePlayer.on('deviceReady', () => {
         console.log('device is ready!');
+        this.remotePlayer.record().start();
       });
 
       // user clicked the record button and started recording
@@ -264,9 +360,12 @@ export default {
       this.remotePlayer.on('finishRecord', () => {
         // the blob object contains the recorded data that
         // can be downloaded by the user, stored on server etc.
-        console.log('finished recording: ', this.remotePlayer.recordedData);
+        console.log('remotePlayer finished recording: ', this.remotePlayer.recordedData);
       });
-
+      // converter completed and stream is available
+      this.remotePlayer.on('finishConvert', () => {
+        console.log('remotePlayer finished converting: ', this.remotePlayer.convertedData)
+      })
       // error handling
       this.remotePlayer.on('error', (element, error) => {
         console.warn(error);
@@ -307,14 +406,16 @@ export default {
             .then((mediaStream) => {
               this.$refs.localVideo.srcObject = mediaStream;
               this.localStream = mediaStream;
+              this.localRecordStatus = 'ready'
               console.log('Received local stream.');
             }).catch((error) => {
-          FUN.notify(error.toString(),FUN.NOTIFY_LEVEL_WARNING,FUN.NOTIFY_POSITION_TOP)
+          FUN.notify("无法获取到媒体设备,请确认摄像头是否开启",FUN.NOTIFY_LEVEL_WARNING,FUN.NOTIFY_POSITION_TOP)
+              console.log(error)
           console.log(`navigator.getUserMedia error: ${error.toString()}.`);
         });
         console.log('Requesting local stream.');
       }else{
-        FUN.notify("无法获取到媒体设备",FUN.NOTIFY_LEVEL_WARNING,FUN.NOTIFY_POSITION_TOP)
+        FUN.notify("不存在媒体设备",FUN.NOTIFY_LEVEL_WARNING,FUN.NOTIFY_POSITION_TOP)
       }
     },
     async createPeerConnection(){
@@ -323,7 +424,11 @@ export default {
       // addLocalStream
       console.log(this.localStream)
       let _that =this
-      this.peerConnection.addStream(this.localStream)
+      if(this.localStream){
+        this.peerConnection.addStream(this.localStream)
+      }else{
+        FUN.notify("本地视频流无效,无法给RTC加入本地流",FUN.NOTIFY_LEVEL_WARNING,FUN.NOTIFY_POSITION_TOP)
+      }
       console.log(this.peerConnection)
       this.peerConnection.addEventListener('icecandidate', (event)=>{
         // const peerConnection = event.target;
@@ -359,6 +464,7 @@ export default {
         if (event.stream) {
           _that.remoteStream = event.stream
           _that.$refs.remoteVideo.srcObject = _that.remoteStream
+          _that.remoteRecordStatus = 'ready'
         }
       });
       this.peerConnection.addEventListener('removestream',(event) =>{
@@ -466,7 +572,69 @@ export default {
       return !!(navigator.getUserMedia || navigator.webkitGetUserMedia ||
           navigator.mozGetUserMedia);
     },
-
+    async localRecordStatusChange(){
+      if(this.localRecordStatus==='ready'){
+        this.localRecordStatus='recording'
+        if(this.localPlayer.record().isRecording()){
+          console.log("local player is already recording")
+          return
+        }else{
+          this.localPlayer.record().getDevice()
+          // this.localPlayer.record().start()
+          return
+        }
+      }else if(this.localRecordStatus==='recording'){
+        this.localRecordStatus='done'
+        if(!this.localPlayer.record().isRecording()){
+          console.log("local player is already stop recording")
+          return
+        }else{
+          this.localPlayer.record().stopDevice()
+          return
+        }
+      }else if(this.localRecordStatus==='done'){
+        if(this.localPlayer.record().getDuration()>0){
+          let now = Date.now()
+          this.localPlayer.record().saveAs({'video': 'local-video-file_'+now+'.webm'},'convert');
+          // this.localPlayer.record().saveAs({'video': 'local-video-file_'+now+'.mp4'}, 'convert');
+        }else{
+          console.log("local player has no recording ")
+        }
+        this.localRecordStatus='ready'
+      }
+    },
+    async remoteRecordStatusChange(){
+      if(this.remoteRecordStatus==='ready'){
+        this.remoteRecordStatus='recording'
+        if(this.remotePlayer.record().isRecording()){
+          console.log("remote player is already recording")
+          return
+        }else{
+          this.remotePlayer.record().getDevice()
+          // this.remotePlayer.record().start()
+          return
+        }
+      }else if(this.remoteRecordStatus==='recording'){
+        this.remoteRecordStatus='done'
+        if(!this.remotePlayer.record().isRecording()){
+          console.log("remote player is already stop recording")
+          return
+        }else{
+          this.remotePlayer.record().stopDevice()
+          return
+        }
+      }else if(this.remoteRecordStatus==='done'){
+        if(this.remotePlayer.record().getDuration()>0){
+          let now = Date.now()
+          this.remotePlayer.record().saveAs({'video': 'remote-video-file_'+now+'.webm'} ,'convert');
+          // this.remotePlayer.record().saveAs({'video': 'remote-video-file_'+now+'.mp4'}, 'convert');
+        }else{
+          console.log("remote player has no recording ")
+        }
+        this.remoteRecordStatus='ready'
+        return;
+      }
+    }
   }
 }
 </script>

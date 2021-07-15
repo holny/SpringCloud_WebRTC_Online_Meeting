@@ -25,7 +25,10 @@ function notify(message,level,position){
         type: level,
         message: message,
         position: position,
-        timeout: 10000
+        timeout: 10000,
+        progress: true,
+        classes: 'glossy',
+        closeBtn: true
     })
 
 }

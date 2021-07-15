@@ -1,33 +1,33 @@
 server:
-  port: 8002
+  port: @july-biz-meeting-service-port@
 
 spring:
   profiles: dev
   application:
-    name: meeting-service
+    name: @july-biz-meeting-service-name@
   cloud:
     nacos:
       discovery:
-        server-addr: localhost:8848
-        group: SEATA_GROUP
+        server-addr: @nacos-nginx-url@
+        group: @nacos-group@
     sentinel:
       transport:
         #配置Sentinel dashboard地址
-        dashboard: localhost:8080
+        dashboard: @sentinel-dashboard-url@
         #默认8719端口，假如被占用会自动从8719开始依次+1扫描,直至找到未被占用的端口
-        port: 8719
+        port: @sentinel-port@
       datasource:
         ds1:
           nacos:
-            server-addr: localhost:8848
-            dataId: meeting-service
-            groupId: DEFAULT_GROUP
+            server-addr: @nacos-nginx-url@
+            dataId: @july-biz-meeting-service-name@
+            groupId:  @nacos-group@
             data-type: json
             rule-type: flow
     alibaba:
       seata:
         # seata 服务分组，要与服务端nacos-config.txt中service.vgroup_mapping的后缀对应
-        tx-service-group: july-tx-service-group
+        tx-service-group: @seata-tx-group@
   datasource-biz:
     # 导入Druid jar后直接这里设置数据源type为druid就行(注意底层实现还是JDBC)
     type: com.alibaba.druid.pool.DruidDataSource
@@ -132,10 +132,10 @@ seata:
   config:
     type: nacos
     nacos:
-      server-addr: localhost:8848
-      group : SEATA_GROUP
-      username: "nacos"
-      password: "nacos"
+      server-addr: @nacos-nginx-url@
+      group : @nacos-group@
+      username: @nacos-name@
+      password: @nacos-password@
 
 # 激活Sentinel对Feign的支持
 feign:
@@ -155,9 +155,9 @@ feign:
 logging:
   config: classpath:log4j2.xml
   file:
-    path: mylogs/july-biz-meeting/
+    path: @july-biz-meeting-service-log-dir@
 
 rsa:
   key:
-    publicKeyFilePath: "/certificate/july-pubkey_0317_pure.txt"
+    publicKeyFilePath: @july-biz-meeting-service-publickey@
 debug: true

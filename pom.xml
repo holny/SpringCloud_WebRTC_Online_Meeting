@@ -20,8 +20,9 @@
     <module>july-auth</module>
     <module>july-common</module>
     <module>july-biz-user</module>
-    <module>July-app-web</module>
     <module>july-biz-meeting</module>
+    <module>july-biz-video</module>
+    <module>july-biz-pay</module>
   </modules>
 
   <!-- 统一管理jar包版本 -->
@@ -50,6 +51,27 @@
     <july.common.auth.version>1.0.2</july.common.auth.version>
     <july.common.db.version>1.0.2</july.common.db.version>
     <july.common.web.version>1.0.1</july.common.web.version>
+    <!-- july biz -->
+    <july-biz-meeting-service-name>meeting-service</july-biz-meeting-service-name>
+    <july-biz-meeting-service-port>8002</july-biz-meeting-service-port>
+    <july-biz-meeting-service-log-dir>mylogs/july-biz-meeting/</july-biz-meeting-service-log-dir>
+    <july-biz-meeting-service-publickey>/certificate/july-pubkey_0317_pure.txt</july-biz-meeting-service-publickey>
+
+    <july-biz-user-service-name>user-manage-service</july-biz-user-service-name>
+    <july-biz-user-service-port>81</july-biz-user-service-port>
+    <july-biz-user-service-log-dir>mylogs/july-biz-user/</july-biz-user-service-log-dir>
+    <july-biz-user-service-publickey>/certificate/july-pubkey_0317_pure.txt</july-biz-user-service-publickey>
+
+
+    <july-biz-video-service-name>video-manage-service</july-biz-video-service-name>
+    <july-biz-video-service-port>85</july-biz-video-service-port>
+    <july-biz-video-service-log-dir>mylogs/july-biz-video/</july-biz-video-service-log-dir>
+    <july-biz-video-service-publickey>/certificate/july-pubkey_0317_pure.txt</july-biz-video-service-publickey>
+
+    <july-biz-payment-service-name>pay-manage-service</july-biz-payment-service-name>
+    <july-biz-payment-service-port>88</july-biz-payment-service-port>
+    <july-biz-payment-service-log-dir>mylogs/july-biz-payment/</july-biz-payment-service-log-dir>
+    <july-biz-payment-service-publickey>/certificate/july-pubkey_0317_pure.txt</july-biz-payment-service-publickey>
     <!-- -->
     <mysql-url>localhost:3305</mysql-url>
     <mysql-root-password>linymysql4321</mysql-root-password>
@@ -60,13 +82,13 @@
     <redis-port>6378</redis-port>
     <redis-password>redis2345july</redis-password>
     <nacos-nginx-url>localhost:8848</nacos-nginx-url>
+    <nacos-group>SEATA_GROUP</nacos-group>
     <nacos-name>nacos</nacos-name>
     <nacos-password>nacos</nacos-password>
     <seata-url>localhost:8092</seata-url>
-    <nacos-group>SEATA_GROUP</nacos-group>
     <seata-tx-group>july-tx-service-group</seata-tx-group>
     <sentinel-dashboard-url>localhost:8080</sentinel-dashboard-url>
-
+    <sentinel-port>8719</sentinel-port>
     <mysql-biz-db>july_v1</mysql-biz-db>
     <mysql-biz-db-account>july_main</mysql-biz-db-account>
     <mysql-biz-db-password>july4321</mysql-biz-db-password>

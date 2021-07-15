@@ -14,10 +14,6 @@
     <properties>
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
-        <mysql-biz-db>july_v1</mysql-biz-db>
-        <mysql-biz-db-account>july_main</mysql-biz-db-account>
-        <mysql-biz-db-password>july4321</mysql-biz-db-password>
-        <mysql-biz-user-table>user</mysql-biz-user-table>
     </properties>
 
     <dependencies>
@@ -120,6 +116,14 @@
         </dependency>
     </dependencies>
     <build>
+        <!--解决Do not use @ for indentation Yaml不用使用@@错误-->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <!--开启过滤，用指定的参数替换directory下的文件中的参数-->
+                <filtering>true</filtering>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

@@ -13,7 +13,7 @@
         />
 
         <q-toolbar-title v-if="$q.screen.gt.sm" shrink class="row items-center no-wrap">
-          <img src="https://cdn.quasar.dev/img/layout-gallery/logo-google.svg">
+          <img src="">
           <span class="q-ml-sm">July</span>
         </q-toolbar-title>
 

@@ -17,6 +17,8 @@ export const constantRouterMap = [
   //   redirect: '/index/index',
   //   hidden:true
   // },
+  { path: '/', redirect: '/video' },
+
   {path: '/login', name: 'login', component: () => import('@/views/login'), hidden: true},
   {path: '/register', name: 'register', component: () => import('@/views/register'), hidden: true},
   {path: '/entry', name: 'entry', component: () => import('@/views/entry'), hidden: true},

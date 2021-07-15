@@ -2,11 +2,11 @@ package com.hly.july.auth.service;
 
 
 import com.hly.july.auth.service.impl.UserServiceImpl;
-import com.hly.july.common.biz.entity.User;
-import com.hly.july.common.biz.constant.UserStatusEnum;
-import com.hly.july.common.biz.entity.LoginUser;
-import com.hly.july.common.biz.util.JulyAuthorityUtils;
-import com.hly.july.common.biz.util.WrappedBeanCopier;
+import com.hly.july.common.db.entity.User;
+import com.hly.july.common.core.constant.UserStatusEnum;
+import com.hly.july.common.auth.entity.LoginUser;
+import com.hly.july.common.core.util.JulyAuthorityUtils;
+import com.hly.july.common.core.util.WrappedBeanCopier;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AccountExpiredException;

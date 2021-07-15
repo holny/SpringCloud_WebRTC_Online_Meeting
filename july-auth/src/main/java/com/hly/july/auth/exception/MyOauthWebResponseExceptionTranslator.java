@@ -1,6 +1,6 @@
 package com.hly.july.auth.exception;
 
-import com.hly.july.common.biz.result.ResultCode;
+import com.hly.july.common.core.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

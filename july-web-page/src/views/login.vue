@@ -66,7 +66,7 @@
 
 <script>
 
-import {isNotEmpty, isPassword} from "../../../july-web-page-bakup/src/utils/validate";
+import {isNotEmpty,isPassword} from "@/utils/validate";
 
 export default {
   name: 'LoginCard',
