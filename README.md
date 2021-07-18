@@ -26,7 +26,7 @@
 * 在线实时会话(real-time chat and meeting on browser): 在线聊天是基于Websockt实现 ([stomp.js](https://github.com/stomp-js/stompjs)) 。而在线视频是基于WebRTC实现点对点视频会话，WebRTC的信令服务器是基于Webscoket(Java)实现(信令服务器参照meet-serivce)。(Online chat is implemented using Websockt, and online meeting implemented using **WebRTC**,  WebRTC's **signaling server** is implemented using **WebSocket**(Java, please ref java code biz-meeting-serivce))
 * 在线会议可以进行线下实时录制(real-time **recording** on browser)：使用[videojs-record](https://collab-project.github.io/videojs-record/) (RecordRTC)可以进行实时会议录制生成视频文件(please ref meeting.vue)。然后通过上传到后台服务器(biz-video-service)，后端可以执行异步任务来从视频文件中截取其中一个帧图片作为视频的画报(The back-end biz-video-serivce  can start an asynchronous task to capture one of the frames from the video file as a poster picture for the video)。
 * 权限控制: 分布式的用户身份识别鉴权是基于**Oauth 2.0** 协议 (Spring Security OAuth)实现，而在分布式中为了不存储用户Session使用**JWT (Json web token)**，JWT里附加了用户基本信息与权限信息。资源服务器与权限服务器各保留RSA公密钥，权限服务器每次会给用户发送RSA加密过后的JWT，用户可以凭借此JWT访问资源服务器，资源服务器通过RSA公钥鉴定JWT并解密用户信息与用户权限，然后通过**spring security**对用户进行鉴权限制访问，所以无需重复让权限服务器鉴定JWT。
-* 前端(front-end): 前端项目架构基于**[Vue.js](https://vuejs.org/)**，并且使用**Vue router**路由管理器和**Vuex**状态管理。使用**[Quasar](http://www.quasarchs.com/) **前端组件。前端是用Vue router，后端使用Restful API，从而实现了前后端分离(**a front-end and back-end separation**)
+* 前端(front-end): 前端项目架构基于**[Vue.js](https://vuejs.org/)**，并且使用**Vue router**路由管理器和**Vuex**状态管理。使用**[Quasar](http://www.quasarchs.com/) **前端组件。前端是用Vue router，后端使用Restful API，从而实现了前后端分离(**a front-end and back-end separation**), 前端项目代码请参照july-web-page(front-end code reference)
 * 还有一些像MySQL、Redis、Maven、[Mybatis-Plus](https://baomidou.com/en/)、[Druid](https://druid.apache.org/)、Log4j2等等都已经配置并使用。
 
 ### 演示 (Demo pictures)
