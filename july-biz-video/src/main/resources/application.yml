@@ -2,6 +2,10 @@ server:
   port: @july-biz-video-service-port@
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: @july-biz-video-service-max-file-size@
+      max-request-size: @july-biz-video-service-max-request-size@
   profiles: dev
   application:
     name: @july-biz-video-service-name@
@@ -42,13 +46,7 @@ spring:
       #   配置监控统计拦截的filters，去掉后监控界面sql无法统计,log4j:日志记录，'wall'用于防火墙,防御sql注入
       # 如果报错ClassNotFoundException: org.apache.log4j.Priority, 则导入Log4j依赖即可，
       # 监控统计拦截的filters
-      filters:
-        stat:
-          enabled: true
-        wall:
-          enabled: true
-        log4j2:
-          enabled: true
+      filters: stat,wall,log4j2
       # 连接池的配置信息:配置初始化大小/最小/最大
       initial-size: 5
       min-idle: 5
@@ -113,13 +111,13 @@ spring:
         # 连接池中的最小空闲连接 默认为 0
         min-idle: 0
 
+
 mybatis-plus:
   #mapper-locations: classpath:mybatis/**/*Mapper.xml
   # 在classpath前添加星号可以使项目热加载成功
-  mapper-locations:
-    - classpath:/mapper/*.mapper
+  mapper-locations: classpath:mapper/*Mapper.xml
   configuration:
-    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用 or :org.apache.ibatis.logging.log4j2.Log4j2Impl
+    # 这个配置会将执行的sql打印出来，在开发或测试的时候可以用 or :org.apache.ibatis.logging.log4j2.Log4j2Impl;org.apache.ibatis.logging.log4j2.Log4j2Impl
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
     cache-enabled: false
     map-underscore-to-camel-case: true
@@ -127,6 +125,7 @@ mybatis-plus:
     db-config:
       logic-delete-value: 0
       logic-not-delete-value: 1
+
 seata:
   config:
     type: nacos
@@ -155,8 +154,13 @@ logging:
   config: classpath:log4j2.xml
   file:
     path: @july-biz-video-service-log-dir@
-
+file:
+  upload:
+    videoPath: @july.file.upload.video.path@
+    audioPath: @july.file.upload.audio.path@
+    imagePath: @july.file.upload.image.path@
 rsa:
   key:
     publicKeyFilePath: @july-biz-video-service-publickey@
 debug: true
+

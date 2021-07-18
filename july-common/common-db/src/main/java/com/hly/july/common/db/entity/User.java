@@ -1,5 +1,6 @@
 package com.hly.july.common.db.entity;
 
+import java.math.BigDecimal;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
@@ -14,7 +15,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Linyuan Hou
- * @since 2021-06-12
+ * @since 2021-07-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -68,11 +69,20 @@ public class User implements Serializable {
     @TableField("authority")
     private String authority;
 
-    @TableField("level")
-    private String level;
+    @TableField("exp")
+    private Long exp;
 
     @TableField("last_login_ip")
     private String lastLoginIp;
+
+    @TableField("identification")
+    private String identification;
+
+    @TableField("ident_info")
+    private String identInfo;
+
+    @TableField("balance")
+    private BigDecimal balance;
 
 
 }

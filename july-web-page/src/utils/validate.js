@@ -123,7 +123,7 @@ export function isNumerical (value) {
 
 /* 验证内容是否英文数字以及下划线 */
 export function validateUsername (value) {
-  const reg = /(^([a-zA-Z0-9_.-]+){4,10}$)|(^([\u4e00-\u9fa5.]+){2,10}$)/
+  const reg = /(^([a-zA-Z0-9_.-]+){4,20}$)|(^([\u4e00-\u9fa5.]+){2,10}$)/
   if (value === '' || value === undefined || value === null) {
     return false
   } else {
@@ -137,7 +137,7 @@ export function validateUsername (value) {
 
 /* 验证内容是否中文或者英文等无特殊字符组成 */
 export function validateText (value) {
-  const reg = /(^(([a-zA-Z0-9_.-]+)|([\u2E80-\u9FFF]+)|([%&'\s,;[\]+=?$\x22]+)){2,10}$)/
+  const reg = /(^(([a-zA-Z0-9_.-]+)|([\u2E80-\u9FFF]+)|([%&'\s,;[\]+=?$\x22]+))$)/
   if (value === '' || value === undefined || value === null) {
     return false
   } else {

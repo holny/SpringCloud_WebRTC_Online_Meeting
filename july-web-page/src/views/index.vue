@@ -25,29 +25,10 @@
             <q-icon v-else name="clear" class="cursor-pointer" @click="search = ''" />
           </template>
         </q-input>
-
-<!--        <q-btn v-if="$q.screen.gt.xs" flat dense no-wrap color="primary" icon="add" no-caps label="Create" class="q-ml-sm q-px-md">-->
-<!--          <q-menu anchor="top end" self="top end">-->
-<!--            <q-list class="text-grey-8" style="min-width: 100px">-->
-<!--              <q-item aria-hidden="true">-->
-<!--                <q-item-section class="text-uppercase text-grey-7" style="font-size: 0.7rem">Create New</q-item-section>-->
-<!--              </q-item>-->
-<!--              <q-item v-for="menu in createMenu" :key="menu.text" clickable v-close-popup aria-hidden="true">-->
-<!--                <q-item-section avatar>-->
-<!--                  <q-icon :name="menu.icon" />-->
-<!--                </q-item-section>-->
-<!--                <q-item-section>{{ menu.text }}</q-item-section>-->
-<!--              </q-item>-->
-<!--            </q-list>-->
-<!--          </q-menu>-->
-<!--        </q-btn>-->
-
-<!--        <q-btn v-if="$q.screen.gt.xs" flat dense no-wrap color="primary" icon="cloud_upload" no-caps label="Upload" class="q-ml-sm q-px-md" />-->
-
         <q-space />
 
         <div class="q-gutter-sm row items-center no-wrap">
-          <q-btn round dense flat color="grey-8" icon="notifications">
+          <q-btn  v-if="notification.unRead!==null&&notification.unRead.count>0" round dense flat color="grey-8" icon="notifications"  @click="$router.push({ name: 'chat'});">
             <q-badge v-if="notification.unRead!==null&&notification.unRead.count>0" color="red" text-color="white" floating>
               {{notification.unRead.count}}
             </q-badge>
@@ -56,22 +37,68 @@
               <br> 对方系统角色:<strong class="text-deep-orange">{{'['+notification.lastMsg.peerRole+']'}}</strong>
               <br> 时间:{{notification.lastMsg.msgGMT}}</q-tooltip>
           </q-btn>
+          <q-btn  v-else round dense flat color="grey-8" icon="question_answer"  @click="$router.push({ name: 'chat'});">
+            <q-tooltip>
+              <strong >进入在线聊天</strong>
+            </q-tooltip>
+          </q-btn>
           <q-btn v-if="hostInfo!=null" round flat color="primary">
             <q-avatar size="26px">
               <img :src="hostInfo.avatar!=null?hostInfo.avatar:''">
             </q-avatar>
-            <q-tooltip class="text-center">用户名: {{ (hostInfo.nickName!=null&&hostInfo.nickName!=='')?hostInfo.nickName+'('+hostInfo.userName+')':hostInfo.userName}}<br>
-              系统角色:<strong class="text-deep-orange">{{'['+hostInfo.role+']'}}</strong></q-tooltip>
             <q-menu
                 transition-show="jump-down"
                 transition-hide="jump-up"
             >
               <q-list >
-                <q-item clickable>
-                  <q-item-section>Having fun</q-item-section>
+                <q-item class="GPL__drawer-item GPL__drawer-item--storage">
+                  <q-item-section avatar top side>
+                    <q-avatar size="50px">
+                      <img :src="hostInfo.avatar!=null?hostInfo.avatar:''">
+                      <q-badge v-if="hostInfo!=null&&hostInfo.identification!=null" style="font-size: 0.5em" class="justify-center" rounded floating color="yellow-10">
+                        <q-icon name="done"  class="self-center" color="white" />
+                        <q-tooltip>
+                          <strong >已认证{{ (hostInfo!=null&&hostInfo.identInfo!=null)?': '+hostInfo.identInfo:''}}</strong>
+                        </q-tooltip>
+                      </q-badge>
+                    </q-avatar>
+                  </q-item-section>
+                  <q-item-section>
+                    <q-item-label>{{ (hostInfo.nickName!=null&&hostInfo.nickName!=='')?hostInfo.nickName+'('+hostInfo.userName+')':hostInfo.userName}}</q-item-label>
+                    <q-linear-progress :value="hostInfo.exp/userLevelInter" class="q-my-sm">
+                      <q-tooltip>
+                       {{hostInfo.exp+'/'+userLevelInter}}
+                      </q-tooltip>
+                    </q-linear-progress>
+                    <q-item-label class="text-subtitle1 text-black items-center">
+                      <q-badge color="blue">
+                        {{'Lv.'+hostInfo.level}}
+                      </q-badge>
+                    </q-item-label>
+                  </q-item-section>
                 </q-item>
                 <q-item clickable>
-                  <q-item-section>Crazy for transitions</q-item-section>
+                  <q-item-section @click="$router.push({ name: 'buyerOrders'})">我的咨询</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section @click="$router.push({ name: 'sellerOrders'})">咨询我的</q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item clickable>
+                  <q-item-section @click="$router.push({ name: 'mySubscriptions'})">订阅与收藏</q-item-section>
+                </q-item>
+                <q-separator />
+                <q-item clickable>
+                  <q-item-section @click="$router.push({ name: 'myVideos'})">我的作品</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section @click="$router.push({ name: 'newProduct'})">创作作品</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section @click="$router.push({ name: 'myInfo'})">个人设置</q-item-section>
+                </q-item>
+                <q-item clickable>
+                  <q-item-section @click="$router.push({ name: 'userManagement'})">管理员</q-item-section>
                 </q-item>
                 <q-separator />
                 <q-item clickable>
@@ -80,7 +107,7 @@
               </q-list>
             </q-menu>
           </q-btn>
-          <q-btn v-else icon="login" color="positive"  @click="$router.push({ name: 'entry'});"  flat round dense>
+          <q-btn v-else icon="login" color="positive"  @click="$router.push({ name: 'entry'})"  flat round dense>
             <q-tooltip>点击登录/注册</q-tooltip>
           </q-btn>
         </div>
@@ -138,7 +165,7 @@
 
     <q-page-container class="GPL__page-container">
       <div class="full-width">
-        <router-view class="q-mt-md no-wrap JULY__container" name="viewMain" style="margin: 0 auto;min-width: 1400px"></router-view>
+        <router-view class="q-mt-md no-wrap JULY__container" name="viewMain" style="margin: 0 auto;min-width: 1400px" v-on:changeHostStatus="changeHostStatus" ></router-view>
       </div>
 
       <q-page-sticky v-if="$q.screen.gt.sm" expand position="left">
@@ -162,8 +189,8 @@
 
 <script>
 
-import { getHostInfo,getToken} from "@/utils/auth";
-import {closeConnectionJuly, initJulyWS} from "@/utils/socket";
+import {getHostInfo, getToken} from "@/utils/auth";
+import {closeConnectionJuly, initJulyWSWithUpdatedUserStatus} from "@/utils/socket";
 import {FUN, JULY} from "@/utils/julyCommon";
 import {CONSTANT, EVENT_CODE,RESULT_CODE} from "@/utils/constant";
 import { date } from 'quasar'
@@ -180,6 +207,7 @@ export default {
     return {
       hostInfo: getHostInfo(),
       leftDrawerOpen: false,
+      userLevelInter: CONSTANT.USER_LEVEL_EXP_INTERNAL,
       search: '',
       links1: [
         { icon: 'video_library', text: '视频广场', routerName:'videoList' },
@@ -228,20 +256,32 @@ export default {
       return this.$route.meta.sideBarPosition
     },
     receiveEventNotifyURI() {
-      return '/user/topic/notify/' + this.hostInfo.userId
+      if(this.hostInfo){
+        return '/user/topic/notify/' + this.hostInfo.userId
+      }else{
+        return null
+      }
     },
     subscribeUnReadCountURI() {
-      return '/app/unreadcount/' + this.hostInfo.userId
+      if(this.hostInfo){
+        return '/app/unreadcount/' + this.hostInfo.userId
+      }else{
+        return null
+      }
     },
   },
-  async mounted() {
-    if(this.hostInfo){
+  async created() {
+    let newHostInfo = await FUN.getFormatHostInfo(this)
+    if(newHostInfo){
+      this.hostInfo = newHostInfo
       console.log(this.hostInfo.userId)
-      this.hostInfo.role = FUN.filterPrintRole(this.hostInfo.role)
       console.log(getToken())
       this.hostStatusObject.userId = this.hostInfo.userId
       await this.initWSEnv()
     }
+  },
+  async mounted() {
+
   },
   destroyed() {
     closeConnectionJuly(this.julyWebsocket.constant.stompClient)
@@ -253,11 +293,14 @@ export default {
     },
     async initWSEnv(){
       if (this.julyWebsocket.constant.stompClient == null&&getToken()!==null) {
-        this.julyWebsocket.constant.stompClient = await initJulyWS(JULY.WEBSOCKET_URI_ENDPOINT, JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL,this.hostStatusObject)
+        this.julyWebsocket.constant.stompClient = await initJulyWSWithUpdatedUserStatus(JULY.WEBSOCKET_URI_ENDPOINT+getToken(), JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL,this.hostStatusObject)
       }
       this.initWSConnectionHeartBeatWatcher()
     },
-
+    changeHostStatus(status){
+      console.log("index changeHostStatus,status:"+status)
+      this.hostStatusObject.status = status
+    },
     initWSConnectionHeartBeatWatcher(){
       let _that = this
       this.julyWebsocket.constant.stompClient.connect(

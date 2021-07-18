@@ -52,6 +52,12 @@
     <july.common.db.version>1.0.2</july.common.db.version>
     <july.common.web.version>1.0.1</july.common.web.version>
     <!-- july biz -->
+    <july-gateway-service-name>july-gateway</july-gateway-service-name>
+    <july-gateway-service-port>80</july-gateway-service-port>
+    <july-gateway-service-log-dir>mylogs/july-gateway/</july-gateway-service-log-dir>
+    <july-gateway-service-publickey>/certificate/july-pubkey_0317_pure.txt</july-gateway-service-publickey>
+
+
     <july-biz-meeting-service-name>meeting-service</july-biz-meeting-service-name>
     <july-biz-meeting-service-port>8002</july-biz-meeting-service-port>
     <july-biz-meeting-service-log-dir>mylogs/july-biz-meeting/</july-biz-meeting-service-log-dir>
@@ -67,11 +73,17 @@
     <july-biz-video-service-port>85</july-biz-video-service-port>
     <july-biz-video-service-log-dir>mylogs/july-biz-video/</july-biz-video-service-log-dir>
     <july-biz-video-service-publickey>/certificate/july-pubkey_0317_pure.txt</july-biz-video-service-publickey>
+    <july-biz-video-service-max-file-size>100MB</july-biz-video-service-max-file-size>
+    <july-biz-video-service-max-request-size>200MB</july-biz-video-service-max-request-size>
 
     <july-biz-payment-service-name>pay-manage-service</july-biz-payment-service-name>
     <july-biz-payment-service-port>88</july-biz-payment-service-port>
     <july-biz-payment-service-log-dir>mylogs/july-biz-payment/</july-biz-payment-service-log-dir>
     <july-biz-payment-service-publickey>/certificate/july-pubkey_0317_pure.txt</july-biz-payment-service-publickey>
+
+    <july.file.upload.image.path>${basedir}/upload/image</july.file.upload.image.path>
+    <july.file.upload.video.path>${basedir}/upload/video</july.file.upload.video.path>
+    <july.file.upload.audio.path>${basedir}/upload/audio</july.file.upload.audio.path>
     <!-- -->
     <mysql-url>localhost:3305</mysql-url>
     <mysql-root-password>linymysql4321</mysql-root-password>
@@ -201,6 +213,26 @@
         <groupId>org.apache.commons</groupId>
         <artifactId>commons-lang3</artifactId>
         <version>3.9</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+      <dependency>
+        <groupId>commons-codec</groupId>
+        <artifactId>commons-codec</artifactId>
+        <version>1.15</version>
+      </dependency>
+      <!-- 引入javacv-platform依赖,获取视频某一帧图像 -->
+      <!-- https://mvnrepository.com/artifact/org.bytedeco/javacv-platform -->
+      <dependency>
+        <groupId>org.bytedeco</groupId>
+        <artifactId>javacv-platform</artifactId>
+        <version>1.5.5</version>
+      </dependency>
+      <!-- 引入jave依赖,获取视频信息 -->
+      <!-- https://mvnrepository.com/artifact/it.sauronsoftware/jave -->
+      <dependency>
+        <groupId>it.sauronsoftware</groupId>
+        <artifactId>jave</artifactId>
+        <version>1.0.2.1</version>
       </dependency>
       <dependency>
         <groupId>cn.hutool</groupId>

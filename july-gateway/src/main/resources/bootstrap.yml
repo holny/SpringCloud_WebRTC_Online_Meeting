@@ -1,6 +1,6 @@
 spring:
   application:
-    name: blog-gateway
+    name: @july-gateway-service-name@
   cloud:
     nacos:
       discovery:

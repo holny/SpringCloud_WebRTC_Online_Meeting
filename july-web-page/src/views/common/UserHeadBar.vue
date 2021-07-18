@@ -7,17 +7,17 @@
         <q-item>
           <q-item-section avatar class="items-center q-gutter-y-sm">
             <q-avatar size="60px">
-              <img src="https://cdn.quasar.dev/img/avatar2.jpg">
-              <q-badge rounded floating color="yellow-10">
+              <img :src="hostInfo!=null?(hostInfo.avatar!=null?hostInfo.avatar:'https://cdn.quasar.dev/img/avatar2.jpg'):'https://cdn.quasar.dev/img/avatar2.jpg'">
+              <q-badge v-if="hostInfo!=null&&hostInfo.identification!=null" rounded floating color="yellow-10">
                 <q-icon name="done" color="white" />
                 <q-tooltip>
-                  <strong >已认证</strong>
+                  <strong >已认证{{ (hostInfo!=null&&hostInfo.identInfo!=null)?': '+hostInfo.identInfo:''}}</strong>
                 </q-tooltip>
               </q-badge>
             </q-avatar>
             <q-item-label clickable class="text-subtitle1 text-black items-center">
               <q-badge color="blue">
-                Lv.12
+                {{ (hostInfo!=null&&hostInfo.level!=null)?'Lv.'+hostInfo.level:'Lv.0'}}
               </q-badge>
             </q-item-label>
           </q-item-section>
@@ -29,7 +29,7 @@
                 </q-tooltip>
               </q-icon>
               <q-item-label class="text-h6 q-mb-sm inline-block">
-                fasdawdawdfasdawdawdfasdawdawdfasdawdawdfasdawdawd
+                {{hostInfo!=null?((hostInfo.nickName!=null&&hostInfo.nickName!=='')?hostInfo.nickName+'('+hostInfo.userName+')':hostInfo.userName):'UnKnown'}}
               </q-item-label>
             </div>
             <div>
@@ -38,8 +38,8 @@
                   <strong >ID</strong>
                 </q-tooltip>
               </q-icon>
-              <q-item-label class="text-caption q-mb-sm inline-block">
-                fawfawfawf
+              <q-item-label class="text-subtitle2  q-mb-sm inline-block">
+                {{hostInfo!=null?(hostInfo.userId!=null?hostInfo.userId:'UnKnown'):'UnKnown'}}
               </q-item-label>
             </div>
             <div>
@@ -48,7 +48,7 @@
                   <strong >角色</strong>
                 </q-tooltip>
               </q-icon>
-              <q-item-label class="text-subtitle2 text-italic text-capitalize  q-mb-sm inline-block">Admin</q-item-label>
+              <q-item-label class="text-subtitle2  text-capitalize text-no-wrap text-orange  q-mb-sm inline-block">{{ (hostInfo!=null&&hostInfo.role!=null)?hostInfo.role:''}}</q-item-label>
             </div>
             <div>
               <q-icon name="tag" size="xs"  class="q-mr-sm inline-block text-orange">
@@ -88,11 +88,37 @@
 </template>
 
 <script>
+
+import {FUN} from "@/utils/julyCommon";
+
 export default {
   name: "UserHeadBar",
   data () {
     return {
       isFollow: false,
+      hostInfo: this.$store.getters.hostInfo,
+    }
+  },
+  async mounted() {
+    console.log("UserHeadBar mounted")
+    this.userInfo = await this.getUserInfo(this.userId)
+  },
+  methods:{
+    async getUserInfo(search){
+      let result
+      console.log('getSearchUserInfo :' +search)
+      await this.$store.dispatch('user/searchUserInfo', search)
+          .then((data) => {
+            console.log('getSearchUserInfo successful')
+            console.log(data)
+            result = data
+          })
+          .catch((error) => {
+            console.log('getSearchUserInfo fail')
+            FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
+            result = []
+          })
+      return result
     }
   }
 }

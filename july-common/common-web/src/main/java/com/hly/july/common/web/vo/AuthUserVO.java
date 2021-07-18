@@ -17,12 +17,12 @@ import java.io.Serializable;
 public class AuthUserVO  implements Serializable {
     @NotBlank(message = "用户名不能为空",groups = {RegisterValidationGroup.class})
     @Size(max=10, message="用户名长度最大10")
-    @Pattern(groups = {RegisterValidationGroup.class},regexp = "(^\\s?)|(^([a-zA-Z0-9_\\.-]+){5,10}$)|(^([\\u4e00-\\u9fa5\\.]+){2,10}$)"
+    @Pattern(groups = {RegisterValidationGroup.class},regexp = "(^\\s?)|(^([a-zA-Z0-9_\\u4e00-\\u9fa5\\.-]+){1,10}$)"
             ,message = "用户名必须是字母或者汉字组成(最大10位)")
     private String userName;
 
     @Size(max=10, message="用户别名长度最大10")
-    @Pattern(groups = {RegisterValidationGroup.class, LoginValidationGroup.class},regexp = "(^\\s?)|(^([a-zA-Z0-9_\\.-]+){5,10}$)|(^([\\u4e00-\\u9fa5\\.]+){2,10}$)"
+    @Pattern(groups = {RegisterValidationGroup.class, LoginValidationGroup.class},regexp = "(^\\s?)|(^([a-zA-Z0-9_\\u4e00-\\u9fa5\\.-]+){1,10}$)"
             ,message = "用户名必须是字母或者汉字组成(最大10位)")
     private String nickName;
 

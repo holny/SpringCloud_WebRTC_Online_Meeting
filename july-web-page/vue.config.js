@@ -35,10 +35,10 @@ module.exports = {
   devServer: {
     open: process.platform === 'darwin',
     // host: '0.0.0.0', // 允许外部ip访问
-    host: 'localhost',
+    host: process.env.VUE_APP_HOST,
     port: process.env.VUE_APP_PORT, // 端口
     https: false, // 启用https
-    sockHost: process.env.VUE_APP_API,
+    sockHost: process.env.VUE_APP_BACK_END_API,
     disableHostCheck: true,
     overlay: {
       warnings: true,
@@ -46,7 +46,7 @@ module.exports = {
     }, // 错误、警告在页面弹出
     proxy: {
       '/api': {
-        target: process.env.VUE_APP_API,
+        target: process.env.VUE_APP_BACK_END_API,
         changeOrigin: true, // 开启代理，在本地创建一个虚拟服务端
         ws: true,
         pathRewrite: {

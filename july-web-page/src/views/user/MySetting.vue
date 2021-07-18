@@ -8,7 +8,10 @@
           <MySettingMenuSideBar @changeCom="changeCom($event)" :default-opened="settingsName"></MySettingMenuSideBar>
       </div>
       <div class="col">
-      <component :is="settingsComName!=null?settingsComName:''"></component>
+        <keep-alive>
+          <router-view name="settingsComponent"></router-view>
+        </keep-alive>
+<!--      <component :is="settingsComName!=null?settingsComName:''"></component>-->
       </div>
     </div>
   </div>
@@ -17,33 +20,33 @@
 <script>
 import UserHeadBar from "@/views/common/UserHeadBar";
 import MySettingMenuSideBar from "@/views/common/MySettingMenuSideBar";
-import OrderItems from "@/views/trading/OrderItems";
-import TradingRecords from "@/views/trading/TradingRecords";
-import MySubscription from "@/views/user/MySubscription";
-import MyFavourite from "@/views/user/MyFavourite";
-import MyVideos from "@/views/user/MyVideos";
-import NewVideo from "@/views/video/NewVideo";
-import MyFollower from "@/views/user/MyFollower";
-import MyWorkStatistics from "@/views/user/MyWorkStatistics";
-import MyInfoSettings from "@/views/user/MyInfoSettings";
-import PaymentSettings from "@/views/trading/PaymentSettings";
-import TradingSettings from "@/views/trading/TradingSettings";
+// import OrderItems from "@/views/trading/OrderItems";
+// import TradingRecords from "@/views/trading/TradingRecords";
+// import MySubscription from "@/views/user/MySubscription";
+// import MyFavourite from "@/views/user/MyFavourite";
+// import MyVideos from "@/views/user/MyVideos";
+// import NewVideo from "@/views/video/NewVideo";
+// import MyFollower from "@/views/user/MyFollower";
+// import MyWorkStatistics from "@/views/user/MyWorkStatistics";
+// import MyInfoSettings from "@/views/user/MyInfoSettings";
+// import PaymentSettings from "@/views/trading/PaymentSettings";
+// import TradingSettings from "@/views/trading/TradingSettings";
 export default {
   name: "MySetting",
   components:{
     UserHeadBar,
     MySettingMenuSideBar,
-    OrderItems,
-    TradingRecords,
-    MySubscription,
-    MyFavourite,
-    MyVideos,
-    MyFollower,
-    MyWorkStatistics,
-    NewVideo,
-    MyInfoSettings,
-    PaymentSettings,
-    TradingSettings
+    // OrderItems,
+    // TradingRecords,
+    // MySubscription,
+    // MyFavourite,
+    // MyVideos,
+    // MyFollower,
+    // MyWorkStatistics,
+    // NewVideo,
+    // MyInfoSettings,
+    // PaymentSettings,
+    // TradingSettings
   },
   data () {
     return {
@@ -58,31 +61,31 @@ export default {
         console.log(route)
         console.log("query "+query)
         this.settingsName = route.meta.component
-        if(this.settingsName==='buyerOrders'){
-          this.settingsComName = 'OrderItems'
-        }else if(this.settingsName==='sellerOrders'){
-          this.settingsComName = ''
-        }else if(this.settingsName==='transactionRecords'){
-          this.settingsComName = 'TradingRecords'
-        }else if(this.settingsName==='mySubscriptions'){
-          this.settingsComName = 'MySubscription'
-        }else if(this.settingsName==='myFavourites'){
-          this.settingsComName = 'MyFavourite'
-        }else if(this.settingsName==='myVideos'){
-          this.settingsComName = 'MyVideos'
-        }else if(this.settingsName==='myFollowers'){
-          this.settingsComName = 'MyFollower'
-        }else if(this.settingsName==='myWorkStatistics'){
-          this.settingsComName = 'MyWorkStatistics'
-        }else if(this.settingsName==='newProduct'){
-          this.settingsComName = 'NewVideo'
-        }else if(this.settingsName==='myInfo'){
-          this.settingsComName = 'MyInfoSettings'
-        }else if(this.settingsName==='myPaymentSettings'){
-          this.settingsComName = 'PaymentSettings'
-        }else if(this.settingsName==='sellerSettings'){
-          this.settingsComName = 'TradingSettings'
-        }
+        // if(this.settingsName==='buyerOrders'){
+        //   this.settingsComName = 'OrderItems'
+        // }else if(this.settingsName==='sellerOrders'){
+        //   this.settingsComName = ''
+        // }else if(this.settingsName==='transactionRecords'){
+        //   this.settingsComName = 'TradingRecords'
+        // }else if(this.settingsName==='mySubscriptions'){
+        //   this.settingsComName = 'MySubscription'
+        // }else if(this.settingsName==='myFavourites'){
+        //   this.settingsComName = 'MyFavourite'
+        // }else if(this.settingsName==='myVideos'){
+        //   this.settingsComName = 'MyVideos'
+        // }else if(this.settingsName==='myFollowers'){
+        //   this.settingsComName = 'MyFollower'
+        // }else if(this.settingsName==='myWorkStatistics'){
+        //   this.settingsComName = 'MyWorkStatistics'
+        // }else if(this.settingsName==='newProduct'){
+        //   this.settingsComName = 'NewVideo'
+        // }else if(this.settingsName==='myInfo'){
+        //   this.settingsComName = 'MyInfoSettings'
+        // }else if(this.settingsName==='myPaymentSettings'){
+        //   this.settingsComName = 'PaymentSettings'
+        // }else if(this.settingsName==='sellerSettings'){
+        //   this.settingsComName = 'TradingSettings'
+        // }
         // this.$router.go(0);
         // if (query) {
         //   console.log('watch route handler query:' + JSON.stringify(query))
@@ -95,33 +98,33 @@ export default {
   },
   created() {
     console.log("MySettings created")
-    console.log(this.$route.meta.component)
+    // console.log(this.$route.meta.component)
     this.settingsName = this.$route.meta.component
-    if(this.settingsName==='buyerOrders'){
-      this.settingsComName = 'OrderItems'
-    }else if(this.settingsName==='sellerOrders'){
-      this.settingsComName = ''
-    }else if(this.settingsName==='transactionRecords'){
-      this.settingsComName = 'TradingRecords'
-    }else if(this.settingsName==='mySubscriptions'){
-      this.settingsComName = 'MySubscription'
-    }else if(this.settingsName==='myFavourites'){
-      this.settingsComName = 'MyFavourite'
-    }else if(this.settingsName==='myVideos'){
-      this.settingsComName = 'MyVideos'
-    }else if(this.settingsName==='myFollowers'){
-      this.settingsComName = 'MyFollower'
-    }else if(this.settingsName==='myWorkStatistics'){
-      this.settingsComName = 'MyWorkStatistics'
-    }else if(this.settingsName==='newProduct'){
-      this.settingsComName = 'NewVideo'
-    }else if(this.settingsName==='myInfo'){
-      this.settingsComName = 'MyInfoSettings'
-    }else if(this.settingsName==='myPaymentSettings'){
-      this.settingsComName = 'PaymentSettings'
-    }else if(this.settingsName==='sellerSettings'){
-      this.settingsComName = 'TradingSettings'
-    }
+    // if(this.settingsName==='buyerOrders'){
+    //   this.settingsComName = 'OrderItems'
+    // }else if(this.settingsName==='sellerOrders'){
+    //   this.settingsComName = ''
+    // }else if(this.settingsName==='transactionRecords'){
+    //   this.settingsComName = 'TradingRecords'
+    // }else if(this.settingsName==='mySubscriptions'){
+    //   this.settingsComName = 'MySubscription'
+    // }else if(this.settingsName==='myFavourites'){
+    //   this.settingsComName = 'MyFavourite'
+    // }else if(this.settingsName==='myVideos'){
+    //   this.settingsComName = 'MyVideos'
+    // }else if(this.settingsName==='myFollowers'){
+    //   this.settingsComName = 'MyFollower'
+    // }else if(this.settingsName==='myWorkStatistics'){
+    //   this.settingsComName = 'MyWorkStatistics'
+    // }else if(this.settingsName==='newProduct'){
+    //   this.settingsComName = 'NewVideo'
+    // }else if(this.settingsName==='myInfo'){
+    //   this.settingsComName = 'MyInfoSettings'
+    // }else if(this.settingsName==='myPaymentSettings'){
+    //   this.settingsComName = 'PaymentSettings'
+    // }else if(this.settingsName==='sellerSettings'){
+    //   this.settingsComName = 'TradingSettings'
+    // }
   },
   methods: {
     changeCom: function (event) {

@@ -279,6 +279,15 @@ export default {
       genderOptions:[{code:'male',desc:'男'}, {code:'female',desc:'女'}]
     }
   },
+  activated() {
+    console.log("MyInfoSetting created")
+  },
+  created() {
+    console.log("MyInfoSetting created")
+  },
+  mounted () {
+    console.log("MyInfoSetting mounted")
+  },
   methods:{
     validUsername(val) {
       if (isNotEmpty(val) && validateUsername(val)) {

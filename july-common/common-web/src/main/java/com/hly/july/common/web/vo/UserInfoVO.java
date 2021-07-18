@@ -1,5 +1,6 @@
 package com.hly.july.common.web.vo;
 
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.hly.july.common.core.constant.JulyConstants;
@@ -11,6 +12,7 @@ import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -59,6 +61,14 @@ public class UserInfoVO  implements Serializable {
 
     private Map<String,Object> token;
 
+    private Long exp;
+
+    private String identification;
+
+    private String identInfo;
+
+    private BigDecimal balance;
+
     public UserInfoVO(User user){
         if(user != null) {
             this.userId = user.getUserId().toString();
@@ -79,6 +89,10 @@ public class UserInfoVO  implements Serializable {
             this.status = UserStatusEnum.getDescByCode(user.getStatus());
             this.gmtBirthday = user.getGmtBirthday();
             this.nickName = user.getNickName();
+            this.exp = user.getExp();
+            this.identInfo = user.getIdentInfo();
+            this.identification = user.getIdentification();
+            this.balance = user.getBalance();
             this.role = JulyAuthorityUtils.roleClassifyString2Set(user.getRole());
             this.authority = JulyAuthorityUtils.authorityClassifyString2Map(user.getAuthority());
         }
@@ -104,6 +118,10 @@ public class UserInfoVO  implements Serializable {
             this.status = UserStatusEnum.getDescByCode(user.getStatus());
             this.gmtBirthday = user.getGmtBirthday();
             this.nickName = user.getNickName();
+            this.exp = user.getExp();
+            this.identInfo = user.getIdentInfo();
+            this.identification = user.getIdentification();
+            this.balance = user.getBalance();
             this.role = JulyAuthorityUtils.roleClassifyString2Set(user.getRole());
             this.authority = JulyAuthorityUtils.authorityClassifyString2Map(user.getAuthority());
         }

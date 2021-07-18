@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.hly.july.biz.video.mapper.VideoInfoMapper">
+    <resultMap id="userChildrenMap" type="com.hly.july.common.web.vo.VideoInfoVO">
+        <id column="video_id"  jdbcType="VARCHAR" property="videoId"/>
+        <result column="author_id" jdbcType="VARCHAR" property="authorId"/>
+        <result column="author_user_name" jdbcType="VARCHAR" property="authorName"/>
+        <result column="author_nick_name" jdbcType="VARCHAR" property="authorNickName"/>
+        <result column="author_avatar" jdbcType="VARCHAR" property="authorAvatar"/>
+        <result column="author_role" jdbcType="VARCHAR" property="authorRoleStr"/>
+        <result column="author_exp" jdbcType="BIGINT" property="authorExp"/>
+        <result column="author_identification" jdbcType="VARCHAR" property="authorIdentification"/>
+        <result column="author_ident_info" jdbcType="VARCHAR" property="authorIdentInfo"/>
+        <result column="author_gender" jdbcType="TINYINT" property="authorGenderCode"/>
+        <result column="series_id" jdbcType="VARCHAR" property="seriesId"/>
+        <result column="video_title" jdbcType="VARCHAR" property="title"/>
+        <result column="tags" jdbcType="VARCHAR" property="tagStr"/>
+        <result column="category_main" jdbcType="VARCHAR" property="categoryMain"/>
+        <result column="main_category_name" jdbcType="VARCHAR" property="categoryMainName"/>
+        <result column="category_sub" jdbcType="VARCHAR" property="categorySub"/>
+        <result column="sub_category_name" jdbcType="VARCHAR" property="categorySubName"/>
+        <result column="video_gmt_create" jdbcType="TIMESTAMP" property="gmtCreate"/>
+        <result column="video_gmt_update" jdbcType="TIMESTAMP" property="gmtUpdate"/>
+        <result column="video_gmt_push" jdbcType="TIMESTAMP" property="gmtPush"/>
+        <result column="video_info" jdbcType="VARCHAR" property="info"/>
+        <result column="video_status" jdbcType="INTEGER" property="videoStatus"/>
+        <result column="series_status" jdbcType="INTEGER" property="seriesStatus"/>
+        <result column="series_title" jdbcType="VARCHAR" property="seriesTitle"/>
+        <result column="series_name" jdbcType="VARCHAR" property="seriesName"/>
+        <result column="series_info" jdbcType="VARCHAR" property="seriesInfo"/>
+        <result column="series_gmt_create" jdbcType="TIMESTAMP" property="seriesGmtCreate"/>
+        <result column="series_gmt_update" jdbcType="TIMESTAMP" property="seriesGmtUpdate"/>
+        <result column="author_status" jdbcType="TINYINT" property="authorStatusCode"/>
+        <result column="video_type" jdbcType="INTEGER" property="type"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="video_time_duration" jdbcType="BIGINT" property="videoTimeDuration"/>
+        <result column="video_poster_id" jdbcType="VARCHAR" property="videoPosterId"/>
+        <result column="video_file_id" jdbcType="VARCHAR" property="videoFileId"/>
+        <result column="video_format" jdbcType="VARCHAR" property="videoFormat"/>
+        <result column="video_ratio" jdbcType="VARCHAR" property="videoRatio"/>
+        <result column="video_thumb" jdbcType="BIGINT" property="videoThumb"/>
+        <result column="video_score" jdbcType="FLOAT" property="videoScore"/>
+        <result column="video_view" jdbcType="BIGINT" property="videoView"/>
+    </resultMap>
+
+    <select  id="selectVideoVoInfoPageBySearch" resultMap="userChildrenMap" parameterType="map">
+        select v2.video_id,v2.author_id,v2.series_id,v2.video_title,v2.tags,v2.category_main,v2.category_sub,v2.is_top,v2.video_format
+        ,v2.video_gmt_create,v2.video_gmt_update,v2.video_gmt_push,v2.video_info,v2.video_status,v2.video_type,v2.`password`,v2.video_time_duration,
+        v2.video_poster_id,v2.video_file_id,v2.video_meta,v2.video_ratio,v2.video_thumb,v2.video_score,v2.video_view,v2.main_category_name,
+        v2.series_title,v2.series_name,v2.series_info,v2.series_gmt_create,v2.series_gmt_update,v2.series_status,
+        c2.category_name as sub_category_name,u.user_name as author_user_name,u.nick_name as author_nick_name,u.`status` as author_status,
+        u.avatar as author_avatar,u.role as author_role,u.exp as author_exp,u.identification as author_identification,u.ident_info as author_ident_info,u.gender as author_gender
+
+        from
+        (
+        select v1.video_id,v1.author_id,v1.series_id,v1.video_title,v1.tags,v1.category_main,v1.category_sub,v1.is_top,v1.video_format
+        ,v1.video_gmt_create,v1.video_gmt_update,v1.video_gmt_push,v1.video_info,v1.video_status,v1.video_type,v1.`password`,v1.video_time_duration,
+        v1.video_poster_id,v1.video_file_id,v1.video_meta,v1.video_ratio,v1.video_thumb,v1.video_score,v1.video_view,c1.category_name as main_category_name,
+        s.series_title,s.series_name,s.series_info,s.gmt_create as series_gmt_create,s.gmt_update as series_gmt_update,s.`status` as series_status
+        from
+        (
+        select video_id,author_id,series_id,title as video_title,tags,category_main,category_sub,is_top,video_format
+        ,gmt_create as video_gmt_create,gmt_update as video_gmt_update,gmt_push as video_gmt_push,info as video_info,`status` as video_status,`type` as video_type,`password`,video_time_duration,
+        video_poster_id,video_file_id,video_meta,video_ratio,thumb as video_thumb,score as video_score,`view` as video_view
+        from video
+        <where>
+            1=1
+            <if test="searchVO.videoId!=null and searchVO.videoId!=''">
+                and video_id=#{searchVO.videoId}
+            </if>
+            <if test="searchVO.authorId!=null and searchVO.authorId!=''">
+                and author_id=#{searchVO.authorId}
+            </if>
+            <if test="searchVO.seriesId!=null and searchVO.seriesId!=''">
+                and series_id=#{searchVO.seriesId}
+            </if>
+            <if test="searchVO.categoryMainId!=null and searchVO.categoryMainId!=''">
+                and category_main=#{searchVO.categoryMainId}
+            </if>
+            <if test="searchVO.categorySubId!=null and searchVO.categorySubId!=''">
+                and category_sub=#{searchVO.categorySubId}
+            </if>
+            <if test="searchVO.isTop!=null">
+                and is_top=#{searchVO.isTop}
+            </if>
+
+            <if test="searchVO.videoStatusList!=null and searchVO.videoStatusList.size()>0">
+                and
+                <foreach close=")" collection="searchVO.videoStatusList" item="statusItem" open=" `status` in (" separator=",">
+                    #{statusItem}
+                </foreach>
+            </if>
+            <if test="searchVO.videoTypeList!=null and searchVO.videoTypeList.size()>0">
+                and
+                <foreach close=")" collection="searchVO.videoTypeList" item="typeItem" open=" type in (" separator=",">
+                    #{typeItem}
+                </foreach>
+            </if>
+            <if test="searchVO.search!=null">
+                and (
+                title like "%"#{searchVO.search}"%"
+                or
+                info like "%"#{searchVO.search}"%"
+                )
+            </if>
+            <if test="searchVO.gmtCreate!=null">
+                <![CDATA[ gmt_create >= #{searchVO.gmtCreate,jdbcType=DATE}  ]]>
+            </if>
+            <if test="searchVO.gmtUpdate!=null">
+                <![CDATA[ gmt_update >= #{searchVO.gmtUpdate,jdbcType=DATE}  ]]>
+            </if>
+        </where>
+        <if test="searchVO.orderByClause != null and searchVO.orderByClause!=''">
+            order by ${searchVO.orderByClause}
+        </if>
+        ) v1
+        LEFT OUTER JOIN series s ON s.series_id=v1.series_id
+        LEFT OUTER JOIN category c1 ON c1.category_id=v1.category_main
+        <where>
+            1=1
+            <if test="(searchVO.seriesId==null or searchVO.seriesId=='') and searchVO.search!=null and searchVO.search!=''">
+                and (s.series_title IS NULL or s.series_title like "%"#{searchVO.search}"%")
+            </if>
+            <if test="searchVO.seriesStatusList!=null and searchVO.seriesStatusList.size()>0">
+                and (s.`status` IS NULL or
+                <foreach close=")" collection="searchVO.seriesStatusList" item="statusItem" open=" s.`status` in (" separator=",">
+                    #{statusItem}
+                </foreach>
+                )
+            </if>
+        </where>
+        ) v2
+        LEFT OUTER JOIN category c2 ON c2.category_id=v2.category_sub
+        LEFT OUTER JOIN `user` u ON u.user_id=v2.author_id
+
+    </select>
+
+    <select  id="selectVideoVoInfoBySearch" resultMap="userChildrenMap" parameterType="map">
+        select v2.video_id,v2.author_id,v2.series_id,v2.video_title,v2.tags,v2.category_main,v2.category_sub,v2.is_top,v2.video_format
+        ,v2.video_gmt_create,v2.video_gmt_update,v2.video_gmt_push,v2.video_info,v2.video_status,v2.video_type,v2.`password`,v2.video_time_duration,
+        v2.video_poster_id,v2.video_file_id,v2.video_meta,v2.video_ratio,v2.video_thumb,v2.video_score,v2.video_view,v2.main_category_name,
+        v2.series_title,v2.series_name,v2.series_info,v2.series_gmt_create,v2.series_gmt_update,v2.series_status,
+        c2.category_name as sub_category_name,u.user_name as author_user_name,u.nick_name as author_nick_name,u.`status` as author_status,
+        avatar as author_avatar,u.role as author_role,u.exp as author_exp,u.identification as author_identification,u.ident_info as author_ident_info,u.gender as author_gender
+
+        from
+        (
+        select v1.video_id,v1.author_id,v1.series_id,v1.video_title,v1.tags,v1.category_main,v1.category_sub,v1.is_top,v1.video_format
+        ,v1.video_gmt_create,v1.video_gmt_update,v1.video_gmt_push,v1.video_info,v1.video_status,v1.video_type,v1.`password`,v1.video_time_duration,
+        v1.video_poster_id,v1.video_file_id,v1.video_meta,v1.video_ratio,v1.video_thumb,v1.video_score,v1.video_view,c1.category_name as main_category_name,
+        s.series_title,s.series_name,s.series_info,s.gmt_create as series_gmt_create,s.gmt_update as series_gmt_update,s.`status` as series_status
+        from
+        (
+        select video_id,author_id,series_id,title as video_title,tags,category_main,category_sub,is_top,video_format
+        ,gmt_create as video_gmt_create,gmt_update as video_gmt_update,gmt_push as video_gmt_push,info as video_info,`status` as video_status,`type` as video_type,`password`,video_time_duration,
+        video_poster_id,video_file_id,video_meta,video_ratio,thumb as video_thumb,score as video_score,`view` as video_view
+        from video
+        <where>
+            1=1
+            <if test="searchVO.videoId!=null and searchVO.videoId!=''">
+                and video_id=#{searchVO.videoId}
+            </if>
+            <if test="searchVO.authorId!=null and searchVO.authorId!=''">
+                and author_id=#{searchVO.authorId}
+            </if>
+            <if test="searchVO.seriesId!=null and searchVO.seriesId!=''">
+                and series_id=#{searchVO.seriesId}
+            </if>
+            <if test="searchVO.categoryMainId!=null and searchVO.categoryMainId!=''">
+                and category_main=#{searchVO.categoryMainId}
+            </if>
+            <if test="searchVO.categorySubId!=null and searchVO.categorySubId!=''">
+                and category_sub=#{searchVO.categorySubId}
+            </if>
+            <if test="searchVO.isTop!=null">
+                and is_top=#{searchVO.isTop}
+            </if>
+
+            <if test="searchVO.videoStatusList!=null and searchVO.videoStatusList.size()>0">
+                and
+                <foreach close=")" collection="searchVO.videoStatusList" item="statusItem" open=" `status` in (" separator=",">
+                    #{statusItem}
+                </foreach>
+            </if>
+            <if test="searchVO.videoTypeList!=null and searchVO.videoTypeList.size()>0">
+                and
+                <foreach close=")" collection="searchVO.videoTypeList" item="typeItem" open=" type in (" separator=",">
+                    #{typeItem}
+                </foreach>
+            </if>
+            <if test="searchVO.search!=null">
+                and (
+                title like "%"#{searchVO.search}"%"
+                or
+                info like "%"#{searchVO.search}"%"
+                )
+            </if>
+            <if test="searchVO.gmtCreate!=null">
+                <![CDATA[ gmt_create >= #{searchVO.gmtCreate,jdbcType=DATE}  ]]>
+            </if>
+            <if test="searchVO.gmtUpdate!=null">
+                <![CDATA[ gmt_update >= #{searchVO.gmtUpdate,jdbcType=DATE}  ]]>
+            </if>
+        </where>
+        <if test="searchVO.orderByClause != null and searchVO.orderByClause!=''">
+            order by ${searchVO.orderByClause}
+        </if>
+        ) v1
+        LEFT OUTER JOIN series s ON s.series_id=v1.series_id
+        LEFT OUTER JOIN category c1 ON c1.category_id=v1.category_main
+        <where>
+            1=1
+            <if test="(searchVO.seriesId==null or searchVO.seriesId=='') and searchVO.search!=null and searchVO.search!=''">
+                and (s.series_title IS NULL or s.series_title like "%"#{searchVO.search}"%")
+            </if>
+            <if test="searchVO.seriesStatusList!=null and searchVO.seriesStatusList.size()>0">
+                and (s.`status` IS NULL or
+                     <foreach close=")" collection="searchVO.seriesStatusList" item="statusItem" open=" s.`status` in (" separator=",">
+                        #{statusItem}
+                     </foreach>
+                    )
+            </if>
+        </where>
+        ) v2
+        LEFT OUTER JOIN category c2 ON c2.category_id=v2.category_sub
+        LEFT OUTER JOIN `user` u ON u.user_id=v2.author_id
+
+    </select>
+
+</mapper>

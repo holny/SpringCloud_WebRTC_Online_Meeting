@@ -9,7 +9,7 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * </p>
  *
  * @author Linyuan Hou
- * @since 2021-06-16
+ * @since 2021-07-18
  */
 public interface MessageMapper extends BaseMapper<Message> {
 

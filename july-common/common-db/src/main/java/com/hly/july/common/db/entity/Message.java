@@ -3,6 +3,7 @@ package com.hly.july.common.db.entity;
 import com.baomidou.mybatisplus.annotation.TableName;
 import java.util.Date;
 import com.baomidou.mybatisplus.annotation.TableId;
+import java.sql.Blob;
 import com.baomidou.mybatisplus.annotation.TableField;
 import java.io.Serializable;
 import lombok.Data;
@@ -14,7 +15,7 @@ import lombok.EqualsAndHashCode;
  * </p>
  *
  * @author Linyuan Hou
- * @since 2021-06-16
+ * @since 2021-07-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)

@@ -60,7 +60,7 @@ public class MeetingService {
             if(StringUtils.isEmpty(sessionId)){ // 如果sessionId为空，说明是第一次请求，HostId为发起人
                 // 先检查自己的在线状态
 //                if(!UserActiveStatusEnum.getAllOnLineCodeList().contains(userService.getUserActiveStatus(hostId))){
-                if(!UserActiveStatusEnum.ACTIVE_INVISIBLE.getCode().equals(userService.getUserActiveStatus(hostId))){
+                if(!UserActiveStatusEnum.ACTIVE_VISIBLE.getCode().equals(userService.getUserActiveStatus(hostId))){
                     // 说明自己就是不在线的状态，无法给任何发出meeting请求
                     Event<MeetingSession> meetingSessionEventToHost = Event.buildPersonal(EventEnum.EVENT_CALL_FAIL,"自己需保持在线状态",hostId,null);
                     sendPersonalEvent(hostId,meetingSessionEventToHost);
@@ -353,7 +353,7 @@ public class MeetingService {
         // 到这说明session存在，并且双方都共同保存这个session
         // 先检查requester状态
 //        if(!UserActiveStatusEnum.getAllOnLineCodeList().contains(userService.getUserActiveStatus(meetingSession.getRequesterId()))){
-        if(!UserActiveStatusEnum.ACTIVE_INVISIBLE.getCode().equals(userService.getUserActiveStatus(meetingSession.getRequesterId()))){
+        if(!UserActiveStatusEnum.ACTIVE_VISIBLE.getCode().equals(userService.getUserActiveStatus(meetingSession.getRequesterId()))){
             // 说明Requester就是不在线的状态，无法给任何发出meeting请求
             meetingSession.setStatus(SessionStatusEnum.FAIL.getCode());
             meetingSession.setGmtMeetingEnd(DateUtils.getCurrentDateTime());
@@ -371,7 +371,7 @@ public class MeetingService {
         }
         // 再检查对方的状态
 //        if(!UserActiveStatusEnum.getAllOnLineCodeList().contains(userService.getUserActiveStatus(meetingSession.getPeerId()))){
-        if(!UserActiveStatusEnum.ACTIVE_INVISIBLE.getCode().equals(userService.getUserActiveStatus(meetingSession.getPeerId()))){
+        if(!UserActiveStatusEnum.ACTIVE_VISIBLE.getCode().equals(userService.getUserActiveStatus(meetingSession.getPeerId()))){
             // 说明对方就是不在线的状态，对方无法接受
             meetingSession.setStatus(SessionStatusEnum.FAIL.getCode());
             meetingSession.setGmtMeetingEnd(DateUtils.getCurrentDateTime());

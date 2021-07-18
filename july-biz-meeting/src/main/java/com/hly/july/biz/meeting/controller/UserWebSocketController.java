@@ -60,10 +60,10 @@ public class UserWebSocketController {
 
     @SubscribeMapping({"/unreadcount/{userId}"})
     public Result<Map<String,Object>> subscribeNotify(@DestinationVariable String userId, OAuth2Authentication auth2Authentication) {
-        log.info("subscribeNotify userId:{}",userId);
+//        log.info("subscribeNotify userId:{}",userId);
         if (auth2Authentication!=null){
             String hostId =auth2Authentication.getPrincipal().toString();
-            log.info("subscribeNotify hostId:{}",hostId);
+//            log.info("subscribeNotify hostId:{}",hostId);
             if (StringUtils.isNotBlank(hostId)&&hostId.equals(userId)){
                 Map<String,Object> result =  userService.getNotification(hostId);
                 if(ObjectUtils.isNotEmpty(result)){

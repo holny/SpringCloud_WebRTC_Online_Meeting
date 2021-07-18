@@ -1,15 +1,16 @@
+server:
+  port: @july-gateway-service-port@
+
 spring:
   profiles: dev
   application:
-    name: july-gateway
+    name: @july-gateway-service-name@
   cloud:
     nacos:
       discovery:
         server-addr: @nacos-nginx-url@
-
+        group: @nacos-group@
     gateway:
-
-
       discovery:
         locator:
           enabled: true
@@ -32,14 +33,19 @@ spring:
           filters:
 
         - id: biz-user #路由id,唯一
-          uri: lb://user-manage-service
+          uri: lb://@july-biz-user-service-name@
           predicates:
             - Path=/user/**,/relation/**
           filters:
         - id: biz-meeting #路由id,唯一
-          uri: lb://meeting-service
+          uri: lb://@july-biz-meeting-service-name@
           predicates:
             - Path=/meeting/**
+          filters:
+        - id: biz-video #路由id,唯一
+          uri: lb://@july-biz-video-service-name@
+          predicates:
+            - Path=/video/**,/series/**,/tag/**,/category/**
           filters:
 #        - id: oauth #路由id,唯一
 #          uri: lb://july-auth
@@ -65,11 +71,9 @@ spring:
         max-idle: 8
         # 连接池中的最小空闲连接 默认为 0
         min-idle: 0
-server:
-  port: 80
 rsa:
   key:
-    publicKeyFilePath: "/certificate/july-pubkey_0317_pure.txt"
+    publicKeyFilePath: @july-gateway-service-publickey@
 # 静态文件请求匹配方式
 spring.mvc.static-path-pattern: /**
   # 修改默认的静态寻址资源目录 多个使用逗号分隔
@@ -78,4 +82,4 @@ spring.resources.static-locations: classpath:/META-INF/resources/,classpath:/res
 logging:
   config: classpath:log4j2.xml
   file:
-    path: mylogs/july-gateway/
+    path: @july-gateway-service-log-dir@

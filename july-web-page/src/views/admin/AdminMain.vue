@@ -5,7 +5,8 @@
           <AdminSettingMenuSideBar @changeCom="changeCom($event)" :default-opened="settingsName"></AdminSettingMenuSideBar>
       </div>
       <div class="col">
-      <component :is="settingsComName!=null?settingsComName:''"></component>
+<!--      <component :is="settingsComName!=null?settingsComName:''"></component>-->
+        <router-view name="adminSettingsComponent"></router-view>
       </div>
     </div>
   </div>
@@ -13,30 +14,30 @@
 
 <script>
 import AdminSettingMenuSideBar from "@/views/admin/AdminSettingMenuSideBar";
-import UserManagement from "@/views/admin/UserManagement";
-import UserStatistics from "@/views/admin/UserStatistics";
-import VideoManagement from "@/views/admin/VideoManagement";
-import VideoStatistics from "@/views/admin/VideoStatistics";
-import ConsultOrderManagement from "@/views/admin/ConsultOrderManagement";
-import ConsultStatistics from "@/views/admin/ConsultStatistics";
-import PaymentOrderManagement from "@/views/admin/PaymentOrderManagement";
-import PaymentStatistics from "@/views/admin/PaymentStatistics";
-import SiteSettings from "@/views/admin/SiteSettings";
-import SiteStatistics from "@/views/admin/SiteStatistics";
+// import UserManagement from "@/views/admin/UserManagement";
+// import UserStatistics from "@/views/admin/UserStatistics";
+// import VideoManagement from "@/views/admin/VideoManagement";
+// import VideoStatistics from "@/views/admin/VideoStatistics";
+// import ConsultOrderManagement from "@/views/admin/ConsultOrderManagement";
+// import ConsultStatistics from "@/views/admin/ConsultStatistics";
+// import PaymentOrderManagement from "@/views/admin/PaymentOrderManagement";
+// import PaymentStatistics from "@/views/admin/PaymentStatistics";
+// import SiteSettings from "@/views/admin/SiteSettings";
+// import SiteStatistics from "@/views/admin/SiteStatistics";
 export default {
   name: "AdminMain",
   components:{
     AdminSettingMenuSideBar,
-    UserManagement,
-    UserStatistics,
-    VideoManagement,
-    VideoStatistics,
-    ConsultOrderManagement,
-    ConsultStatistics,
-    PaymentOrderManagement,
-    PaymentStatistics,
-    SiteSettings,
-    SiteStatistics
+    // UserManagement,
+    // UserStatistics,
+    // VideoManagement,
+    // VideoStatistics,
+    // ConsultOrderManagement,
+    // ConsultStatistics,
+    // PaymentOrderManagement,
+    // PaymentStatistics,
+    // SiteSettings,
+    // SiteStatistics
 
   },
   data () {
@@ -52,27 +53,27 @@ export default {
         console.log(route)
         console.log("query "+query)
         this.settingsName = route.meta.component
-        if(this.settingsName==='userManagement'){
-          this.settingsComName = 'UserManagement'
-        }else if(this.settingsName==='userStatistics'){
-          this.settingsComName = 'UserStatistics'
-        }else if(this.settingsName==='videoManagement'){
-          this.settingsComName = 'VideoManagement'
-        }else if(this.settingsName==='videoStatistics'){
-          this.settingsComName = 'VideoStatistics'
-        }else if(this.settingsName==='consultOrderManagement'){
-          this.settingsComName = 'ConsultOrderManagement'
-        }else if(this.settingsName==='consultStatistics'){
-          this.settingsComName = 'ConsultStatistics'
-        }else if(this.settingsName==='paymentOrderManagement'){
-          this.settingsComName = 'PaymentOrderManagement'
-        }else if(this.settingsName==='paymentStatistics'){
-          this.settingsComName = 'PaymentStatistics'
-        }else if(this.settingsName==='siteManagement'){
-          this.settingsComName = 'SiteSettings'
-        }else if(this.settingsName==='siteStatistics'){
-          this.settingsComName = 'SiteStatistics'
-        }
+        // if(this.settingsName==='userManagement'){
+        //   this.settingsComName = 'UserManagement'
+        // }else if(this.settingsName==='userStatistics'){
+        //   this.settingsComName = 'UserStatistics'
+        // }else if(this.settingsName==='videoManagement'){
+        //   this.settingsComName = 'VideoManagement'
+        // }else if(this.settingsName==='videoStatistics'){
+        //   this.settingsComName = 'VideoStatistics'
+        // }else if(this.settingsName==='consultOrderManagement'){
+        //   this.settingsComName = 'ConsultOrderManagement'
+        // }else if(this.settingsName==='consultStatistics'){
+        //   this.settingsComName = 'ConsultStatistics'
+        // }else if(this.settingsName==='paymentOrderManagement'){
+        //   this.settingsComName = 'PaymentOrderManagement'
+        // }else if(this.settingsName==='paymentStatistics'){
+        //   this.settingsComName = 'PaymentStatistics'
+        // }else if(this.settingsName==='siteManagement'){
+        //   this.settingsComName = 'SiteSettings'
+        // }else if(this.settingsName==='siteStatistics'){
+        //   this.settingsComName = 'SiteStatistics'
+        // }
       },
       immediate: true
     }
@@ -80,27 +81,27 @@ export default {
   created() {
     console.log(this.$route.meta.component)
     this.settingsName = this.$route.meta.component
-    if(this.settingsName==='userManagement'){
-      this.settingsComName = 'UserManagement'
-    }else if(this.settingsName==='userStatistics'){
-      this.settingsComName = 'UserStatistics'
-    }else if(this.settingsName==='videoManagement'){
-      this.settingsComName = 'VideoManagement'
-    }else if(this.settingsName==='videoStatistics'){
-      this.settingsComName = 'VideoStatistics'
-    }else if(this.settingsName==='consultOrderManagement'){
-      this.settingsComName = 'ConsultOrderManagement'
-    }else if(this.settingsName==='consultStatistics'){
-      this.settingsComName = 'ConsultStatistics'
-    }else if(this.settingsName==='paymentOrderManagement'){
-      this.settingsComName = 'PaymentOrderManagement'
-    }else if(this.settingsName==='paymentStatistics'){
-      this.settingsComName = 'PaymentStatistics'
-    }else if(this.settingsName==='siteManagement'){
-      this.settingsComName = 'SiteSettings'
-    }else if(this.settingsName==='siteStatistics'){
-      this.settingsComName = 'SiteStatistics'
-    }
+    // if(this.settingsName==='userManagement'){
+    //   this.settingsComName = 'UserManagement'
+    // }else if(this.settingsName==='userStatistics'){
+    //   this.settingsComName = 'UserStatistics'
+    // }else if(this.settingsName==='videoManagement'){
+    //   this.settingsComName = 'VideoManagement'
+    // }else if(this.settingsName==='videoStatistics'){
+    //   this.settingsComName = 'VideoStatistics'
+    // }else if(this.settingsName==='consultOrderManagement'){
+    //   this.settingsComName = 'ConsultOrderManagement'
+    // }else if(this.settingsName==='consultStatistics'){
+    //   this.settingsComName = 'ConsultStatistics'
+    // }else if(this.settingsName==='paymentOrderManagement'){
+    //   this.settingsComName = 'PaymentOrderManagement'
+    // }else if(this.settingsName==='paymentStatistics'){
+    //   this.settingsComName = 'PaymentStatistics'
+    // }else if(this.settingsName==='siteManagement'){
+    //   this.settingsComName = 'SiteSettings'
+    // }else if(this.settingsName==='siteStatistics'){
+    //   this.settingsComName = 'SiteStatistics'
+    // }
   },
   methods: {
     changeCom: function (event) {

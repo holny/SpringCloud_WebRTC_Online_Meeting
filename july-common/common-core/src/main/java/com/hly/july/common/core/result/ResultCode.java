@@ -24,6 +24,9 @@ public enum ResultCode implements IResultCode,Serializable {
     API_DUPLICATE_DATA(20102,"已存在此数据"),
     API_INVALID(20103,"无效的请求"),
     API_DB_FAIL(20104,"数据读写失败"),
+    API_NOT_FOUND(20105,"没有此数据"),
+
+    API_CAN_NOT_EDIT(20106,"无法进行编辑"),
 
     AUTH_ACCOUNT_INVALID(20201,"无效账户"),
     AUTH_PASSWORD_ERROR(20202,"密码错误"),
@@ -66,7 +69,16 @@ public enum ResultCode implements IResultCode,Serializable {
     MEETING_SESSION_CLOSED(50003,"Session已被关闭"),
     MEETING_SESSION_GIVE_UP(50004,"有人放弃此Session"),
     MEETING_FAIL(50005,"失败"),
-    MEETING_REQUEST_DUPLICATE(50006,"重复的请求");
+    MEETING_REQUEST_DUPLICATE(50006,"重复的请求"),
+
+    VIDEO_ID_NOT_EXISTS(60001,"Video不存在"),
+
+
+    FILE_NOT_FOUND(70001,"文件不存在"),
+    FILE_MD5_ERROR(70002,"文件MD5错误"),
+    FILE_TYPE_ERROR(70003,"文件Type错误"),
+    FILE_PATH_ERROR(70004,"文件Path错误"),
+    FILE_SAVE_ERROR(70005,"文件保存出错");
 
 //
 //

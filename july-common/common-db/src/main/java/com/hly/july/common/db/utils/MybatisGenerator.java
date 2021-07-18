@@ -31,7 +31,7 @@ public class MybatisGenerator {
 
     private static final String LOCAL_MODULE_DIR_NAME = "july-common/common-db";
 
-    private static final String LOCAL_MODULE_PARENT = "com.hly.july.common.biz";
+    private static final String LOCAL_MODULE_PARENT = "com.hly.july.common.db";
 
     /**
      * <p>
@@ -69,7 +69,13 @@ public class MybatisGenerator {
         gc.setDateType(DateType.ONLY_DATE);
         // gc.setSwagger2(true); 实体属性 Swagger2 注解
         // 是否覆盖已有文件(默认值：false)
-        gc.setFileOverride(false);
+        gc.setFileOverride(true);
+        gc.setBaseResultMap(true) ;//XML中的ResultMap标签
+        gc.setBaseColumnList(true); //XML标签
+        gc.setMapperName("%sMapper");  //%s会自动填充表实体属性
+        gc.setXmlName("%sMapper");
+        gc.setServiceName("%sService");
+        gc.setServiceImplName("%sServiceImpl");
         //把全局配置添加到代码生成器主类
         mpg.setGlobalConfig(gc);
 

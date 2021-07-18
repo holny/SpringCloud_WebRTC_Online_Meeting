@@ -180,7 +180,6 @@ public class UserController {
                 loginUser = new UserInfoVO(hostUser);
             }
         }
-        log.info("loginUser:"+loginUser.toString());
 
         if(loginUser == null){
             log.warn("getUser-host is Null, get brief UserId:"+userId);
@@ -189,6 +188,7 @@ public class UserController {
             userInfoVO.setEmail(null);
             userInfoVO.setGmtCreate(null);
             userInfoVO.setGmtBirthday(null);
+            userInfoVO.setBalance(null);
             return Result.success("get success",userInfoVO);
         }else {
             log.info("loginUser:"+loginUser.toString());
@@ -222,6 +222,11 @@ public class UserController {
             User hoster = null;
             for (User user : userList) {
                 UserInfoVO userInfoVO = new UserInfoVO(user);
+                userInfoVO.setPhoneNumber(null);
+                userInfoVO.setEmail(null);
+                userInfoVO.setGmtCreate(null);
+                userInfoVO.setGmtBirthday(null);
+                userInfoVO.setBalance(null);
                 userInfoVOList.add(userInfoVO);
                 if(hostId!=null&&user.getUserId().equals(hostId)){
                     hoster=user;

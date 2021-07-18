@@ -118,7 +118,14 @@ export default {
       ]
     }
   },
+  activated() {
+    console.log("MyFollower created")
+  },
+  created() {
+    console.log("MyFollower created")
+  },
   mounted () {
+    console.log("MyFollower mounted")
     // get initial data from server (1st page)
     this.onRequest({
       pagination: this.pagination,

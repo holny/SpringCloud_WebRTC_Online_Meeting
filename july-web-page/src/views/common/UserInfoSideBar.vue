@@ -3,7 +3,7 @@
     <q-card-section horizontal style="height: 200px">
       <q-card-section class="q-pt-xs">
         <div class="text-overline">个人信息</div>
-        <div class="text-h5 q-mt-sm q-mb-xs">Tom</div>
+        <div class="text-h5 q-mt-sm q-mb-xs">{{userInfo!=null?((userInfo.nickName!=null&&userInfo.nickName!=='')?userInfo.nickName+'('+userInfo.userName+')':userInfo.userName):'UnKnown'}}</div>
         <div class="text-caption text-grey">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
         </div>
@@ -13,22 +13,22 @@
         <q-item>
           <q-item-section avatar>
             <q-avatar size="60px">
-              <img src="https://cdn.quasar.dev/img/avatar2.jpg">
-              <q-badge rounded floating color="yellow-10">
+              <img :src="userInfo!=null?(userInfo.avatar!=null?userInfo.avatar:'https://cdn.quasar.dev/img/avatar2.jpg'):'https://cdn.quasar.dev/img/avatar2.jpg'">
+              <q-badge v-if="userInfo!=null&&userInfo.identification!=null" rounded floating color="yellow-10">
                 <q-icon name="done" color="white" />
                 <q-tooltip>
-                  <strong >已认证</strong>
+                  <strong >已认证{{ (userInfo!=null&&userInfo.identInfo!=null)?': '+userInfo.identInfo:''}}</strong>
                 </q-tooltip>
               </q-badge>
             </q-avatar>
           </q-item-section>
           <q-item-section>
-            <q-item-label clickable class="text-subtitle1 text-black">
+            <q-item-label clickable class="text-subtitle1 text-black text-center">
               <q-badge color="blue">
-                Lv.12
+                {{ (userInfo!=null&&userInfo.level!=null)?'Lv.'+userInfo.level:'Lv.0'}}
               </q-badge>
             </q-item-label>
-            <q-item-label class="text-subtitle2 text-italic text-capitalize">Admin</q-item-label>
+            <q-item-label class="text-caption text-bold text-capitalize text-no-wrap text-orange"> {{ (userInfo!=null&&userInfo.role!=null)?userInfo.role:''}}</q-item-label>
           </q-item-section>
         </q-item>
       </q-card-section>
@@ -116,13 +116,43 @@
 </template>
 
 <script>
+import {isNotEmpty} from "@/utils/validate";
+import {FUN} from "@/utils/julyCommon";
+
 export default {
-  name: "SideBar",
+  name: "UserInfoSideBar",
+  props: {
+    userId: {
+      type: String,
+      require: true,
+    },
+  },
   data () {
     return {
+      userInfo:null,
       tab: 'mails',
       isFollow: false,
       items: [ {}, {}, {}, {}, {}, {}, {}, {}, {} ]
+    }
+  },
+  async mounted() {
+    console.log("UserInfoSideBar mounted")
+    this.userInfo = await this.getUserInfo(this.userId)
+  },
+  methods:{
+    async getUserInfo(userId){
+      let result=null
+      if(isNotEmpty(userId)){
+        await this.$store.dispatch('user/getUserInfo', userId)
+            .then((data) => {
+              result = data
+            })
+            .catch((msg) => {
+              FUN.notify(msg,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
+              result = null
+            })
+      }
+      return result
     }
   }
 }
@@ -133,7 +163,7 @@ export default {
   transition: box-shadow .3s;
   height: 780px;
   border-radius:10px;
-  width: 350px;
+  width: 360px;
 
 }
 .my-card:hover {

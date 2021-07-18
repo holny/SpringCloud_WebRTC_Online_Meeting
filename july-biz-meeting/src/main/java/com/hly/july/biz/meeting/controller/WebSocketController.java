@@ -28,13 +28,13 @@ public class WebSocketController {
     @MessageMapping({"/heartbeat"})
     @SendToUser({"/topic/heartbeat"})
     public Result<String> subscribeHeartBeat(Map<String,String> data, OAuth2Authentication auth2Authentication) {
-        Integer status = UserActiveStatusEnum.ACTIVE_ONLY_MESSAGE.getCode();
+        Integer status = null;
         if(data.containsKey("status")){
             status = Integer.parseInt(data.get("status"));
         }
         if (auth2Authentication!=null) {
             String hostId = auth2Authentication.getPrincipal().toString();
-            if (StringUtils.isNotEmpty(hostId)){
+            if (StringUtils.isNotEmpty(hostId)&&status!=null){
                 userService.updateUserActiveStatus(hostId,status);
             }
         }

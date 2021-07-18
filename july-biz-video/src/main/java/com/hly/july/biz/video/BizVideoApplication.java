@@ -21,7 +21,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @EnableFeignClients
 @EnableScheduling
 @EnableAsync
-@MapperScan(basePackages = {"com.hly.july.common.db.mapper"})
+@MapperScan(basePackages = {"com.hly.july.common.db.mapper","com.hly.july.biz.video.mapper"})
 @ComponentScan(basePackages = {"com.hly.july.biz.video","com.hly.july.common.core","com.hly.july.common.auth","com.hly.july.common.db","com.hly.july.common.web"})
 public class BizVideoApplication {
     public static void main(String[] args) {

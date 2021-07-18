@@ -171,6 +171,7 @@ import {isNotEmpty} from "@/utils/validate";
 import {JULY,FUN} from "@/utils/julyCommon";
 import {CONSTANT, EVENT_CODE} from "@/utils/constant";
 import {date} from "quasar";
+import {getToken} from "@/utils/auth";
 
 export default {
   name: "Contacts",
@@ -261,7 +262,7 @@ export default {
     initWSEnv(){
       if (this.julyWebsocket.constant.stompClient==null){
         console.log("contacts websocket not init , so start init by self")
-        this.julyWebsocket.constant.stompClient = initJulyWS(JULY.WEBSOCKET_URI_ENDPOINT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL)
+        this.julyWebsocket.constant.stompClient = initJulyWS(JULY.WEBSOCKET_URI_ENDPOINT+getToken(),JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL)
       }
     },
     initWSWatcher(){

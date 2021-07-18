@@ -4,6 +4,7 @@ import com.hly.july.common.core.exception.BizException;
 import com.hly.july.common.core.result.Result;
 import com.hly.july.common.core.result.ResultCode;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.multipart.MaxUploadSizeExceededException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,7 +28,8 @@ import java.util.Set;
 @RestControllerAdvice
 @Slf4j
 public class BizExceptionHandler {
-
+    @Value("${spring.servlet.multipart.max-file-size:default}")
+    private String maxFileSize;
     /**
      * 自定义的ExceptionHandler，注意这里的exception处理顺序从上至下，只到匹配到合适的handler。
      * 本项目是处理exception，获取错误信息，跳转错误页并显示。
@@ -109,6 +112,18 @@ public class BizExceptionHandler {
         String msg = sb.toString();
         log.error("ConstraintViolationException e:"+msg);
         return Result.failure(ResultCode.API_VALIDATION_ERROR, msg);
+    }
+
+    // 上传文件太大错误
+    @ExceptionHandler(MaxUploadSizeExceededException.class)
+    @ResponseStatus(HttpStatus.OK)
+    public Result<String> mxUploadSizeExceededExceptionHandler(HttpServletRequest request,
+                                                               HttpServletResponse response, MaxUploadSizeExceededException e) {
+        log.warn("url:{}",request.getRequestURL());
+        log.warn("MaxUploadSizeExceededException.message:{}",e.getMessage());
+//        e.printStackTrace();
+
+        return Result.failure(ResultCode.API_VALIDATION_ERROR, "上传文件大小超过限制"+maxFileSize);
     }
 
 

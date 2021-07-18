@@ -7,6 +7,31 @@ import Profile from "@/views/user/Profile";
 import BookMark from "@/views/consult/BookMark";
 import MySetting from "@/views/user/MySetting";
 import AdminMain from "@/views/admin/AdminMain";
+import ChatLand from "@/views/chat/ChatLand";
+
+import OrderItems from "@/views/trading/OrderItems";
+import TradingRecords from "@/views/trading/TradingRecords";
+import MySubscription from "@/views/user/MySubscription";
+import MyFavourite from "@/views/user/MyFavourite";
+import MyVideos from "@/views/user/MyVideos";
+// import NewVideo from "@/views/video/NewVideo";
+import MyFollower from "@/views/user/MyFollower";
+import MyWorkStatistics from "@/views/user/MyWorkStatistics";
+import MyInfoSettings from "@/views/user/MyInfoSettings";
+import PaymentSettings from "@/views/trading/PaymentSettings";
+import TradingSettings from "@/views/trading/TradingSettings";
+import UserManagement from "@/views/admin/UserManagement";
+import UserStatistics from "@/views/admin/UserStatistics";
+import VideoManagement from "@/views/admin/VideoManagement";
+import VideoStatistics from "@/views/admin/VideoStatistics";
+import ConsultOrderManagement from "@/views/admin/ConsultOrderManagement";
+import ConsultStatistics from "@/views/admin/ConsultStatistics";
+import PaymentOrderManagement from "@/views/admin/PaymentOrderManagement";
+import PaymentStatistics from "@/views/admin/PaymentStatistics";
+import SiteSettings from "@/views/admin/SiteSettings";
+import SiteStatistics from "@/views/admin/SiteStatistics";
+import InitNewProduct from "@/views/video/InitNewProduct";
+import BookMarkStep from "@/views/consult/BookMarkStep";
 Vue.use(VueRouter)
 
 
@@ -21,268 +46,285 @@ export const constantRouterMap = [
   {path: '/entry', name: 'entry',meta: {
       title: '欢迎登陆',
     }, component: () => import('@/views/entry'), hidden: true},
-  {path: '/my',  component: () => import('@/views/index'),children: [
+  { path: '/',
+    component:() => import('@/views/index'),
+    hidden:false,
+    children: [
       {
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
-        path: 'borders',
-        name: 'buyerOrders',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '买家订单',
-          component: 'buyerOrders'
-        }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
-      },{
-        path: 'sorders',
-        name: 'sellerOrders',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '卖家订单',
-          component: 'sellerOrders'
-        }
-      },{
-        path: 'tradingrecords',
-        name: 'tradingRecords',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '交易流水',
-          component: 'transactionRecords'
-        }
-      },{
-        path: 'mysubscriptions',
-        name: 'mySubscriptions',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '我的订阅',
-          component: 'mySubscriptions'
-        }
-      },{
-        path: 'myfavourites',
-        name: 'myFavourites',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '我的收藏',
-          component: 'myFavourites'
-        }
-      },{
-        path: 'myvideos',
-        name: 'myVideos',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '我的视频',
-          component: 'myVideos'
-        }
-      },{
-        path: 'myfollowers',
-        name: 'myFollowers',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '关注我的',
-          component: 'myFollowers'
-        }
-      },{
-        path: 'myworkstat',
-        name: 'myWorkStatistics',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '我的统计',
-          component: 'myWorkStatistics'
-        }
-      },{
-        path: 'newproduct',
-        name: 'newProduct',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '新建作品',
-          component: 'newProduct'
-        }
-      },{
-        path: 'myinfo',
-        name: 'myInfo',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '我的信息',
-          component: 'myInfo'
-        }
-      },{
-        path: 'paymentsettings',
-        name: 'myPaymentSettings',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '支付设置',
-          component: 'myPaymentSettings'
-        }
-      },{
-        path: 'sellersettings',
-        name: 'sellerSettings',
-        components: {
-          viewMain: MySetting,
-        },
-        meta: {
-          title: '卖家设置',
-          component: 'sellerSettings'
-        }
-      }
-    ], hidden: true},
-  {path: '/admin',  component: () => import('@/views/index'),children: [
-      {
-        path: 'usermanagement',
-        name: 'userManagement',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-用户管理',
-          component: 'userManagement'
-        }
-      }, {
-        path: 'userstatistics',
-        name: 'userStatistics',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-用户数据统计',
-          component: 'userStatistics'
-        }
+        path: 'my',
+        hidden:false,
+        components:{ viewMain: MySetting},
+        children: [
+          {
+            // 当 /user/:id/posts 匹配成功
+            // UserPosts 会被渲染在 User 的 <router-view> 中
+            path: 'borders',
+            name: 'buyerOrders',
+            components: {
+              settingsComponent: OrderItems,
+            },
+            meta: {
+              title: '买家订单',
+              component: 'buyerOrders'
+            }
+            // props: {
+            //   viewMain: true,
+            //   viewSidebar: false
+            // }
+          },{
+            path: 'sorders',
+            name: 'sellerOrders',
+            components: {
+              settingsComponent: OrderItems,
+            },
+            meta: {
+              title: '卖家订单',
+              component: 'sellerOrders'
+            }
+          },{
+            path: 'tradingrecords',
+            name: 'tradingRecords',
+            components: {
+              settingsComponent: TradingRecords,
+            },
+            meta: {
+              title: '交易流水',
+              component: 'transactionRecords'
+            }
+          },{
+            path: 'mysubscriptions',
+            name: 'mySubscriptions',
+            components: {
+              settingsComponent: MySubscription,
+            },
+            meta: {
+              title: '我的订阅',
+              component: 'mySubscriptions'
+            }
+          },{
+            path: 'myfavourites',
+            name: 'myFavourites',
+            components: {
+              settingsComponent: MyFavourite,
+            },
+            meta: {
+              title: '我的收藏',
+              component: 'myFavourites'
+            }
+          },{
+            path: 'myvideos',
+            name: 'myVideos',
+            components: {
+              settingsComponent: MyVideos,
+            },
+            meta: {
+              title: '我的视频',
+              component: 'myVideos'
+            },
+          },{
+            path: 'myfollowers',
+            name: 'myFollowers',
+            components: {
+              settingsComponent: MyFollower,
+            },
+            meta: {
+              title: '关注我的',
+              component: 'myFollowers'
+            }
+          },{
+            path: 'myworkstat',
+            name: 'myWorkStatistics',
+            components: {
+              settingsComponent: MyWorkStatistics,
+            },
+            meta: {
+              title: '我的统计',
+              component: 'myWorkStatistics'
+            }
+          },{
+            path: 'newproduct',
+            name: 'newProduct',
+            components: {
+              settingsComponent: InitNewProduct,
+            },
+            meta: {
+              title: '新建作品',
+              component: 'newProduct'
+            },
+          },{
+            path: 'myinfo',
+            name: 'myInfo',
+            components: {
+              settingsComponent: MyInfoSettings,
+            },
+            meta: {
+              title: '我的信息',
+              component: 'myInfo'
+            }
+          },{
+            path: 'paymentsettings',
+            name: 'myPaymentSettings',
+            components: {
+              settingsComponent: PaymentSettings,
+            },
+            meta: {
+              title: '支付设置',
+              component: 'myPaymentSettings'
+            }
+          },{
+            path: 'sellersettings',
+            name: 'sellerSettings',
+            components: {
+              settingsComponent: TradingSettings,
+            },
+            meta: {
+              title: '卖家设置',
+              component: 'sellerSettings'
+            }
+          }
+        ]
       },
       {
-        path: 'videomanagement',
-        name: 'videoManagement',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-视频管理',
-          component: 'videoManagement'
-        }
-      }, {
-        path: 'videostatistics',
-        name: 'videoStatistics',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-视频数据统计',
-          component: 'videoStatistics'
-        }
+        path: 'admin',
+        components:{ viewMain: AdminMain},
+        hidden:false,
+        children: [
+          {
+            path: 'usermanagement',
+            name: 'userManagement',
+            components: {
+              adminSettingsComponent: UserManagement,
+            },
+            meta: {
+              title: 'Admin-用户管理',
+              component: 'userManagement'
+            }
+          }, {
+            path: 'userstatistics',
+            name: 'userStatistics',
+            components: {
+              adminSettingsComponent: UserStatistics,
+            },
+            meta: {
+              title: 'Admin-用户数据统计',
+              component: 'userStatistics'
+            }
+          },
+          {
+            path: 'videomanagement',
+            name: 'videoManagement',
+            components: {
+              adminSettingsComponent: VideoManagement,
+            },
+            meta: {
+              title: 'Admin-视频管理',
+              component: 'videoManagement'
+            }
+          }, {
+            path: 'videostatistics',
+            name: 'videoStatistics',
+            components: {
+              adminSettingsComponent: VideoStatistics,
+            },
+            meta: {
+              title: 'Admin-视频数据统计',
+              component: 'videoStatistics'
+            }
+          },
+          {
+            path: 'consultmanagement',
+            name: 'consultOrderManagement',
+            components: {
+              adminSettingsComponent: ConsultOrderManagement,
+            },
+            meta: {
+              title: 'Admin-咨询管理',
+              component: 'consultOrderManagement'
+            }
+          }, {
+            path: 'consultstatistics',
+            name: 'consultStatistics',
+            components: {
+              adminSettingsComponent: ConsultStatistics,
+            },
+            meta: {
+              title: 'Admin-咨询数据统计',
+              component: 'consultStatistics'
+            }
+          },
+          {
+            path: 'payordermanagement',
+            name: 'paymentOrderManagement',
+            components: {
+              adminSettingsComponent: PaymentOrderManagement,
+            },
+            meta: {
+              title: 'Admin-支付管理',
+              component: 'paymentOrderManagement'
+            }
+          }, {
+            path: 'paymentstatistics',
+            name: 'paymentStatistics',
+            components: {
+              adminSettingsComponent: PaymentStatistics,
+            },
+            meta: {
+              title: 'Admin-支付数据统计',
+              component: 'paymentStatistics'
+            }
+          },
+          {
+            path: 'sitemanagement',
+            name: 'siteManagement',
+            components: {
+              adminSettingsComponent: SiteSettings,
+            },
+            meta: {
+              title: 'Admin-网站管理',
+              component: 'siteManagement'
+            }
+          }, {
+            path: 'sitestatistics',
+            name: 'siteStatistics',
+            components: {
+              adminSettingsComponent: SiteStatistics,
+            },
+            meta: {
+              title: 'Admin-网站数据统计',
+              component: 'siteStatistics'
+            }
+          }
+        ]
       },
       {
-        path: 'consultmanagement',
-        name: 'consultOrderManagement',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-咨询管理',
-          component: 'consultOrderManagement'
-        }
-      }, {
-        path: 'consultstatistics',
-        name: 'consultStatistics',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-咨询数据统计',
-          component: 'consultStatistics'
-        }
-      },
-      {
-        path: 'payordermanagement',
-        name: 'paymentOrderManagement',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-支付管理',
-          component: 'paymentOrderManagement'
-        }
-      }, {
-        path: 'paymentstatistics',
-        name: 'paymentStatistics',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-支付数据统计',
-          component: 'paymentStatistics'
-        }
-      },
-      {
-        path: 'sitemanagement',
-        name: 'siteManagement',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-网站管理',
-          component: 'siteManagement'
-        }
-      }, {
-        path: 'sitestatistics',
-        name: 'siteStatistics',
-        components: {
-          viewMain: AdminMain,
-        },
-        meta: {
-          title: 'Admin-网站数据统计',
-          component: 'siteStatistics'
-        }
-      }
-    ], hidden: true},
-  {path: '/bookmark',  component: () => import('@/views/index'),children: [
-      {
-        // 当 /user/:id/posts 匹配成功
-        // UserPosts 会被渲染在 User 的 <router-view> 中
-        path: '/bookmark/:uid',
-        name: 'bookmark',
+        path: 'bookmark',
         components: {
           viewMain: BookMark,
         },
-        meta: {
-          title: '预约咨询',
-          sideBarPosition: 'right'
-        }
-        // props: {
-        //   viewMain: true,
-        //   viewSidebar: false
-        // }
-      }
-    ], hidden: true},
-  {path: '/user',
-    component: () => import('@/views/index'),
-    children: [
+        hidden: true,
+        children: [
+          {
+            // 当 /user/:id/posts 匹配成功
+            // UserPosts 会被渲染在 User 的 <router-view> 中
+            path: ':uid',
+            name: 'bookmark',
+            components: {
+              bookmarkComponent: BookMarkStep,
+            },
+            meta: {
+              title: '预约咨询',
+              sideBarPosition: 'right'
+            }
+            // props: {
+            //   viewMain: true,
+            //   viewSidebar: false
+            // }
+          }
+        ]},
       {
         // 当 /user/:id/profile 匹配成功，
         // UserProfile 会被渲染在 User 的 <router-view> 中
-        path: '/',
+        path: 'user',
         name: 'userList',
         components: {
           viewMain: UserList
@@ -294,7 +336,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: '/user/:uid',
+        path: 'user/:uid',
         name: 'profile',
         components: {
           viewMain: Profile,
@@ -303,9 +345,22 @@ export const constantRouterMap = [
           title: '用户信息',
           sideBarPosition: 'right'
         }
+      },
+      {
+        path: 'chat',
+        name: 'chat',
+        components: {
+          viewMain: ChatLand,
+        },
+        hidden: true,
+        meta: {
+          title: '在线聊天',
+          // sideBarPosition: 'left'
+        }
       }
-    ],
-    hidden: true},
+    ]
+  },
+
   {path: '/video',
     component: () => import('@/views/index'),
     children: [
@@ -324,7 +379,7 @@ export const constantRouterMap = [
         }
       },
       {
-        path: '/video/:vid',
+        path: ':videoId',
         name: 'video',
         components: {
           viewMain: Video,
@@ -332,30 +387,31 @@ export const constantRouterMap = [
         meta: {
           title: '视频播放',
           sideBarPosition: 'right'
-        }
+        },
+        props: true
       }
     ],
     hidden: true},
   // {path: '/home', name: 'home', component: () => import('@/views/home'), hidden: true},
-  {path: '/chat',
-    component: () => import('@/views/chat/ChatLand'),
-    children: [
-      {
-        // 当 /user/:id/profile 匹配成功，
-        // UserProfile 会被渲染在 User 的 <router-view> 中
-        path: '/',
-        name: 'chat',
-        // components: {
-        //   viewMain: VideoList,
-        //   viewSidebar: VideoListSideBar
-        // },
-        meta: {
-          title: '在线聊天',
-          // sideBarPosition: 'left'
-        }
-      },
-    ],
-    hidden: true}
+  // {path: '/chat',
+  //   component: () => import('@/views/chat/ChatLand'),
+  //   children: [
+  //     {
+  //       // 当 /user/:id/profile 匹配成功，
+  //       // UserProfile 会被渲染在 User 的 <router-view> 中
+  //       path: '/',
+  //       name: 'chat',
+  //       // components: {
+  //       //   viewMain: VideoList,
+  //       //   viewSidebar: VideoListSideBar
+  //       // },
+  //       meta: {
+  //         title: '在线聊天',
+  //         // sideBarPosition: 'left'
+  //       }
+  //     },
+  //   ],
+  //   hidden: true}
   // { path: '/404', component: () => import('@/page/errorPage/404'), hidden: true },
   // { path: '/401', component: () => import('@/page/errorPage/401'), hidden: true },
 ]

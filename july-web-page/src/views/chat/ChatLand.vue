@@ -75,12 +75,12 @@
 <script>
 import Contacts from "@/views/chat/contacts";
 import ChatWindow from "@/views/chat/chatWindow";
-import {getHostId} from "@/utils/auth";
 import {initJulyWS, closeConnectionJuly} from "@/utils/socket";
 import {JULY,FUN} from "@/utils/julyCommon";
 import meeting from "@/views/meeting/meeting";
 import {CONSTANT, EVENT_CODE} from "@/utils/constant";
 import {isNotEmpty} from "@/utils/validate";
+import {getToken} from "@/utils/auth";
 // import meeting from "@/views/meeting/meeting";
 // import {date} from "quasar";
 export default {
@@ -90,10 +90,24 @@ export default {
     ChatWindow,
     meeting
   },
+  // props: {
+  //   julyWebsocket: {
+  //     type: Object,
+  //     required: false,
+  //     default: ()=>({
+  //       constant: {
+  //         stompClient: null
+  //       },
+  //       variable: {
+  //         connectionFlag: {'websocket':{'name':'websocket',"status":false}}
+  //         },
+  //     })
+  //   },
+  // },
   data () {
     return {
-      hostId: getHostId(),
-      hostInfo: null,
+      hostId: null,
+      hostInfo: this.$store.getters.hostInfo,
       isSocketReady: false,
       isContactsWindowReady: true,
       isChatWindowReady: false,
@@ -103,10 +117,10 @@ export default {
       callInTempPeerInfo: {},
       callOutDialog:false,
       callSessionId: null, // meetingWindow根据初始时有无sessionId来判断是callIn还是callOut，如果没有sessionId,说明是callOut
-      hostStatusObject:{
-        userId: getHostId(),
-        status: CONSTANT.USER_ACTIVE_STATUS_VISIBLE,
-      },
+      // hostStatusObject:{
+      //   userId: null,
+      //   status: CONSTANT.USER_ACTIVE_STATUS_VISIBLE,
+      // },
       chatPeerId: null,
       chatPeerType: null,
       meetingPeerInfo: null,
@@ -145,24 +159,49 @@ export default {
       }
     }
   },
-  async created() {
-    this.hostInfo = await this.getUserInfo(this.hostId)
-    await this.initWSEnv()
+  watch: {
+    julyWebsocket: {
+      immediate: false,
+      handler(newVal,oldVal) {
+        oldVal
+        console.log("julyWebsocket changed")
+        console.log(newVal)
+        console.log(oldVal)
+      },
+      deep: true
+    },
   },
-  mounted () {
-
+  async created() {
+    console.log("chatLand created")
+    this.$emit('changeHostStatus',CONSTANT.USER_ACTIVE_STATUS_VISIBLE)
+  },
+  async mounted () {
+    console.log("chatLand mounted")
+    // this.hostInfo = await FUN.getFormatHostInfo()
+    if(this.hostInfo){
+      this.hostId = this.hostInfo.userId
+      // this.hostStatusObject.userId = this.hostInfo.userId
+      console.log("ChatLand mounted")
+      console.log(this.hostInfo)
+      console.log(this.julyWebsocket)
+      await this.initWSEnv()
+    }
   },
   // keep-alive会缓存组件状态，activated()和 deactivated() 这两个钩子函数。activated()是keep-alive 组件激活时调用，而 deactivated() 是 keep-alive 组件停用时调用。activated ()替换mounted()
   activated () {
+    console.log("chatLand activated")
   },
   destroyed() {
+    console.log("chatLand destroyed")
+    this.$emit('changeHostStatus',CONSTANT.USER_ACTIVE_STATUS_ONLY_MESSAGE)
     closeConnectionJuly(this.julyWebsocket.constant.stompClient)
+
   },
   methods: {
     async initWSEnv() {
       if (this.julyWebsocket.constant.stompClient == null) {
         console.log("start init chatLand websocket")
-        this.julyWebsocket.constant.stompClient = await initJulyWS(JULY.WEBSOCKET_URI_ENDPOINT, JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL,this.hostStatusObject)
+        this.julyWebsocket.constant.stompClient = await initJulyWS(JULY.WEBSOCKET_URI_ENDPOINT+getToken(), JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL)
       }
       this.initWSConnectionHeartBeatWatcher()
     },
@@ -197,23 +236,6 @@ export default {
       this.chatPeerId = peerId
       this.chatPeerType = peerType
       this.isChatWindowReady = true
-    },
-    async getUserInfo (userId) {
-      let result=null
-      await this.$store.dispatch('user/getUserInfo', userId)
-          .then((data) => {
-            // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
-            console.log('got user info successful')
-            data.gender = FUN.convertPrintGender(data.peerGender)
-            data.role = FUN.filterPrintRole(data.peerRole)
-            result = data
-          })
-          .catch(() => {
-            console.log('got user info fail')
-            FUN.notify("无法获取当前用户信息",FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
-            result = null
-          })
-      return result
     },
     hangupCall(){
       if( this.meetingWindowShow){
@@ -394,6 +416,7 @@ export default {
   min-width: 100%;
   max-width: max-content;
   max-height: max-content;
+  margin-top: 100px !important;
 }
 .contacts-main-container {
   width: 30em;

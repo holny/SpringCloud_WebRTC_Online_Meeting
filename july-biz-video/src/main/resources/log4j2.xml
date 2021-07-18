@@ -95,6 +95,24 @@
         <!--Logger节点用来单独指定日志的形式，name为包路径,比如要为org.springframework包下所有日志指定为INFO级别等。 -->
         <logger name="org.springframework" level="INFO"></logger>
         <logger name="org.mybatis" level="INFO"></logger>
+        <logger name="org.apache.http" level="warn" />
+        <!-- Spring -->
+        <logger name="org.springframework" level="WARN" />
+        <!-- mybatis loggers -->
+        <logger name="com.ibatis" level="DEBUG" />
+        <logger name="com.ibatis.common.jdbc.SimpleDataSource" level="DEBUG" />
+        <logger name="com.ibatis.common.jdbc.ScriptRunner" level="DEBUG" />
+        <logger name="com.ibatis.sqlmap.engine.impl.SqlMapClientDelegate" level="DEBUG" />
+        <!--记录druid-sql的记录-->
+        <logger name="druid.sql.Statement" level="DEBUG" additivity="false"/>
+        <!-- sql loggers -->
+        <logger name="java.sql.Connection" level="DEBUG"  additivity="true"/>
+        <logger name="java.sql.Statement" level="DEBUG" additivity="true" />
+        <logger name="java.sql.PreparedStatement" level="=DEBUG"  additivity="true"/>
+        <logger name="java.sql.ResultSet" level="DEBUG"  additivity="true"/>
+        <!-- General Apache libraries -->
+        <logger name="org.apache" level="WARN" />
+        <!-- Default Shiro logging -->
         <!-- Root节点用来指定项目的根日志，如果没有单独指定Logger，那么就会默认使用该Root日志输出 -->
         <!-- root是默认的logger，也就是公共的logger，供记录一些不常打印的系统参数或者其他组件参数 -->
         <root level="INFO" includeLocation="true">

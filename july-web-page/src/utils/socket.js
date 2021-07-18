@@ -1,7 +1,7 @@
 import SockJS from "sockjs-client";
 import Stomp from "stompjs";
 
-export async function initJulyWS (wsEndpointURI,sendWSHeartBeatURI,interval,hostStatusObject) {
+export async function initJulyWSWithUpdatedUserStatus (wsEndpointURI,sendWSHeartBeatURI,interval,hostStatusObject) {
     let stompClient = await initWSConnection(wsEndpointURI)
     // 断开重连机制
     setInterval(() => {
@@ -14,6 +14,21 @@ export async function initJulyWS (wsEndpointURI,sendWSHeartBeatURI,interval,host
     }, interval)
     return stompClient
 }
+
+export async function initJulyWS (wsEndpointURI,sendWSHeartBeatURI,interval) {
+    let stompClient = await initWSConnection(wsEndpointURI)
+    // 断开重连机制
+    setInterval(() => {
+        try {
+            stompClient.send(sendWSHeartBeatURI, {},JSON.stringify({'test':'test'}))
+        } catch (e) {
+            console.log('WebSocket connection interrupt: ' + e)
+            initWSConnection()
+        }
+    }, interval)
+    return stompClient
+}
+
 function initWSConnection (wsEndpointURI) {
     // 建立连接对象
     // 连接服务端提供的通信接口，连接以后才可以订阅广播消息和个人消息

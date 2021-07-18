@@ -9,11 +9,11 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- *
+ * 
  * </p>
  *
  * @author Linyuan Hou
- * @since 2021-06-15
+ * @since 2021-07-18
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -38,7 +38,7 @@ public class Container implements Serializable {
     private String authority;
 
     @TableField("status")
-    private String status;
+    private Integer status;
 
 
 }

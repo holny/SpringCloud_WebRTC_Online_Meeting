@@ -66,7 +66,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IS
             int stillNeed = maxNumber;
             if (org.apache.commons.lang3.StringUtils.isNumeric(searchFinal)){
                 QueryWrapper<User> userIdQueryWrapper = new QueryWrapper<>();
-                userIdQueryWrapper.like("user_id",searchFinal).in("status",userStatusList).orderByDesc("level").last("limit 3");
+                userIdQueryWrapper.like("user_id",searchFinal).in("status",userStatusList).orderByDesc("exp").last("limit 3");
                 List<User> userIdUserList =baseMapper.selectList(userIdQueryWrapper);
                 log.info("getUserBySearch userIdUserList:{}",userIdUserList.toString());
                 if(CollectionUtils.isNotEmpty(userIdUserList)){
@@ -75,7 +75,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IS
                 }
             }
             QueryWrapper<User> userNameQueryWrapper = new QueryWrapper<>();
-            userNameQueryWrapper.and(wrapper -> wrapper.like("user_name",searchFinal).or().like("nick_name",searchFinal)).in("status",userStatusList).orderByDesc("level").last("limit "+stillNeed);;
+            userNameQueryWrapper.and(wrapper -> wrapper.like("user_name",searchFinal).or().like("nick_name",searchFinal)).in("status",userStatusList).orderByDesc("exp").last("limit "+stillNeed);;
             List<User> nameUserList =baseMapper.selectList(userNameQueryWrapper);
             log.info("getUserBySearch nameUserList:{}",nameUserList.toString());
             if(CollectionUtils.isNotEmpty(nameUserList)){
@@ -97,7 +97,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements IS
                         }
 
                     }
-                    fragQueryWrapper.in("status",userStatusList).orderByDesc("level").last("limit "+stillNeed);;
+                    fragQueryWrapper.in("status",userStatusList).orderByDesc("exp").last("limit "+stillNeed);;
                 }
                 List<User> fragUserList =baseMapper.selectList(userNameQueryWrapper);
                 log.info("getUserBySearch fragUserList:{}",fragUserList.toString());

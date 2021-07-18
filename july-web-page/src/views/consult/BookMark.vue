@@ -9,7 +9,10 @@
           <ConsultSideBar :self-introduction="true" :bar-width="'450'"></ConsultSideBar>
         </div>
       </div>
-      <BookMarkStep></BookMarkStep>
+      <keep-alive>
+        <router-view name="bookmarkComponent"></router-view>
+      </keep-alive>
+<!--      <BookMarkStep></BookMarkStep>-->
     </div>
   </div>
 </template>
@@ -17,13 +20,13 @@
 <script>
 import ConsultSideBar from "@/views/common/ConsultSideBar";
 import UserHeadBar from "@/views/common/UserHeadBar";
-import BookMarkStep from "@/views/consult/BookMarkStep";
+// import BookMarkStep from "@/views/consult/BookMarkStep";
 export default {
   name: "BookMark",
   components:{
     ConsultSideBar,
     UserHeadBar,
-    BookMarkStep
+    // BookMarkStep
   },
 
 }

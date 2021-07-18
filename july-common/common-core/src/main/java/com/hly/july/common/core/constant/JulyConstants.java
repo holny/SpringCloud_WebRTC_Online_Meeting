@@ -20,4 +20,8 @@ public interface JulyConstants {
     int CHAT_MESSAGE_QUERY_ALLOW = 3; // 允许用户最多获取前三天的聊天记录
 
     int REDIS_WATCHER_EXPIRED = 30; // 用户在对话聊天框必须最多每个一段时间发送watch消息，说明自己在准备接收当前对话框的message
+
+    String UPLOAD_TYPE_AVATAR = "avatar";
+    String UPLOAD_TYPE_VIDEO = "video";
+    String UPLOAD_TYPE_POSTER = "poster";
 }

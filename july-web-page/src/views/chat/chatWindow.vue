@@ -124,6 +124,7 @@
 <script>
 import { date,scroll } from 'quasar'
 const { getScrollTarget, setScrollPosition, getScrollHeight } = scroll
+import {getToken} from "@/utils/auth";
 import {isNotEmpty} from "@/utils/validate";
 import {initJulyWS, closeConnectionJuly} from "@/utils/socket";
 import {CONSTANT,RESULT_CODE,EVENT_CODE} from "@/utils/constant";
@@ -320,7 +321,7 @@ export default {
     initWSEnv(){
       if (this.julyWebsocket.constant.stompClient==null){
         console.log("chatWindow websocket not init , so start init by self")
-        this.julyWebsocket.constant.stompClient = initJulyWS(JULY.WEBSOCKET_URI_ENDPOINT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL)
+        this.julyWebsocket.constant.stompClient = initJulyWS(JULY.WEBSOCKET_URI_ENDPOINT+getToken(),JULY.WEBSOCKET_URI_SEND_HEARTBEAT,JULY.WEBSOCKET_URI_SEND_HEARTBEAT_INTERVAL)
       }
     },
     initWSWatcher(){
@@ -787,7 +788,7 @@ export default {
     },
     async updateHostInfo () {
       if(this.hostInfo==null){
-        this.hostInfo = await this.getUserInfo(this.hostId)
+        this.hostInfo = await FUN.getFormatHostInfo()
       }
       if(isNotEmpty(this.hostInfo)){
         let newRelation = {}
@@ -815,21 +816,7 @@ export default {
       }
 
     },
-    async getUserInfo (userId) {
-      let result=null
-      await this.$store.dispatch('user/getUserInfo', userId)
-          .then((data) => {
-            // this.$router.push({path: this.redirect || '/', query: this.otherQuery})
-            console.log('got user info successful')
-            result = data
-          })
-          .catch((error) => {
-            console.log('got user info fail')
-            FUN.notify(error,FUN.NOTIFY_LEVEL_ERROR,FUN.NOTIFY_POSITION_TOP)
-            result = null
-          })
-      return result
-    },
+
     async getUserRelation (userId,peerId,category) {
       let result=null
       await this.$store.dispatch('user/getUserRelation', {userId:userId,peerId:peerId,category:category})

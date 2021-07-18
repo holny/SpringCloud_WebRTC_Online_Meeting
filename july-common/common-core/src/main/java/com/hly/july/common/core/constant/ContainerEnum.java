@@ -1,5 +1,9 @@
 package com.hly.july.common.core.constant;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
 /**
  * @ClassName ContainerEnum
  * @Description
@@ -10,7 +14,9 @@ package com.hly.july.common.core.constant;
 public enum ContainerEnum {
     PERSON(1,"person"),
     GROUP(2,"group"),
-    MESSAGE(3,"message");
+    MESSAGE(3,"message"),
+    MAIN_CATEGORY(4,"mainCategory"),
+    SUB_CATEGORY(5,"subCategory");
 
 
     private Integer code;
@@ -34,6 +40,21 @@ public enum ContainerEnum {
 
     public void setDesc(String desc) {
         this.desc = desc;
+    }
+    private static List<Integer> allCodeList;
+
+    static {
+        List<Integer> list1 = new ArrayList<>();
+        list1.add(PERSON.getCode());
+        list1.add(GROUP.getCode());
+        list1.add(MESSAGE.getCode());
+        list1.add(MAIN_CATEGORY.getCode());
+        list1.add(SUB_CATEGORY.getCode());
+        allCodeList = Collections.unmodifiableList(list1);
+    }
+
+    public static List<Integer> getAllCodeList(){
+        return allCodeList;
     }
 
     public static String getDescByCode(Integer code){

@@ -139,7 +139,7 @@ public class UserService {
     public Map<String,Object> getNotification(String userId){
         // 给收件人发送通知
         Integer receiverAllUnreadCount = chatService.getAllUnRead(userId);
-        log.info("userId:{} has All unreadCount:{}",userId,receiverAllUnreadCount);
+//        log.info("userId:{} has All unreadCount:{}",userId,receiverAllUnreadCount);
         Map<String,Object> notifyMap = new HashMap<>();
         notifyMap.put("allUnreadCount",receiverAllUnreadCount);
         notifyMap.put("gmtCreate",DateUtils.getCurrentDateTime());

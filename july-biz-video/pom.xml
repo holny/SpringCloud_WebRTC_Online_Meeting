@@ -63,6 +63,58 @@
             <groupId>com.hly.july</groupId>
             <artifactId>common-web</artifactId>
         </dependency>
+        <!-- 引入javacv-platform依赖,视频处理 -->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv-platform</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>flycapture-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>libdc1394-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>libfreenect-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>libfreenect2-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>librealsense-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>videoinput-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>opencv-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>tesseract-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>leptonica-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>flandmark-platform</artifactId>
+                </exclusion>
+                <exclusion>
+                    <groupId>org.bytedeco.javacpp-presets</groupId>
+                    <artifactId>artoolkitplus-platform</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
         <!-- SpringBoot整合Web组件 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
