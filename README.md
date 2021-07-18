@@ -49,7 +49,7 @@
 
 
 
-###　说明
+###说明
 
 ​	本项目前端和后端的代码与各种配置全都由我一个人独立完成，所以当前项目是基于Spring Cloud Ailibaba把微服务架构搭建好，配置了相关中间件，有些中间件只是配置上了，但因项目业务还未完善，所以未完全使用，如Seata何Sentinel，但是可以作为如何配置进行参考。主要功能也暂时实现了登录、注册、在线实时会话视频聊天、会议录制、视频文件上传、在线播放等主要业务。剩下的都是重复性的CRUD业务，待后续慢慢实现，但项目还是可以运行跑起来的，演示主要功能。总之，项目只作为学习参考用，如果对您有帮忙，麻烦给颗星支持一下，非常感谢！(In addition to repeatability CRUD at back-end, it only implements the main functions and is only reference for learning)   
 
