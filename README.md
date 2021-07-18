@@ -4,7 +4,7 @@
 
 ​    此项目是用Spring Cloud Alibaba实现的**前后端分离**的 **微服务**项目，项目主要功能是在线实时对话、在线实时视频聊天、视频上传、在线观看视频，还有一些登录、注册和基础的权限控制等。
 
-​	Functions: real-time online chat and 1v1 meeting on this website, upload video file and watching these online, login and register. there is a front*-*end and back-end separation and microservices technology architecture  , etc.
+​	Functions: real-time online chat and 1v1 meeting on this website, upload video file and watching these online, login and register. there is a front-end and back-end separation and microservices technology architecture  , etc.
 
 ### 相关技术 (Technologies)
 
